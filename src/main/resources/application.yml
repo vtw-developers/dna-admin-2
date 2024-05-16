@@ -1,5 +1,6 @@
 server:
   port: 8076
+
 spring:
   application:
     name: dna-admin
@@ -13,3 +14,8 @@ spring:
     url: jdbc:postgresql://localhost:5432/portal
     username: vtw
     password: vtw123#
+
+logging:
+  level:
+    root: debug
+
