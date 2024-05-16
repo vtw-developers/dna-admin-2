@@ -1,0 +1,15 @@
+server:
+  port: 8076
+spring:
+  application:
+    name: dna-admin
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/portal
+    username: vtw
+    password: vtw123#
