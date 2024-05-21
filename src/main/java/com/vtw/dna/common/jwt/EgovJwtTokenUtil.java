@@ -1,15 +1,12 @@
 package com.vtw.dna.common.jwt;
 
-import com.vtw.dna.common.service.EgovProperties;
-import com.vtw.dna.common.user.LoginVO;
+import com.vtw.dna.login.dto.LoginVO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +14,7 @@ import java.util.Map;
 //security 관련 제외한 jwt util 클래스
 @Slf4j
 @Component
-public class EgovJwtTokenUtil implements Serializable{
+public class EgovJwtTokenUtil {
 
 	private static final long serialVersionUID = -5180902194184255251L;
 	//public static final long JWT_TOKEN_VALIDITY = 24 * 60 * 60; //하루
@@ -64,9 +61,6 @@ public class EgovJwtTokenUtil implements Serializable{
         Map<String, Object> claims = new HashMap<>();
         claims.put("id", loginVO.getId() );
         claims.put("name", loginVO.getName() );
-        claims.put("userSe", loginVO.getUserSe() );
-        claims.put("orgnztId", loginVO.getOrgnztId() );
-        claims.put("uniqId", loginVO.getUniqId() );
         claims.put("type", subject);
 
     	log.debug("===>>> secret = "+SECRET_KEY);

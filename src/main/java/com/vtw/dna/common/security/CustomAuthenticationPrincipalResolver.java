@@ -1,6 +1,6 @@
 package com.vtw.dna.common.security;
 
-import com.vtw.dna.common.user.LoginVO;
+import com.vtw.dna.login.dto.LoginVO;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

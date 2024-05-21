@@ -1,6 +1,6 @@
 package com.vtw.dna.common.jwt;
 
-import com.vtw.dna.common.user.LoginVO;
+import com.vtw.dna.login.dto.LoginVO;
 import com.vtw.dna.common.util.EgovStringUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
@@ -67,7 +67,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if( verificationFlag ){
             logger.debug("jwtToken validated");
             loginVO.setId(id);
-            loginVO.setUserSe( jwtTokenUtil.getUserSeFromToken(jwtToken) );
+//            loginVO.setUserSe( jwtTokenUtil.getUserSeFromToken(jwtToken) );
 
 //            loginVO.setUniqId( jwtTokenUtil.getInfoFromToken("uniqId",jwtToken) );
 //            loginVO.setOrgnztId( jwtTokenUtil.getInfoFromToken("orgnztId",jwtToken) );
