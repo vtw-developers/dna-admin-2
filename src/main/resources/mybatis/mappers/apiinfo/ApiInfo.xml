@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vtw.dna.apiinfo.repository.ApiInfoRepository">
+  <select id="count">
+    SELECT COUNT(*)
+    FROM API_INFO
+    <where>
+      <if test="filter.name != null and filter.name != ''">
+        AND NAME LIKE '%' || #{filter.name} || '%'
+      </if>
+    </where>
+  </select>
+
+  <select id="findAll">
+    SELECT *
+    FROM API_INFO
+    <where>
+      <if test="filter.name != null and filter.name != ''">
+        AND NAME LIKE '%' || #{filter.name} || '%'
+      </if>
+    </where>
+    OFFSET #{pageable.offset} ROWS FETCH NEXT #{pageable.pageSize} ROWS ONLY
+  </select>
+
+  <select id="findById">
+    SELECT *
+    FROM API_INFO
+    WHERE ID = #{id}
+  </select>
+
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO API_INFO (NAME) VALUES (#{name})
+  </insert>
+
+  <update id="update">
+    UPDATE API_INFO
+    SET NAME = #{name}
+    WHERE ID = #{id}
+  </update>
+
+  <delete id="delete">
+    DELETE FROM API_INFO
+    WHERE ID = #{id}
+  </delete>
+</mapper>
