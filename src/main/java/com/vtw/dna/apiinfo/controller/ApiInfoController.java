@@ -2,12 +2,14 @@ package com.vtw.dna.apiinfo.controller;
 
 import com.vtw.dna.apiinfo.ApiInfo;
 import com.vtw.dna.apiinfo.ApiInfoFilter;
-import com.vtw.dna.common.rest.Page;
 import com.vtw.dna.apiinfo.service.ApiInfoService;
+import com.vtw.dna.common.rest.Page;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -30,18 +32,18 @@ public class ApiInfoController {
 	}
 
 	@PostMapping(value = "create")
-	public ApiInfo create(@RequestBody ApiInfo entity) throws Exception {
+	public ApiInfo create(@Valid @RequestBody ApiInfo entity) throws Exception {
 		service.create(entity);
 		return entity;
 	}
 	@PostMapping(value = "update")
-	public ApiInfo update(@RequestBody ApiInfo entity) throws Exception {
+	public ApiInfo update(@Valid @RequestBody ApiInfo entity) throws Exception {
 		service.update(entity);
 		return entity;
 	}
 
 	@PostMapping(value = "delete")
-	public ApiInfo delete(@RequestBody ApiInfo entity) throws Exception {
+	public ApiInfo delete(@Valid @RequestBody ApiInfo entity) throws Exception {
 		service.delete(entity);
 		return entity;
 	}

@@ -2,6 +2,7 @@ package com.vtw.dna.apiinfo.service;
 
 import com.vtw.dna.apiinfo.ApiInfo;
 import com.vtw.dna.apiinfo.ApiInfoFilter;
+import com.vtw.dna.common.rest.NoSuchEntityException;
 import com.vtw.dna.common.rest.Page;
 import com.vtw.dna.apiinfo.repository.ApiInfoRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class ApiInfoService {
     }
 
     public ApiInfo find(Long id) throws Exception {
-        ApiInfo entity = apiInfoRepository.findById(id).orElseThrow();
+        ApiInfo entity = apiInfoRepository.findById(id).orElseThrow(() -> new NoSuchEntityException("ApiInfo", id));
         return entity;
     }
 
