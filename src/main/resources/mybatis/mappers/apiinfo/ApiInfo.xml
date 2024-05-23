@@ -15,11 +15,12 @@
 
   <select id="findAll">
     SELECT ID, NAME, HTTP_METHOD, URL
+    FROM API_INFO
     <where>
       <if test="filter.name != null and filter.name != ''">
         AND NAME LIKE '%' || #{filter.name} || '%'
       </if>
-      <if test="filter.httpMethod != null and filter.httpMethod != ''">
+      <if test="filter.httpMethod != null">
         AND HTTP_METHOD = #{filter.httpMethod}
       </if>
     </where>

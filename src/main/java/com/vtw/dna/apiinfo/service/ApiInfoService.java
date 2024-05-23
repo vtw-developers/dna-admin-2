@@ -2,6 +2,7 @@ package com.vtw.dna.apiinfo.service;
 
 import com.vtw.dna.apiinfo.ApiInfo;
 import com.vtw.dna.apiinfo.ApiInfoFilter;
+import com.vtw.dna.apiinfo.HttpMethod;
 import com.vtw.dna.common.rest.NoSuchEntityException;
 import com.vtw.dna.common.rest.Page;
 import com.vtw.dna.apiinfo.repository.ApiInfoRepository;

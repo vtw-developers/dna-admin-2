@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class ApiInfoFilter {
     private String name;
-    private String version;
+    private HttpMethod httpMethod;
 }
