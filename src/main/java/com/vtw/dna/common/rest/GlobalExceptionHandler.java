@@ -3,6 +3,7 @@ package com.vtw.dna.common.rest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -97,6 +98,20 @@ public class GlobalExceptionHandler {
                 .code("InvalidValidation")
                 .message("엔티티의 유효성 검사가 올바르지 않습니다.")
                 .details(details).build();
+        return ResponseEntity.status(status).body(response);
+    }
+
+    @ExceptionHandler
+    protected ResponseEntity<?> handle(HttpRequestMethodNotSupportedException e) {
+        log.error("HttpRequestMethodNotSupportedException occurred.", e);
+
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+
+        ErrorResponse response = ErrorResponse.builder()
+                .status(status.value())
+                .code("HttpRequestMethodNotSupported")
+                .message("올바르지 않은 HTTP Method 입니다.")
+                .details(e.getMessage()).build();
         return ResponseEntity.status(status).body(response);
     }
 }

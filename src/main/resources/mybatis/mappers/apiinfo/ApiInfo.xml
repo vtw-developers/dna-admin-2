@@ -14,34 +14,40 @@
   </select>
 
   <select id="findAll">
-    SELECT *
-    FROM API_INFO
+    SELECT ID, NAME, HTTP_METHOD, URL
     <where>
       <if test="filter.name != null and filter.name != ''">
         AND NAME LIKE '%' || #{filter.name} || '%'
+      </if>
+      <if test="filter.httpMethod != null and filter.httpMethod != ''">
+        AND HTTP_METHOD = #{filter.httpMethod}
       </if>
     </where>
     OFFSET #{pageable.offset} ROWS FETCH NEXT #{pageable.pageSize} ROWS ONLY
   </select>
 
   <select id="findById">
-    SELECT *
+    SELECT ID, NAME, HTTP_METHOD, URL
     FROM API_INFO
     WHERE ID = #{id}
   </select>
 
   <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-    INSERT INTO API_INFO (NAME) VALUES (#{name})
+    INSERT INTO API_INFO (NAME, HTTP_METHOD, URL)
+    VALUES (#{name}, #{httpMethod}, #{url})
   </insert>
 
   <update id="update">
     UPDATE API_INFO
-    SET NAME = #{name}
+    SET NAME        = #{name},
+        HTTP_METHOD = #{httpMethod},
+        URL         = #{url}
     WHERE ID = #{id}
   </update>
 
   <delete id="delete">
-    DELETE FROM API_INFO
+    DELETE
+    FROM API_INFO
     WHERE ID = #{id}
   </delete>
 </mapper>
