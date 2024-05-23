@@ -23,6 +23,7 @@ mybatis:
   configuration:
     default-enum-type-handler: org.apache.ibatis.type.EnumTypeHandler
     jdbc-type-for-null: null
+    map-underscore-to-camel-case: true
 logging:
   level:
     root: debug
