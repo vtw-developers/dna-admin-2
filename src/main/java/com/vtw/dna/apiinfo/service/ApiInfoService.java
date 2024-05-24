@@ -35,7 +35,7 @@ public class ApiInfoService {
     }
 
     public void update(ApiInfo entity) throws Exception {
-        apiInfoRepository.findById(entity.getId()).orElseThrow(); // 해당 ID의 Entity가 존재하는지 확인하여 오류 처리
+        find(entity.getId()); // 해당 ID의 Entity가 존재하지 않으면 Exception 발생
         apiInfoRepository.update(entity);
     }
 
