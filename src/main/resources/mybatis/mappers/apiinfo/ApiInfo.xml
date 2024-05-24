@@ -27,6 +27,21 @@
         AND HTTP_METHOD = #{filter.httpMethod}
       </if>
     </where>
+    <if test="pageable.sort != null and !pageable.sort.isEmpty()">
+      ORDER BY
+          <foreach collection="pageable.sort" item="order" separator=",">
+            <if test="order.property == 'name'">
+              NAME
+            </if>
+            <if test="order.property == 'httpMethod'">
+              HTTP_METHOD
+            </if>
+            <if test="order.property == 'url'">
+              URL
+            </if>
+            ${order.direction}
+          </foreach>
+    </if>
     OFFSET #{pageable.offset} ROWS FETCH NEXT #{pageable.pageSize} ROWS ONLY
   </select>
 
