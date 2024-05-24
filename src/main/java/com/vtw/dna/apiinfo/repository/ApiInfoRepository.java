@@ -2,6 +2,7 @@ package com.vtw.dna.apiinfo.repository;
 
 import com.vtw.dna.apiinfo.ApiInfo;
 import com.vtw.dna.apiinfo.ApiInfoFilter;
+import com.vtw.dna.apiinfo.HttpMethod;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.data.domain.Pageable;
 
@@ -18,4 +19,5 @@ public interface ApiInfoRepository {
     void delete(ApiInfo apiInfo);
 
     boolean existsByName(String name);
+    boolean existsByHttpMethodAndUrl(HttpMethod httpMethod, String url);
 }

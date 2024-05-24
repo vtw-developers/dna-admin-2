@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.nio.file.FileAlreadyExistsException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -48,14 +47,24 @@ public class ApiInfoService {
     }
 
     public void validate(ApiInfo entity) {
-        boolean exists = exists(entity.getName());
-        if (exists) {
+        boolean existsByName = existsByName(entity.getName());
+        if (existsByName) {
             throw new EntityAlreadyExistsException("ApiInfo", "name", entity.getName());
+        }
+
+        boolean existsByEndpoint = existsByEndpoint(entity.getHttpMethod(), entity.getUrl());
+        if (existsByEndpoint) {
+            throw new EntityAlreadyExistsException("ApiInfo", "endpoint", entity.getUrl());
         }
     }
 
-    public boolean exists(String name) {
+    public boolean existsByName(String name) {
         boolean exists = apiInfoRepository.existsByName(name);
+        return exists;
+    }
+
+    public boolean existsByEndpoint(HttpMethod httpMethod, String url) {
+        boolean exists = apiInfoRepository.existsByHttpMethodAndUrl(httpMethod, url);
         return exists;
     }
 

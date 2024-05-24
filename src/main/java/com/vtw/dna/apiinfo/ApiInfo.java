@@ -1,7 +1,6 @@
 package com.vtw.dna.apiinfo;
 
 import lombok.Data;
-import org.springframework.http.HttpMethod;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;

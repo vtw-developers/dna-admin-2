@@ -60,4 +60,11 @@
                   FROM API_INFO
                   WHERE NAME = #{name})
   </select>
+
+  <select id="existsByHttpMethodAndUrl">
+    SELECT EXISTS(SELECT 1
+                  FROM API_INFO
+                  WHERE HTTP_METHOD = #{httpMethod}
+                    AND URL = #{url})
+  </select>
 </mapper>
