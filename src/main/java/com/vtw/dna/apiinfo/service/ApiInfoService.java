@@ -54,7 +54,7 @@ public class ApiInfoService {
 
         boolean existsByEndpoint = existsByEndpoint(entity.getHttpMethod(), entity.getUrl());
         if (existsByEndpoint) {
-            throw new EntityAlreadyExistsException("ApiInfo", "endpoint", entity.getUrl());
+            throw new EntityAlreadyExistsException("ApiInfo", "endpoint", entity.getHttpMethod() + ";" + entity.getUrl());
         }
     }
 
