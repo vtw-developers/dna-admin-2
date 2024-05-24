@@ -16,4 +16,6 @@ public interface ApiInfoRepository {
     void insert(ApiInfo apiInfo);
     void update(ApiInfo apiInfo);
     void delete(ApiInfo apiInfo);
+
+    boolean existsByName(String name);
 }

@@ -54,4 +54,10 @@
     FROM API_INFO
     WHERE ID = #{id}
   </delete>
+
+  <select id="existsByName">
+    SELECT EXISTS(SELECT 1
+                  FROM API_INFO
+                  WHERE NAME = #{name})
+  </select>
 </mapper>

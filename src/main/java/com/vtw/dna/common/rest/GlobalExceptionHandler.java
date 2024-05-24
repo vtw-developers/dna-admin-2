@@ -114,4 +114,23 @@ public class GlobalExceptionHandler {
                 .details(e.getMessage()).build();
         return ResponseEntity.status(status).body(response);
     }
+
+    @ExceptionHandler
+    protected ResponseEntity<?> handle(EntityAlreadyExistsException e) {
+        log.error("EntityAlreadyExistsException occurred.", e);
+
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+
+        Map<String, Object> details = new LinkedHashMap<>();
+        details.put("entity", e.getEntity());
+        details.put("field", e.getField());
+        details.put("value", e.getValue());
+
+        ErrorResponse response = ErrorResponse.builder()
+                .status(status.value())
+                .code("EntityAlreadyExists")
+                .message("동일한 값의 정보가 존재합니다.")
+                .details(details).build();
+        return ResponseEntity.status(status).body(response);
+    }
 }
