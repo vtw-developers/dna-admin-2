@@ -23,6 +23,12 @@
         FROM USERS
         WHERE NAME LIKE '%' || #{filter.author} || '%')
       </if>
+      <if test="filter.startModifiedTime != null">
+        AND MODIFIED_TIME &gt;= #{filter.startModifiedTime}
+      </if>
+      <if test="filter.endModifiedTime != null">
+        AND MODIFIED_TIME &lt;= #{filter.endModifiedTime}
+      </if>
     </where>
   </select>
 
@@ -41,6 +47,12 @@
         SELECT ID
         FROM USERS
         WHERE NAME LIKE '%' || #{filter.author} || '%')
+      </if>
+      <if test="filter.startModifiedTime != null">
+        AND MODIFIED_TIME &gt;= #{filter.startModifiedTime}
+      </if>
+      <if test="filter.endModifiedTime != null">
+        AND MODIFIED_TIME &lt;= #{filter.endModifiedTime}
       </if>
     </where>
     <if test="pageable.sort != null and !pageable.sort.isEmpty()">
