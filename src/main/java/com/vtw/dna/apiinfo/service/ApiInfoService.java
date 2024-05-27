@@ -3,10 +3,10 @@ package com.vtw.dna.apiinfo.service;
 import com.vtw.dna.apiinfo.ApiInfo;
 import com.vtw.dna.apiinfo.ApiInfoFilter;
 import com.vtw.dna.apiinfo.HttpMethod;
+import com.vtw.dna.apiinfo.repository.ApiInfoRepository;
 import com.vtw.dna.common.rest.EntityAlreadyExistsException;
 import com.vtw.dna.common.rest.NoSuchEntityException;
 import com.vtw.dna.common.rest.Page;
-import com.vtw.dna.apiinfo.repository.ApiInfoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -47,24 +47,24 @@ public class ApiInfoService {
     }
 
     public void validate(ApiInfo entity) {
-        boolean existsByName = existsByName(entity.getName());
+        boolean existsByName = existsByName(entity.getId(), entity.getName());
         if (existsByName) {
             throw new EntityAlreadyExistsException("ApiInfo", "name", entity.getName());
         }
 
-        boolean existsByEndpoint = existsByEndpoint(entity.getHttpMethod(), entity.getUrl());
+        boolean existsByEndpoint = existsByEndpoint(entity.getId(), entity.getHttpMethod(), entity.getUrl());
         if (existsByEndpoint) {
             throw new EntityAlreadyExistsException("ApiInfo", "endpoint", entity.getHttpMethod() + ";" + entity.getUrl());
         }
     }
 
-    public boolean existsByName(String name) {
-        boolean exists = apiInfoRepository.existsByName(name);
+    public boolean existsByName(Long id, String name) {
+        boolean exists = apiInfoRepository.existsByName(id, name);
         return exists;
     }
 
-    public boolean existsByEndpoint(HttpMethod httpMethod, String url) {
-        boolean exists = apiInfoRepository.existsByHttpMethodAndUrl(httpMethod, url);
+    public boolean existsByEndpoint(Long id, HttpMethod httpMethod, String url) {
+        boolean exists = apiInfoRepository.existsByHttpMethodAndUrl(id, httpMethod, url);
         return exists;
     }
 
