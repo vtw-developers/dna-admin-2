@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vtw.dna.menu.pageinfo.repository.PageInfoRepository">
+  <select id="count">
+    SELECT COUNT(*)
+    FROM PAGE_INFO
+    <where>
+      <if test="filter.name != null and filter.name != ''">
+        AND NAME LIKE '%' || #{filter.name} || '%'
+      </if>
+      <if test="filter.path != null and filter.path != ''">
+        AND NAME LIKE '%' || #{filter.path} || '%'
+      </if>
+    </where>
+  </select>
+
+  <select id="findAll">
+    SELECT ID, NAME, PATH
+    FROM PAGE_INFO
+    <where>
+      <if test="filter.name != null and filter.name != ''">
+        AND NAME LIKE '%' || #{filter.name} || '%'
+      </if>
+      <if test="filter.path != null and filter.path != ''">
+        AND NAME LIKE '%' || #{filter.path} || '%'
+      </if>
+    </where>
+    <if test="pageable.sort != null and !pageable.sort.isEmpty()">
+      ORDER BY
+          <foreach collection="pageable.sort" item="order" separator=",">
+            <if test="order.property == 'name'">
+              NAME
+            </if>
+            <if test="order.property == 'path'">
+              PATH
+            </if>
+            ${order.direction}
+          </foreach>
+    </if>
+    OFFSET #{pageable.offset} ROWS FETCH NEXT #{pageable.pageSize} ROWS ONLY
+  </select>
+
+  <select id="findById">
+    SELECT ID, NAME, PATH
+    FROM PAGE_INFO
+    WHERE ID = #{id}
+  </select>
+
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO API_INFO (NAME, PATH)
+    VALUES (#{name}, #{path}, #{url})
+  </insert>
+
+  <update id="update">
+    UPDATE PAGE_INFO
+    SET NAME        = #{name},
+        PATH        = #{path}
+    WHERE ID = #{id}
+  </update>
+
+  <delete id="delete">
+    DELETE
+    FROM PAGE_INFO
+    WHERE ID = #{id}
+  </delete>
+
+  <select id="existsByName">
+    SELECT EXISTS(SELECT 1
+                  FROM PAGE_INFO
+                  WHERE NAME = #{name})
+  </select>
+
+</mapper>
