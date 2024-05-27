@@ -1,6 +1,6 @@
 package com.vtw.dna.login.service;
 
-import com.vtw.dna.login.dto.LoginVO;
+import com.vtw.dna.login.dto.LoginUser;
 import com.vtw.dna.login.repository.LoginRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ public class LoginService {
      * @return LoginVO
      * @throws Exception
      */
-    public LoginVO actionLogin(LoginVO vo) throws Exception {
+    public LoginUser actionLogin(LoginUser vo) throws Exception {
 //		LoginVO loginVO = new LoginVO();
 //		loginVO.setId("test");
 //		loginVO.setPassword("test");
@@ -37,13 +37,13 @@ public class LoginService {
         // 2. 아이디와 암호화된 비밀번호가 DB와 일치하는지 확인한다.
 //		LoginVO loginVO = loginDAO.actionLogin(vo);
 
-        LoginVO loginVO = loginRepository.selectByIdAndPassword(vo.getId(), vo.getPassword());
+        LoginUser loginVO = loginRepository.selectByIdAndPassword(vo.getId(), vo.getPassword());
 
         // 3. 결과를 리턴한다.
         if (loginVO != null && !loginVO.getId().equals("") && !loginVO.getPassword().equals("")) {
             return loginVO;
         } else {
-            loginVO = new LoginVO();
+            loginVO = new LoginUser();
         }
 
         return loginVO;
@@ -56,7 +56,7 @@ public class LoginService {
      * @return LoginVO
      * @throws Exception
      */
-    public LoginVO searchId(LoginVO vo) throws Exception {
+    public LoginUser searchId(LoginUser vo) throws Exception {
         return null;
 /*		// 1. 이름, 이메일주소가 DB와 일치하는 사용자 ID를 조회한다.
 		LoginVO loginVO = loginDAO.searchId(vo);
@@ -78,7 +78,7 @@ public class LoginService {
      * @return boolean
      * @throws Exception
      */
-    public boolean searchPassword(LoginVO vo) throws Exception {
+    public boolean searchPassword(LoginUser vo) throws Exception {
         return false;
 /*		boolean result = true;
 

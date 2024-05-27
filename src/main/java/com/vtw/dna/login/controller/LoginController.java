@@ -3,7 +3,7 @@ package com.vtw.dna.login.controller;
 import com.vtw.dna.common.jwt.EgovJwtTokenUtil;
 import com.vtw.dna.common.rest.EmptySuccessResponse;
 import com.vtw.dna.login.dto.LoginResponse;
-import com.vtw.dna.login.dto.LoginVO;
+import com.vtw.dna.login.dto.LoginUser;
 import com.vtw.dna.login.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,10 +27,10 @@ public class LoginController {
 	private final EgovJwtTokenUtil jwtTokenUtil;
 
 	@PostMapping(value = "/auth/login-jwt")
-	public LoginResponse login(@RequestBody LoginVO loginVO, HttpServletRequest request, ModelMap model) throws Exception {
+	public LoginResponse login(@RequestBody LoginUser loginVO, HttpServletRequest request, ModelMap model) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 
-		LoginVO loginResultVO = loginService.actionLogin(loginVO);
+		LoginUser loginResultVO = loginService.actionLogin(loginVO);
 
 		if (loginResultVO != null && loginResultVO.getId() != null && !loginResultVO.getId().equals("")) {
 

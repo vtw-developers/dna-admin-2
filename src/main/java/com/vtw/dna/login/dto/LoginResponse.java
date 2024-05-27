@@ -7,8 +7,8 @@ import lombok.Data;
 @AllArgsConstructor
 @Data
 public class LoginResponse {
-    @JsonProperty("jToken")
-    private String jToken;
+    @JsonProperty("token")
+    private String token;
 
     @JsonProperty("id")
     private String id;

@@ -14,10 +14,10 @@ public interface ApiInfoRepository {
     int count(ApiInfoFilter filter, Pageable pageable);
     List<ApiInfo> findAll(ApiInfoFilter filter, Pageable pageable);
     Optional<ApiInfo> findById(Long id);
-    void insert(ApiInfo apiInfo);
-    void update(ApiInfo apiInfo);
-    void delete(ApiInfo apiInfo);
+    int insert(ApiInfo apiInfo);
+    int update(ApiInfo apiInfo);
+    int delete(ApiInfo apiInfo);
 
-    boolean existsByName(String name);
-    boolean existsByHttpMethodAndUrl(HttpMethod httpMethod, String url);
+    boolean existsByName(Long id, String name);
+    boolean existsByHttpMethodAndUrl(Long id, HttpMethod httpMethod, String url);
 }

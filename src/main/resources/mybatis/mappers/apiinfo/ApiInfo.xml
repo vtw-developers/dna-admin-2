@@ -3,6 +3,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.vtw.dna.apiinfo.repository.ApiInfoRepository">
+  <resultMap id="apiInfoResult" type="com.vtw.dna.apiinfo.ApiInfo">
+    <association property="author" column="author_id" select="selectAuthor"/>
+  </resultMap>
+
   <select id="count">
     SELECT COUNT(*)
     FROM API_INFO
@@ -13,11 +17,23 @@
       <if test="filter.httpMethod != null">
         AND HTTP_METHOD = #{filter.httpMethod}
       </if>
+      <if test="filter.author != null and filter.author != ''">
+        AND AUTHOR_ID IN (
+        SELECT ID
+        FROM USERS
+        WHERE NAME LIKE '%' || #{filter.author} || '%')
+      </if>
+      <if test="filter.startModifiedTime != null">
+        AND MODIFIED_TIME &gt;= #{filter.startModifiedTime}
+      </if>
+      <if test="filter.endModifiedTime != null">
+        AND MODIFIED_TIME &lt;= #{filter.endModifiedTime}
+      </if>
     </where>
   </select>
 
-  <select id="findAll">
-    SELECT ID, NAME, HTTP_METHOD, URL
+  <select id="findAll" resultMap="apiInfoResult">
+    SELECT ID, NAME, HTTP_METHOD, URL, AUTHOR_ID, MODIFIED_TIME
     FROM API_INFO
     <where>
       <if test="filter.name != null and filter.name != ''">
@@ -26,41 +42,58 @@
       <if test="filter.httpMethod != null">
         AND HTTP_METHOD = #{filter.httpMethod}
       </if>
+      <if test="filter.author != null and filter.author != ''">
+        AND AUTHOR_ID IN (
+        SELECT ID
+        FROM USERS
+        WHERE NAME LIKE '%' || #{filter.author} || '%')
+      </if>
+      <if test="filter.startModifiedTime != null">
+        AND MODIFIED_TIME &gt;= #{filter.startModifiedTime}
+      </if>
+      <if test="filter.endModifiedTime != null">
+        AND MODIFIED_TIME &lt;= #{filter.endModifiedTime}
+      </if>
     </where>
     <if test="pageable.sort != null and !pageable.sort.isEmpty()">
       ORDER BY
-          <foreach collection="pageable.sort" item="order" separator=",">
-            <if test="order.property == 'name'">
-              NAME
-            </if>
-            <if test="order.property == 'httpMethod'">
-              HTTP_METHOD
-            </if>
-            <if test="order.property == 'url'">
-              URL
-            </if>
-            ${order.direction}
-          </foreach>
+      <foreach collection="pageable.sort" item="order" separator=",">
+        <if test="order.property == 'name'">
+          NAME
+        </if>
+        <if test="order.property == 'httpMethod'">
+          HTTP_METHOD
+        </if>
+        <if test="order.property == 'url'">
+          URL
+        </if>
+        <if test="order.property == 'modifiedTime'">
+          MODIFIED_TIME
+        </if>
+        ${order.direction}
+      </foreach>
     </if>
     OFFSET #{pageable.offset} ROWS FETCH NEXT #{pageable.pageSize} ROWS ONLY
   </select>
 
   <select id="findById">
-    SELECT ID, NAME, HTTP_METHOD, URL
+    SELECT ID, NAME, HTTP_METHOD, URL, AUTHOR_ID, MODIFIED_TIME
     FROM API_INFO
     WHERE ID = #{id}
   </select>
 
   <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-    INSERT INTO API_INFO (NAME, HTTP_METHOD, URL)
-    VALUES (#{name}, #{httpMethod}, #{url})
+    INSERT INTO API_INFO (NAME, HTTP_METHOD, URL, AUTHOR_ID, MODIFIED_TIME)
+    VALUES (#{name}, #{httpMethod}, #{url}, #{author.id}, now())
   </insert>
 
   <update id="update">
     UPDATE API_INFO
-    SET NAME        = #{name},
-        HTTP_METHOD = #{httpMethod},
-        URL         = #{url}
+    SET NAME          = #{name},
+        HTTP_METHOD   = #{httpMethod},
+        URL           = #{url},
+        AUTHOR_ID     = #{author.id},
+        MODIFIED_TIME = now()
     WHERE ID = #{id}
   </update>
 
@@ -71,15 +104,33 @@
   </delete>
 
   <select id="existsByName">
-    SELECT EXISTS(SELECT 1
-                  FROM API_INFO
-                  WHERE NAME = #{name})
+    SELECT EXISTS(
+    SELECT 1
+    FROM API_INFO
+    <where>
+      <if test="id != null">
+        AND ID != #{id}
+      </if>
+      AND NAME = #{name}
+    </where>
+    )
   </select>
 
   <select id="existsByHttpMethodAndUrl">
-    SELECT EXISTS(SELECT 1
-                  FROM API_INFO
-                  WHERE HTTP_METHOD = #{httpMethod}
-                    AND URL = #{url})
+    SELECT EXISTS(
+    SELECT 1
+    FROM API_INFO
+    <where>
+      <if test="id != null">
+        AND ID != #{id}
+      </if>
+      AND HTTP_METHOD = #{httpMethod}
+      AND URL = #{url}
+    </where>
+    )
+  </select>
+
+  <select id="selectAuthor" resultType="com.vtw.dna.author.Author">
+    SELECT ID, NAME FROM USERS WHERE ID = #{id}
   </select>
 </mapper>

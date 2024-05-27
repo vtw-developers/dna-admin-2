@@ -17,35 +17,38 @@ import javax.validation.Valid;
 @RequestMapping("apiInfo")
 public class ApiInfoController {
 
-	private final ApiInfoService service;
+    private final ApiInfoService service;
 
-	@GetMapping(value = "list")
-	public Page<ApiInfo> list(ApiInfoFilter filter, Pageable pageable) throws Exception {
-		Page<ApiInfo> page = service.list(filter, pageable);
-		return page;
-	}
+    @GetMapping(value = "list")
+    public Page<ApiInfo> list(ApiInfoFilter filter, Pageable pageable) throws Exception {
+        Page<ApiInfo> page = service.list(filter, pageable);
+        return page;
+    }
 
-	@GetMapping(value = "find")
-	public ApiInfo find(@RequestParam Long id) throws Exception {
-		ApiInfo entity = service.find(id);
-		return entity;
-	}
+    @GetMapping(value = "find")
+    public ApiInfo find(@RequestParam Long id) throws Exception {
+        ApiInfo entity = service.find(id);
+        return entity;
+    }
 
-	@PostMapping(value = "create")
-	public ApiInfo create(@Valid @RequestBody ApiInfo entity) throws Exception {
-		service.create(entity);
-		return entity;
-	}
-	@PostMapping(value = "update")
-	public ApiInfo update(@Valid @RequestBody ApiInfo entity) throws Exception {
-		service.update(entity);
-		return entity;
-	}
+    @PostMapping(value = "create")
+    public ApiInfo create(@Valid @RequestBody ApiInfo entity) throws Exception {
+        entity.authorFromLoginUser();
+        service.create(entity);
+        return entity;
+    }
 
-	@PostMapping(value = "delete")
-	public ApiInfo delete(@Valid @RequestBody ApiInfo entity) throws Exception {
-		service.delete(entity);
-		return entity;
-	}
+    @PostMapping(value = "update")
+    public ApiInfo update(@Valid @RequestBody ApiInfo entity) throws Exception {
+        entity.authorFromLoginUser();
+        service.update(entity);
+        return entity;
+    }
+
+    @PostMapping(value = "delete")
+    public ApiInfo delete(@Valid @RequestBody ApiInfo entity) throws Exception {
+        service.delete(entity);
+        return entity;
+    }
 
 }
