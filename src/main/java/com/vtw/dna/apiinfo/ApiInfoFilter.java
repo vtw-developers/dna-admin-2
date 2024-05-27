@@ -6,4 +6,5 @@ import lombok.Data;
 public class ApiInfoFilter {
     private String name;
     private HttpMethod httpMethod;
+    private String author;
 }

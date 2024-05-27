@@ -17,6 +17,12 @@
       <if test="filter.httpMethod != null">
         AND HTTP_METHOD = #{filter.httpMethod}
       </if>
+      <if test="filter.author != null and filter.author != ''">
+        AND AUTHOR_ID IN (
+        SELECT ID
+        FROM USERS
+        WHERE NAME LIKE '%' || #{filter.author} || '%')
+      </if>
     </where>
   </select>
 
@@ -30,24 +36,30 @@
       <if test="filter.httpMethod != null">
         AND HTTP_METHOD = #{filter.httpMethod}
       </if>
+      <if test="filter.author != null and filter.author != ''">
+        AND AUTHOR_ID IN (
+        SELECT ID
+        FROM USERS
+        WHERE NAME LIKE '%' || #{filter.author} || '%')
+      </if>
     </where>
     <if test="pageable.sort != null and !pageable.sort.isEmpty()">
       ORDER BY
-          <foreach collection="pageable.sort" item="order" separator=",">
-            <if test="order.property == 'name'">
-              NAME
-            </if>
-            <if test="order.property == 'httpMethod'">
-              HTTP_METHOD
-            </if>
-            <if test="order.property == 'url'">
-              URL
-            </if>
-            <if test="order.property == 'modifiedTime'">
-              MODIFIED_TIME
-            </if>
-            ${order.direction}
-          </foreach>
+      <foreach collection="pageable.sort" item="order" separator=",">
+        <if test="order.property == 'name'">
+          NAME
+        </if>
+        <if test="order.property == 'httpMethod'">
+          HTTP_METHOD
+        </if>
+        <if test="order.property == 'url'">
+          URL
+        </if>
+        <if test="order.property == 'modifiedTime'">
+          MODIFIED_TIME
+        </if>
+        ${order.direction}
+      </foreach>
     </if>
     OFFSET #{pageable.offset} ROWS FETCH NEXT #{pageable.pageSize} ROWS ONLY
   </select>
