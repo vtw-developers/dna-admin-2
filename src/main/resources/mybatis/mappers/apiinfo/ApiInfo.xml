@@ -4,80 +4,98 @@
 
 <mapper namespace="com.vtw.dna.apiinfo.repository.ApiInfoRepository">
   <resultMap id="apiInfoResult" type="com.vtw.dna.apiinfo.ApiInfo">
-    <association property="author" column="author_id" select="selectAuthor"/>
+    <id property="id" column="ID"/>
+    <result property="name" column="NAME"/>
+    <result property="httpMethod" column="HTTP_METHOD"/>
+    <result property="url" column="URL"/>
+    <result property="modifiedTime" column="MODIFIED_TIME"/>
+    <result property="enabled" column="ENABLED"/>
+    <association property="author" column="author_id" javaType="com.vtw.dna.author.Author">
+      <id property="id" column="AUTHOR_ID"/>
+      <result property="name" column="AUTHOR_NAME"/>
+    </association>
   </resultMap>
 
   <select id="count">
     SELECT COUNT(*)
-    FROM API_INFO
+    FROM API_INFO A
+    LEFT JOIN USERS U ON
+    A.AUTHOR_ID = U.ID
     <where>
       <if test="filter.name != null and filter.name != ''">
-        AND NAME LIKE '%' || #{filter.name} || '%'
+        AND A.NAME LIKE '%' || #{filter.name} || '%'
       </if>
       <if test="filter.httpMethod != null">
-        AND HTTP_METHOD = #{filter.httpMethod}
+        AND A.HTTP_METHOD = #{filter.httpMethod}
       </if>
       <if test="filter.author != null and filter.author != ''">
-        AND AUTHOR_ID IN (
-        SELECT ID
-        FROM USERS
-        WHERE NAME LIKE '%' || #{filter.author} || '%')
+        AND U.NAME LIKE '%' || #{filter.author} || '%'
       </if>
       <if test="filter.startModifiedTime != null">
-        AND MODIFIED_TIME &gt;= #{filter.startModifiedTime}
+        AND A.MODIFIED_TIME &gt;= #{filter.startModifiedTime}
       </if>
       <if test="filter.endModifiedTime != null">
-        AND MODIFIED_TIME &lt;= #{filter.endModifiedTime}
+        AND A.MODIFIED_TIME &lt;= #{filter.endModifiedTime}
       </if>
       <if test="filter.enabled != null">
-        AND ENABLED = #{filter.enabled, typeHandler=BooleanToYnTypeHandler}
+        AND A.ENABLED = #{filter.enabled, typeHandler=BooleanToYnTypeHandler}
       </if>
     </where>
   </select>
 
   <select id="findAll" resultMap="apiInfoResult">
-    SELECT ID, NAME, HTTP_METHOD, URL, AUTHOR_ID, MODIFIED_TIME, ENABLED
-    FROM API_INFO
+    SELECT
+    A.ID,
+    A.NAME,
+    A.HTTP_METHOD,
+    A.URL,
+    U.ID AS AUTHOR_ID,
+    U.NAME AS AUTHOR_NAME,
+    A.MODIFIED_TIME,
+    A.ENABLED
+    FROM API_INFO A
+    LEFT JOIN USERS U ON
+    A.AUTHOR_ID = U.ID
     <where>
       <if test="filter.name != null and filter.name != ''">
-        AND NAME LIKE '%' || #{filter.name} || '%'
+        AND A.NAME LIKE '%' || #{filter.name} || '%'
       </if>
       <if test="filter.httpMethod != null">
-        AND HTTP_METHOD = #{filter.httpMethod}
+        AND A.HTTP_METHOD = #{filter.httpMethod}
       </if>
       <if test="filter.author != null and filter.author != ''">
-        AND AUTHOR_ID IN (
-        SELECT ID
-        FROM USERS
-        WHERE NAME LIKE '%' || #{filter.author} || '%')
+        AND U.NAME LIKE '%' || #{filter.author} || '%'
       </if>
       <if test="filter.startModifiedTime != null">
-        AND MODIFIED_TIME &gt;= #{filter.startModifiedTime}
+        AND A.MODIFIED_TIME &gt;= #{filter.startModifiedTime}
       </if>
       <if test="filter.endModifiedTime != null">
-        AND MODIFIED_TIME &lt;= #{filter.endModifiedTime}
+        AND A.MODIFIED_TIME &lt;= #{filter.endModifiedTime}
       </if>
       <if test="filter.enabled != null">
-        AND ENABLED = #{filter.enabled, typeHandler=BooleanToYnTypeHandler}
+        AND A.ENABLED = #{filter.enabled, typeHandler=BooleanToYnTypeHandler}
       </if>
     </where>
     <if test="pageable.sort != null and !pageable.sort.isEmpty()">
       ORDER BY
       <foreach collection="pageable.sort" item="order" separator=",">
         <if test="order.property == 'name'">
-          NAME
+          A.NAME
         </if>
         <if test="order.property == 'httpMethod'">
-          HTTP_METHOD
+          A.HTTP_METHOD
         </if>
         <if test="order.property == 'url'">
-          URL
+          A.URL
         </if>
         <if test="order.property == 'modifiedTime'">
-          MODIFIED_TIME
+          A.MODIFIED_TIME
         </if>
         <if test="order.property == 'enabled'">
-          ENABLED
+          A.ENABLED
+        </if>
+        <if test="order.property == 'author.name'">
+          U.NAME
         </if>
         ${order.direction}
       </foreach>

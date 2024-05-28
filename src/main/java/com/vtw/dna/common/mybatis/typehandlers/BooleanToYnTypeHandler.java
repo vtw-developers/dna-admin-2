@@ -10,8 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-@MappedTypes(Boolean.class)
-@MappedJdbcTypes(JdbcType.CHAR)
+//@MappedTypes(Boolean.class)
+//@MappedJdbcTypes(JdbcType.CHAR)
 public class BooleanToYnTypeHandler extends BaseTypeHandler<Boolean> {
 
     @Override
