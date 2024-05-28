@@ -49,8 +49,8 @@
   </select>
 
   <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-    INSERT INTO API_INFO (NAME, PATH)
-    VALUES (#{name}, #{path}, #{url})
+    INSERT INTO PAGE_INFO (NAME, PATH)
+    VALUES (#{name}, #{path})
   </insert>
 
   <update id="update">
