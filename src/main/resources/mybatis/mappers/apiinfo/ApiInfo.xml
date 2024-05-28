@@ -29,11 +29,14 @@
       <if test="filter.endModifiedTime != null">
         AND MODIFIED_TIME &lt;= #{filter.endModifiedTime}
       </if>
+      <if test="filter.enabled != null">
+        AND ENABLED = #{filter.enabled, typeHandler=BooleanToYnTypeHandler}
+      </if>
     </where>
   </select>
 
   <select id="findAll" resultMap="apiInfoResult">
-    SELECT ID, NAME, HTTP_METHOD, URL, AUTHOR_ID, MODIFIED_TIME
+    SELECT ID, NAME, HTTP_METHOD, URL, AUTHOR_ID, MODIFIED_TIME, ENABLED
     FROM API_INFO
     <where>
       <if test="filter.name != null and filter.name != ''">
@@ -54,6 +57,9 @@
       <if test="filter.endModifiedTime != null">
         AND MODIFIED_TIME &lt;= #{filter.endModifiedTime}
       </if>
+      <if test="filter.enabled != null">
+        AND ENABLED = #{filter.enabled, typeHandler=BooleanToYnTypeHandler}
+      </if>
     </where>
     <if test="pageable.sort != null and !pageable.sort.isEmpty()">
       ORDER BY
@@ -70,6 +76,9 @@
         <if test="order.property == 'modifiedTime'">
           MODIFIED_TIME
         </if>
+        <if test="order.property == 'enabled'">
+          ENABLED
+        </if>
         ${order.direction}
       </foreach>
     </if>
@@ -77,14 +86,14 @@
   </select>
 
   <select id="findById">
-    SELECT ID, NAME, HTTP_METHOD, URL, AUTHOR_ID, MODIFIED_TIME
+    SELECT ID, NAME, HTTP_METHOD, URL, ENABLED, AUTHOR_ID, MODIFIED_TIME
     FROM API_INFO
     WHERE ID = #{id}
   </select>
 
   <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-    INSERT INTO API_INFO (NAME, HTTP_METHOD, URL, AUTHOR_ID, MODIFIED_TIME)
-    VALUES (#{name}, #{httpMethod}, #{url}, #{author.id}, now())
+    INSERT INTO API_INFO (NAME, HTTP_METHOD, URL, ENABLED, AUTHOR_ID, MODIFIED_TIME)
+    VALUES (#{name}, #{httpMethod}, #{url}, #{enabled}, #{author.id}, now())
   </insert>
 
   <update id="update">
@@ -92,6 +101,7 @@
     SET NAME          = #{name},
         HTTP_METHOD   = #{httpMethod},
         URL           = #{url},
+        ENABLED       = #{enabled},
         AUTHOR_ID     = #{author.id},
         MODIFIED_TIME = now()
     WHERE ID = #{id}

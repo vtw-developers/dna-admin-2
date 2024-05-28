@@ -16,4 +16,6 @@ public class ApiInfoFilter {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endModifiedTime;
+
+    private Boolean enabled;
 }

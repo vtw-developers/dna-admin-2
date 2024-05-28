@@ -5,7 +5,6 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
 
 @Data
 public class ApiInfo extends AuthorEntity {
@@ -19,5 +18,5 @@ public class ApiInfo extends AuthorEntity {
 
     private String url;
 
-    private LocalDateTime modifiedTime;
+    private Boolean enabled;
 }
