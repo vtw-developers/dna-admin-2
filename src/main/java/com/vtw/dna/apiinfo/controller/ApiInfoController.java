@@ -6,6 +6,7 @@ import com.vtw.dna.apiinfo.service.ApiInfoService;
 import com.vtw.dna.common.rest.Page;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.type.BooleanTypeHandler;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
