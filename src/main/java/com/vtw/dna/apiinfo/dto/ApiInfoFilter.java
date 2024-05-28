@@ -1,5 +1,6 @@
-package com.vtw.dna.apiinfo;
+package com.vtw.dna.apiinfo.dto;
 
+import com.vtw.dna.apiinfo.HttpMethod;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
