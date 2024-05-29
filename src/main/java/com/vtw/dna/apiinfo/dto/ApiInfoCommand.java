@@ -20,4 +20,6 @@ public class ApiInfoCommand implements LoginUserAuthor {
     private String url;
 
     private Boolean enabled;
+
+    private Long serviceGroupId;
 }

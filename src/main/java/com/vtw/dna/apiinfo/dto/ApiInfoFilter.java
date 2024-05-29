@@ -19,4 +19,5 @@ public class ApiInfoFilter {
     private LocalDateTime endModifiedTime;
 
     private Boolean enabled;
+    private Long serviceGroupId;
 }

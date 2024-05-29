@@ -6,8 +6,10 @@
   <select id="count">
     SELECT COUNT(*)
     FROM API_INFO A
-    LEFT OUTER JOIN USERS U ON
-    A.AUTHOR_ID = U.ID
+    LEFT OUTER JOIN USERS U
+      ON A.AUTHOR_ID = U.ID
+    LEFT OUTER JOIN SERVICE_GROUP G
+      ON A.SERVICE_GROUP_ID = G.ID
     <where>
       <if test="filter.name != null and filter.name != ''">
         AND A.NAME LIKE '%' || #{filter.name} || '%'
@@ -26,23 +28,29 @@
       </if>
       <if test="filter.enabled != null">
         AND A.ENABLED = #{filter.enabled, typeHandler=BooleanToYnTypeHandler}
+      </if>
+      <if test="filter.serviceGroupId != null">
+        AND G.ID = #{filter.serviceGroupId}
       </if>
     </where>
   </select>
 
   <select id="findAll" resultType="com.vtw.dna.apiinfo.dto.ApiInfoQuery">
     SELECT
-    A.ID,
-    A.NAME,
-    A.HTTP_METHOD,
-    A.URL,
-    U.ID AS AUTHOR_ID,
-    U.NAME AS AUTHOR_NAME,
-    A.MODIFIED_TIME,
-    A.ENABLED
+      A.ID,
+      A.NAME,
+      A.HTTP_METHOD,
+      A.URL,
+      U.ID AS AUTHOR_ID,
+      U.NAME AS AUTHOR_NAME,
+      A.MODIFIED_TIME,
+      A.ENABLED,
+      G.NAME AS SERVICE_GROUP_NAME
     FROM API_INFO A
-    LEFT OUTER JOIN USERS U ON
-    A.AUTHOR_ID = U.ID
+    LEFT OUTER JOIN USERS U
+      ON A.AUTHOR_ID = U.ID
+    LEFT OUTER JOIN SERVICE_GROUP G
+      ON A.SERVICE_GROUP_ID = G.ID
     <where>
       <if test="filter.name != null and filter.name != ''">
         AND A.NAME LIKE '%' || #{filter.name} || '%'
@@ -61,6 +69,9 @@
       </if>
       <if test="filter.enabled != null">
         AND A.ENABLED = #{filter.enabled, typeHandler=BooleanToYnTypeHandler}
+      </if>
+      <if test="filter.serviceGroupId != null">
+        AND G.ID = #{filter.serviceGroupId}
       </if>
     </where>
     <if test="pageable.sort != null and !pageable.sort.isEmpty()">
@@ -84,6 +95,9 @@
         <if test="order.property == 'modifiedTime'">
           A.MODIFIED_TIME
         </if>
+        <if test="order.property == 'serviceGroupName'">
+          G.NAME
+        </if>
         ${order.direction}
       </foreach>
     </if>
@@ -91,66 +105,85 @@
   </select>
 
   <select id="findById" resultType="com.vtw.dna.apiinfo.dto.ApiInfoQuery">
-    SELECT A.ID,
-           A.NAME,
-           A.HTTP_METHOD,
-           A.URL,
-           U.ID   AS AUTHOR_ID,
-           U.NAME AS AUTHOR_NAME,
-           A.MODIFIED_TIME,
-           A.ENABLED
+    SELECT
+      A.ID,
+      A.NAME,
+      A.HTTP_METHOD,
+      A.URL,
+      U.ID   AS AUTHOR_ID,
+      U.NAME AS AUTHOR_NAME,
+      A.MODIFIED_TIME,
+      A.ENABLED,
+      G.NAME AS SERVICE_GROUP_NAME
     FROM API_INFO A
     LEFT OUTER JOIN USERS U
-    ON A.AUTHOR_ID = U.ID
+      ON A.AUTHOR_ID = U.ID
+    LEFT OUTER JOIN SERVICE_GROUP G
+      ON A.SERVICE_GROUP_ID = G.ID
     WHERE A.ID = #{id}
   </select>
 
   <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-    INSERT INTO API_INFO (NAME, HTTP_METHOD, URL, ENABLED, AUTHOR_ID, MODIFIED_TIME)
-    VALUES (#{name}, #{httpMethod}, #{url}, #{enabled}, #{authorId}, now())
+    INSERT INTO API_INFO (
+      NAME,
+      HTTP_METHOD,
+      URL,
+      ENABLED,
+      AUTHOR_ID,
+      MODIFIED_TIME,
+      SERVICE_GROUP_ID
+    ) VALUES (
+      #{name},
+      #{httpMethod},
+      #{url},
+      #{enabled},
+      #{authorId},
+      now(),
+      #{serviceGroupId}
+    )
   </insert>
 
   <update id="update">
-    UPDATE API_INFO
-    SET NAME          = #{name},
-        HTTP_METHOD   = #{httpMethod},
-        URL           = #{url},
-        ENABLED       = #{enabled},
-        AUTHOR_ID     = #{authorId},
-        MODIFIED_TIME = now()
+    UPDATE API_INFO SET
+      NAME             = #{name},
+      HTTP_METHOD      = #{httpMethod},
+      URL              = #{url},
+      ENABLED          = #{enabled},
+      AUTHOR_ID        = #{authorId},
+      MODIFIED_TIME    = now(),
+      SERVICE_GROUP_ID = #{serviceGroupId}
     WHERE ID = #{id}
   </update>
 
   <delete id="delete">
-    DELETE
-    FROM API_INFO
+    DELETE FROM API_INFO
     WHERE ID = #{id}
   </delete>
 
   <select id="existsByName">
     SELECT EXISTS(
-    SELECT 1
-    FROM API_INFO
-    <where>
-      <if test="id != null">
-        AND ID != #{id}
-      </if>
-      AND NAME = #{name}
-    </where>
+      SELECT 1
+      FROM API_INFO
+      <where>
+        <if test="id != null">
+          AND ID != #{id}
+        </if>
+        AND NAME = #{name}
+      </where>
     )
   </select>
 
   <select id="existsByHttpMethodAndUrl">
     SELECT EXISTS(
-    SELECT 1
-    FROM API_INFO
-    <where>
-      <if test="id != null">
-        AND ID != #{id}
-      </if>
-      AND HTTP_METHOD = #{httpMethod}
-      AND URL = #{url}
-    </where>
+      SELECT 1
+      FROM API_INFO
+      <where>
+        <if test="id != null">
+          AND ID != #{id}
+        </if>
+        AND HTTP_METHOD = #{httpMethod}
+        AND URL = #{url}
+      </where>
     )
   </select>
 </mapper>
