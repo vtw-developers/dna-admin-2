@@ -20,13 +20,13 @@ public class PageInfoController {
     private final PageInfoService service;
 
     @GetMapping(value = "list")
-    public Page<PageInfo> pagingPrograms(PageInfoFilter filter, Pageable pageable) {
+    public Page<PageInfo> pagingPageInfos(PageInfoFilter filter, Pageable pageable) {
         Page<PageInfo> page = service.list(filter, pageable);
         return page;
     }
 
     @GetMapping(value = "find")
-    public PageInfo program(@RequestParam Long id) {
+    public PageInfo pageInfo(@RequestParam Long id) {
         return service.find(id);
     }
 

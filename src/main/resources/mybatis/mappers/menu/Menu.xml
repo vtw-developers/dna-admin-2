@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vtw.dna.menu.repository.MenuRepository">
+    <select id="findAll">
+        SELECT MENU_ID, NAME, TYPE, ICON, PAGE_INFO_ID, UPPER_MENU_ID, INDEX
+        FROM MENU
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO MENU (MENU_ID, NAME, TYPE, ICON, PAGE_INFO_ID, UPPER_MENU_ID, INDEX)
+        VALUES (#{menuId}, #{name}, #{type}, #{icon}, #{pageInfoId}, #{upperMenuId}, #{index})
+    </insert>
+
+    <delete id="deleteAll">
+        DELETE
+        FROM MENU
+    </delete>
+</mapper>
