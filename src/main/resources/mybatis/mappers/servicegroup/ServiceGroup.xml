@@ -36,6 +36,12 @@
         <if test="order.property == 'name'">
           A.NAME
         </if>
+        <if test="order.property == 'authorName'">
+          U.NAME
+        </if>
+        <if test="order.property == 'modifiedTime'">
+          A.MODIFIED_TIME
+        </if>
         ${order.direction}
       </foreach>
     </if>
