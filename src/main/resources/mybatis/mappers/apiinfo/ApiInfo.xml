@@ -75,14 +75,14 @@
         <if test="order.property == 'url'">
           A.URL
         </if>
-        <if test="order.property == 'modifiedTime'">
-          A.MODIFIED_TIME
-        </if>
         <if test="order.property == 'enabled'">
           A.ENABLED
         </if>
         <if test="order.property == 'authorName'">
           U.NAME
+        </if>
+        <if test="order.property == 'modifiedTime'">
+          A.MODIFIED_TIME
         </if>
         ${order.direction}
       </foreach>

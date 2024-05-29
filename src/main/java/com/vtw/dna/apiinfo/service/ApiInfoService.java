@@ -18,33 +18,33 @@ import java.util.List;
 @Service
 public class ApiInfoService {
 
-    private final ApiInfoRepository apiInfoRepository;
+    private final ApiInfoRepository repository;
 
     public Page<ApiInfoQuery> list(ApiInfoFilter filter, Pageable pageable) throws Exception {
-        int count = apiInfoRepository.count(filter, pageable);
-        List<ApiInfoQuery> list = apiInfoRepository.findAll(filter, pageable);
+        int count = repository.count(filter, pageable);
+        List<ApiInfoQuery> list = repository.findAll(filter, pageable);
         Page<ApiInfoQuery> page = Page.<ApiInfoQuery>builder().totalCount(count).data(list).build();
         return page;
     }
 
     public ApiInfoQuery find(Long id) throws Exception {
-        ApiInfoQuery entity = apiInfoRepository.findById(id).orElseThrow(() -> new NoSuchEntityException("ApiInfo", id));
+        ApiInfoQuery entity = repository.findById(id).orElseThrow(() -> new NoSuchEntityException("ApiInfo", id));
         return entity;
     }
 
     public void create(ApiInfoCommand entity) throws Exception {
         validate(entity);
-        apiInfoRepository.insert(entity);
+        repository.insert(entity);
     }
 
     public void update(ApiInfoCommand entity) throws Exception {
         find(entity.getId()); // 해당 ID의 Entity가 존재하지 않으면 Exception 발생
         validate(entity);
-        apiInfoRepository.update(entity);
+        repository.update(entity);
     }
 
     public void delete(ApiInfoCommand entity) throws Exception {
-        apiInfoRepository.delete(entity);
+        repository.delete(entity);
     }
 
     public void validate(ApiInfoCommand entity) {
@@ -60,12 +60,12 @@ public class ApiInfoService {
     }
 
     public boolean existsByName(Long id, String name) {
-        boolean exists = apiInfoRepository.existsByName(id, name);
+        boolean exists = repository.existsByName(id, name);
         return exists;
     }
 
     public boolean existsByEndpoint(Long id, HttpMethod httpMethod, String url) {
-        boolean exists = apiInfoRepository.existsByHttpMethodAndUrl(id, httpMethod, url);
+        boolean exists = repository.existsByHttpMethodAndUrl(id, httpMethod, url);
         return exists;
     }
 

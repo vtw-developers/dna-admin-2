@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vtw.dna.servicegroup.repository.ServiceGroupRepository">
+  <select id="count">
+    SELECT COUNT(*)
+    FROM SERVICE_GROUP A
+    LEFT OUTER JOIN USERS U ON
+    A.AUTHOR_ID = U.ID
+    <where>
+      <if test="filter.name != null and filter.name != ''">
+        AND A.NAME LIKE '%' || #{filter.name} || '%'
+      </if>
+    </where>
+  </select>
+
+  <select id="findAll">
+    SELECT
+      A.ID,
+      A.NAME,
+      U.ID AS AUTHOR_ID,
+      U.NAME AS AUTHOR_NAME,
+      A.MODIFIED_TIME
+      FROM SERVICE_GROUP A
+      LEFT OUTER JOIN USERS U ON
+      A.AUTHOR_ID = U.ID
+    <where>
+      <if test="filter.name != null and filter.name != ''">
+        AND A.NAME LIKE '%' || #{filter.name} || '%'
+      </if>
+    </where>
+    <if test="pageable.sort != null and !pageable.sort.isEmpty()">
+      ORDER BY
+      <foreach collection="pageable.sort" item="order" separator=",">
+        <if test="order.property == 'name'">
+          A.NAME
+        </if>
+        ${order.direction}
+      </foreach>
+    </if>
+    OFFSET #{pageable.offset} ROWS FETCH NEXT #{pageable.pageSize} ROWS ONLY
+  </select>
+
+  <select id="findById">
+    SELECT
+      A.ID,
+      A.NAME,
+      A.DESCRIPTION,
+      U.ID   AS AUTHOR_ID,
+      U.NAME AS AUTHOR_NAME,
+      A.MODIFIED_TIME
+    FROM SERVICE_GROUP A
+    LEFT OUTER JOIN USERS U
+    ON A.AUTHOR_ID = U.ID
+    WHERE A.ID = #{id}
+  </select>
+
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO SERVICE_GROUP (
+      NAME,
+      DESCRIPTION,
+      AUTHOR_ID,
+      MODIFIED_TIME
+    ) VALUES (
+      #{name},
+      #{description},
+      #{authorId},
+      now()
+    )
+  </insert>
+
+  <update id="update">
+    UPDATE SERVICE_GROUP
+    SET
+      NAME          = #{name},
+      DESCRIPTION   = #{description},
+      AUTHOR_ID     = #{authorId},
+      MODIFIED_TIME = now()
+    WHERE ID = #{id}
+  </update>
+
+  <delete id="delete">
+    DELETE
+    FROM SERVICE_GROUP
+    WHERE ID = #{id}
+  </delete>
+
+  <select id="existsByName">
+    SELECT EXISTS(
+      SELECT 1
+      FROM SERVICE_GROUP
+      <where>
+        <if test="id != null">
+          AND ID != #{id}
+        </if>
+        AND NAME = #{name}
+      </where>
+    )
+  </select>
+</mapper>
