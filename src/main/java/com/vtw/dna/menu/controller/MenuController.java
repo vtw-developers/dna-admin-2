@@ -1,6 +1,7 @@
 package com.vtw.dna.menu.controller;
 
 import com.vtw.dna.menu.Menu;
+import com.vtw.dna.menu.MenuQuery;
 import com.vtw.dna.menu.service.MenuService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,12 @@ public class MenuController {
     @GetMapping(value = "list")
     public List<Menu> menuList() {
         List<Menu> list = service.list();
+        return list;
+    }
+
+    @GetMapping(value = "view")
+    public List<MenuQuery> menuView() {
+        List<MenuQuery> list = service.view();
         return list;
     }
 

@@ -1,6 +1,7 @@
 package com.vtw.dna.menu.service;
 
 import com.vtw.dna.menu.Menu;
+import com.vtw.dna.menu.MenuQuery;
 import com.vtw.dna.menu.repository.MenuRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,11 @@ public class MenuService {
     public List<Menu> list() {
         List<Menu> list = repository.findAll();
         return list;
+    }
+
+    public List<MenuQuery> view() {
+        List<MenuQuery> view = repository.findViewAll();
+        return view;
     }
 
     @Transactional
