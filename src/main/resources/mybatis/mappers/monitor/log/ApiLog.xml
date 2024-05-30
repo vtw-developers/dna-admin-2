@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vtw.dna.monitor.log.repository.ApiLogRepository">
+  <select id="count">
+    SELECT COUNT(*)
+    FROM API_LOG A
+  </select>
+
+  <select id="findAll">
+    SELECT
+    *
+    FROM API_LOG A
+    OFFSET #{pageable.offset} ROWS FETCH NEXT #{pageable.pageSize} ROWS ONLY
+  </select>
+
+  <select id="findById">
+    SELECT
+      *
+    FROM API_LOG A
+    WHERE A.MESSAGE_ID = #{messageId}
+  </select>
+</mapper>
