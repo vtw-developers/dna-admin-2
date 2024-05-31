@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vtw.dna.monitor.stats.repository.ApiStatsRepository">
+  <select id="findAll">
+    SELECT
+      D.SERVICE_GROUP_NAME AS SERVICE_GROUP,
+      D.NAME AS API,
+      TIMESTAMP::DATE AS DATE,
+      SUM(1) AS COUNT
+    FROM API_LOG A
+    LEFT OUTER JOIN
+      (
+        SELECT
+          B.ID,
+          B.NAME,
+          C.ID AS SERVICE_GROUP_ID,
+          C.NAME AS SERVICE_GROUP_NAME
+        FROM API_INFO B
+        LEFT OUTER JOIN SERVICE_GROUP C
+          ON B.SERVICE_GROUP_ID = C.ID
+      ) D
+    ON A.API_INFO_ID = D.ID
+    GROUP BY SERVICE_GROUP, API, TIMESTAMP::DATE
+  </select>
+
+  <select id="findAllApi">
+    SELECT
+      B.NAME AS SERVICE_GROUP,
+      A.NAME AS API
+    FROM API_INFO A
+    LEFT OUTER JOIN SERVICE_GROUP B
+    ON A.SERVICE_GROUP_ID = B.ID
+  </select>
+</mapper>
