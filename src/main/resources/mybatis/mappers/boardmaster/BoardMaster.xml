@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vtw.dna.boardmaster.repository.BoardMasterRepository">
+  <select id="count">
+    SELECT COUNT(*)
+    FROM BOARD_MASTER A
+    LEFT OUTER JOIN USERS U
+      ON A.AUTHOR_ID = U.ID
+    <where>
+      <if test="filter.name != null and filter.name != ''">
+        AND A.NAME LIKE '%' || #{filter.name} || '%'
+      </if>
+      <if test="filter.author != null and filter.author != ''">
+        AND U.AUTHOR LIKE '%' || #{filter.author} || '%'
+      </if>
+      <if test="filter.startModifiedTime != null">
+        AND A.MODIFIED_TIME &gt;= #{filter.startModifiedTime}
+      </if>
+      <if test="filter.endModifiedTime != null">
+        AND A.MODIFIED_TIME &lt;= #{filter.endModifiedTime}
+      </if>
+      <if test="filter.useYn != null">
+        AND A.USE_YN = #{filter.useYn, typeHandler=BooleanToYnTypeHandler}
+      </if>
+      <if test="filter.replyYn != null">
+        AND A.REPLY_YN = #{filter.replyYn, typeHandler=BooleanToYnTypeHandler}
+      </if>
+      <if test="filter.fileAttachYn != null">
+        AND A.FILE_ATTACH_YN = #{filter.fileAttachYn, typeHandler=BooleanToYnTypeHandler}
+      </if>
+    </where>
+  </select>
+
+  <select id="findAll" resultType="com.vtw.dna.boardmaster.dto.BoardMasterQuery">
+    SELECT
+      A.ID,
+      A.NAME,
+      A.INSTRUCTION,
+      U.ID AS AUTHOR_ID,
+      U.NAME AS AUTHOR_NAME,
+      A.FILE_ATTACH_YN,
+      A.USE_YN,
+      A.REPLY_YN
+    FROM BOARD_MASTER A
+    LEFT OUTER JOIN USERS U
+      ON A.AUTHOR_ID = U.ID
+    <where>
+      <if test="filter.name != null and filter.name != ''">
+        AND A.NAME LIKE '%' || #{filter.name} || '%'
+      </if>
+      <if test="filter.author != null and filter.author != ''">
+        AND U.AUTHOR LIKE '%' || #{filter.author} || '%'
+      </if>
+      <if test="filter.startModifiedTime != null">
+        AND A.MODIFIED_TIME &gt;= #{filter.startModifiedTime}
+      </if>
+      <if test="filter.endModifiedTime != null">
+        AND A.MODIFIED_TIME &lt;= #{filter.endModifiedTime}
+      </if>
+      <if test="filter.useYn != null">
+        AND A.USE_YN = #{filter.useYn, typeHandler=BooleanToYnTypeHandler}
+      </if>
+      <if test="filter.replyYn != null">
+        AND A.REPLY_YN = #{filter.replyYn, typeHandler=BooleanToYnTypeHandler}
+      </if>
+      <if test="filter.fileAttachYn != null">
+        AND A.FILE_ATTACH_YN = #{filter.fileAttachYn, typeHandler=BooleanToYnTypeHandler}
+      </if>
+    </where>
+    <if test="pageable.sort != null and !pageable.sort.isEmpty()">
+      ORDER BY
+      <foreach collection="pageable.sort" item="order" separator=",">
+        <if test="order.property == 'name'">
+          A.NAME
+        </if>
+        <if test="order.property == 'url'">
+          A.URL
+        </if>
+        <if test="order.property == 'useYn'">
+          A.USE_YN
+        </if>
+        <if test="order.property == 'authorName'">
+          U.NAME
+        </if>
+        <if test="order.property == 'modifiedTime'">
+          A.MODIFIED_TIME
+        </if>
+        <if test="order.property == 'replyYn'">
+          A.REPLY_YN
+        </if>
+        <if test="order.property == 'fileAttachYn'">
+          A.FILE_ATTACH_YN
+        </if>
+        ${order.direction}
+      </foreach>
+    </if>
+    OFFSET #{pageable.offset} ROWS FETCH NEXT #{pageable.pageSize} ROWS ONLY
+  </select>
+
+  <select id="findById" resultType="com.vtw.dna.boardmaster.dto.BoardMasterQuery">
+    SELECT
+      A.ID,
+      A.NAME,
+      A.INSTRUCTION,
+      U.ID AS AUTHOR_ID,
+      U.NAME AS AUTHOR_NAME,
+      A.FILE_ATTACH_YN,
+      A.USE_YN,
+      A.REPLY_YN
+    FROM BOARD_MASTER A
+    LEFT OUTER JOIN USERS U
+      ON A.AUTHOR_ID = U.ID
+    WHERE A.ID = #{id}
+  </select>
+
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO BOARD_MASTER (
+      NAME,
+      INSTRUCTION,
+      CODE,
+      FILE_ATTACH_YN,
+      FILE_COUNT,
+      FILE_MAX_SIZE,
+      REPLY_YN,
+      USE_YN,
+      AUTHOR_ID,
+      MODIFIED_TIME
+    ) VALUES (
+      #{name},
+      #{instruction},
+      #{code},
+      #{fileAttachYn},
+      #{fileCount},
+      #{fileMaxSize},
+      #{replyYn},
+      #{useYn},
+      #{authorId},
+      now()
+    )
+  </insert>
+
+  <update id="update">
+    UPDATE BOARD_MASTER SET
+      NAME = #{name},
+      INSTRUCTION = #{instruction},
+      CODE = #{code},
+      FILE_ATTACH_YN = #{fileAttachYn},
+      FILE_COUNT = #{fileCount},
+      FILE_MAX_SIZE = #{fileMaxSize},
+      REPLY_YN = #{replyYn},
+      USE_YN = #{useYn},
+      AUTHOR_ID = #{authorId},
+      MODIFIED_TIME = now()
+    WHERE ID = #{id}
+  </update>
+
+  <delete id="delete">
+    DELETE FROM BOARD_MASTER
+    WHERE ID = #{id}
+  </delete>
+
+  <select id="existsByName">
+    SELECT EXISTS(
+      SELECT 1
+      FROM BOARD_MASTER
+      <where>
+        <if test="id != null">
+          AND ID != #{id}
+        </if>
+        AND NAME = #{name}
+      </where>
+    )
+  </select>
+</mapper>
