@@ -76,6 +76,7 @@
         AND D.ID = #{filter.apiInfoId}
       </if>
     </where>
+    ORDER BY TIMESTAMP DESC
     OFFSET #{pageable.offset} ROWS FETCH NEXT #{pageable.pageSize} ROWS ONLY
   </select>
 
