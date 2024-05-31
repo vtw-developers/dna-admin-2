@@ -1,7 +1,9 @@
 package com.vtw.dna.monitor.log;
 
+import java.util.Arrays;
+
 public enum ServiceResult {
-    SUCCESS("S"), ERROR("F");
+    SUCCESS("S"), ERROR("E");
 
     private String code;
 
@@ -11,5 +13,9 @@ public enum ServiceResult {
 
     public String getCode() {
         return code;
+    }
+
+    public static ServiceResult getByCode(String code) {
+        return Arrays.stream(values()).filter(value->value.getCode().equals(code)).findFirst().orElseThrow();
     }
 }

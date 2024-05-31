@@ -6,12 +6,34 @@
   <select id="count">
     SELECT COUNT(*)
     FROM API_LOG A
+    <where>
+      <if test="filter.result != null">
+        AND A.RESULT = #{filter.result}
+      </if>
+      <if test="filter.fromTime != null">
+        AND A.TIMESTAMP &gt;= #{filter.fromTime}
+      </if>
+      <if test="filter.toTime != null">
+        AND A.TIMESTAMP &lt;= #{filter.toTime}
+      </if>
+    </where>
   </select>
 
   <select id="findAll">
     SELECT
     *
     FROM API_LOG A
+    <where>
+      <if test="filter.result != null">
+        AND A.RESULT = #{filter.result}
+      </if>
+      <if test="filter.fromTime != null">
+        AND A.TIMESTAMP &gt;= #{filter.fromTime}
+      </if>
+      <if test="filter.toTime != null">
+        AND A.TIMESTAMP &lt;= #{filter.toTime}
+      </if>
+    </where>
     OFFSET #{pageable.offset} ROWS FETCH NEXT #{pageable.pageSize} ROWS ONLY
   </select>
 
