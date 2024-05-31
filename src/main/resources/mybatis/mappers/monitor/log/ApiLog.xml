@@ -6,12 +6,77 @@
   <select id="count">
     SELECT COUNT(*)
     FROM API_LOG A
+    LEFT OUTER JOIN
+    (
+      SELECT
+        B.ID,
+        B.NAME,
+        C.ID AS SERVICE_GROUP_ID,
+        C.NAME AS SERVICE_GROUP_NAME
+      FROM API_INFO B
+      LEFT OUTER JOIN SERVICE_GROUP C
+        ON B.SERVICE_GROUP_ID = C.ID
+    ) D
+    ON A.API_INFO_ID = D.ID
+    <where>
+      <if test="filter.result != null">
+        AND A.RESULT = #{filter.result}
+      </if>
+      <if test="filter.fromTime != null">
+        AND A.TIMESTAMP &gt;= #{filter.fromTime}
+      </if>
+      <if test="filter.toTime != null">
+        AND A.TIMESTAMP &lt;= #{filter.toTime}
+      </if>
+      <if test="filter.serviceGroupId != null">
+        AND D.SERVICE_GROUP_ID = #{filter.serviceGroupId}
+      </if>
+      <if test="filter.apiInfoId != null">
+        AND D.ID = #{filter.apiInfoId}
+      </if>
+    </where>
   </select>
 
   <select id="findAll">
     SELECT
-    *
+      A.MESSAGE_ID,
+      A.TIMESTAMP,
+      A.RESULT,
+      D.ID AS API_INFO_ID,
+      D.NAME AS API_INFO_NAME,
+      D.SERVICE_GROUP_ID AS SERVICE_GROUP_ID,
+      D.SERVICE_GROUP_NAME AS SERVICE_GROUP_NAME
     FROM API_LOG A
+    LEFT OUTER JOIN
+      (
+        SELECT
+          B.ID,
+          B.NAME,
+          C.ID AS SERVICE_GROUP_ID,
+          C.NAME AS SERVICE_GROUP_NAME
+        FROM API_INFO B
+        LEFT OUTER JOIN SERVICE_GROUP C
+          ON B.SERVICE_GROUP_ID = C.ID
+      ) D
+    ON A.API_INFO_ID = D.ID
+    <where>
+      <if test="filter.result != null">
+        AND A.RESULT = #{filter.result}
+      </if>
+      <if test="filter.fromTime != null">
+        AND A.TIMESTAMP &gt;= #{filter.fromTime}
+      </if>
+      <if test="filter.toTime != null">
+        AND A.TIMESTAMP &lt;= #{filter.toTime}
+      </if>
+      <if test="filter.serviceGroupId != null">
+        AND D.SERVICE_GROUP_ID = #{filter.serviceGroupId}
+      </if>
+      <if test="filter.apiInfoId != null">
+        AND D.ID = #{filter.apiInfoId}
+      </if>
+    </where>
+    ORDER BY TIMESTAMP DESC
     OFFSET #{pageable.offset} ROWS FETCH NEXT #{pageable.pageSize} ROWS ONLY
   </select>
 

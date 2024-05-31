@@ -16,5 +16,6 @@ public class ApiInfoQuery extends AuditQuery {
     private HttpMethod httpMethod;
     private String url;
     private Boolean enabled;
+    private String serviceGroupId;
     private String serviceGroupName;
 }

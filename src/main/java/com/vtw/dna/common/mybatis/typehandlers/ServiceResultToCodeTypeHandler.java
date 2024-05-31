@@ -36,6 +36,6 @@ public class ServiceResultToCodeTypeHandler extends BaseTypeHandler<ServiceResul
 
     private ServiceResult getServiceResult(String code) {
         if (StringUtils.isEmpty(code)) {return null;}
-        return ServiceResult.valueOf(code);
+        return ServiceResult.getByCode(code);
     }
 }
