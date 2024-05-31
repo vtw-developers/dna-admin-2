@@ -18,4 +18,7 @@ public class ApiLogQuery extends AuditQuery {
     private String flowName;
     private String details;
     private long elapsedTime;
+
+    private String apiInfoName;
+    private String serviceGroupName;
 }
