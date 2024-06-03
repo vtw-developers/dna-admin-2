@@ -28,6 +28,8 @@ public class ApiInfoCommand implements LoginUserAuthor {
 
     private List<RequestParameter> requestParameters;
     private List<ResponseElements> responseElements;
+
+    private String flowId;
     private String flowMetaYaml;
 
 }

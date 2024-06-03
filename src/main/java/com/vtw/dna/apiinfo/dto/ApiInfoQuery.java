@@ -23,5 +23,7 @@ public class ApiInfoQuery extends AuditQuery {
 
     private List<RequestParameter> requestParameters = new ArrayList<>();
     private List<ResponseElements> responseElements = new ArrayList<>();
-    private String flowMetaYaml;
+
+    private String flowId;
+    private String flowMetaYaml = "";
 }
