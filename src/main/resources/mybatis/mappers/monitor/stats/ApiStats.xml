@@ -23,6 +23,14 @@
           ON B.SERVICE_GROUP_ID = C.ID
       ) D
     ON A.FLOW_ID = D.FLOW_ID
+    <where>
+      <if test="startDate != null">
+        AND A.TIMESTAMP &gt;= #{startDate}
+      </if>
+      <if test="endDate != null">
+        AND A.TIMESTAMP &lt; #{endDate} + 1
+      </if>
+    </where>
     GROUP BY SERVICE_GROUP, API, TIMESTAMP::DATE
   </select>
 

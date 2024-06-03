@@ -11,8 +11,7 @@ import java.util.Optional;
 
 @Mapper
 public interface ApiStatsRepository {
-    int count(ApiStatsFilter filter, Pageable pageable);
-    List<ApiStatsQuery> findAll();
+    List<ApiStatsQuery> findAll(ApiStatsFilter filter);
     Optional<ApiStatsQuery> findById(Long id);
 
     List<ApiForStats> findAllApi();
