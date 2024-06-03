@@ -16,8 +16,6 @@ public class BoardMasterCommand implements LoginUserAuthor {
 
     private String instruction;
 
-    private String code;
-
     private Boolean fileAttachYn;
 
     private Long fileCount;
@@ -27,5 +25,7 @@ public class BoardMasterCommand implements LoginUserAuthor {
     private Boolean replyYn;
 
     private Boolean useYn;
+
+    private Boolean commentYn;
 
 }
