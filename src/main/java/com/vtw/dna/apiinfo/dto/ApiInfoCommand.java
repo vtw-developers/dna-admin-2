@@ -6,6 +6,9 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import javax.ws.rs.core.Request;
+import java.util.List;
+import java.util.Map;
 
 @Data
 public class ApiInfoCommand implements LoginUserAuthor {
@@ -22,4 +25,9 @@ public class ApiInfoCommand implements LoginUserAuthor {
     private Boolean enabled;
 
     private Long serviceGroupId;
+
+    private List<RequestParameter> requestParameters;
+    private List<ResponseElements> responseElements;
+    private String flowMetaYaml;
+
 }

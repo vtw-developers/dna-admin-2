@@ -133,7 +133,10 @@
       ENABLED,
       AUTHOR_ID,
       MODIFIED_TIME,
-      SERVICE_GROUP_ID
+      SERVICE_GROUP_ID,
+      REQUEST_PARAMETERS,
+      RESPONSE_ELEMENTS,
+      FLOW_META_YAML
     ) VALUES (
       #{name},
       #{httpMethod},
@@ -141,7 +144,10 @@
       #{enabled},
       #{authorId},
       now(),
-      #{serviceGroupId}
+      #{serviceGroupId},
+      #{requestParameters, typeHandler=RequestParametersJsonTypeHandler},
+      #{responseElements, typeHandler=ResponseElementsJsonTypeHandler},
+      #{flowMetaYaml}
     )
   </insert>
 
