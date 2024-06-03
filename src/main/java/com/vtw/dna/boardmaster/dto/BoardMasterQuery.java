@@ -11,4 +11,5 @@ public class BoardMasterQuery extends AuditQuery {
     private Boolean fileAttachYn;
     private Boolean replyYn;
     private Boolean useYn;
+    private Boolean commentYn;
 }

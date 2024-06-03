@@ -38,11 +38,12 @@
       A.ID,
       A.NAME,
       A.INSTRUCTION,
+      A.FILE_ATTACH_YN,
+      A.REPLY_YN,
+      A.USE_YN,
+      A.COMMENT_YN,
       U.ID AS AUTHOR_ID,
       U.NAME AS AUTHOR_NAME,
-      A.FILE_ATTACH_YN,
-      A.USE_YN,
-      A.REPLY_YN
     FROM BOARD_MASTER A
     LEFT OUTER JOIN USERS U
       ON A.AUTHOR_ID = U.ID
@@ -65,6 +66,9 @@
       <if test="filter.replyYn != null">
         AND A.REPLY_YN = #{filter.replyYn, typeHandler=BooleanToYnTypeHandler}
       </if>
+      <if test="filter.commentYn != null">
+        AND A.COMMENT_YN = #{filter.commentYn, typeHandler=BooleanToYnTypeHandler}
+      </if>
       <if test="filter.fileAttachYn != null">
         AND A.FILE_ATTACH_YN = #{filter.fileAttachYn, typeHandler=BooleanToYnTypeHandler}
       </if>
@@ -72,11 +76,11 @@
     <if test="pageable.sort != null and !pageable.sort.isEmpty()">
       ORDER BY
       <foreach collection="pageable.sort" item="order" separator=",">
+        <if test="order.property == 'id'">
+          A.ID
+        </if>
         <if test="order.property == 'name'">
           A.NAME
-        </if>
-        <if test="order.property == 'url'">
-          A.URL
         </if>
         <if test="order.property == 'useYn'">
           A.USE_YN
@@ -89,6 +93,9 @@
         </if>
         <if test="order.property == 'replyYn'">
           A.REPLY_YN
+        </if>
+        <if test="order.property == 'commentYn'">
+            A.COMMENT_YN
         </if>
         <if test="order.property == 'fileAttachYn'">
           A.FILE_ATTACH_YN
@@ -125,6 +132,7 @@
       FILE_MAX_SIZE,
       REPLY_YN,
       USE_YN,
+      COMMENT_YN,
       AUTHOR_ID,
       MODIFIED_TIME
     ) VALUES (
@@ -136,6 +144,7 @@
       #{fileMaxSize},
       #{replyYn},
       #{useYn},
+      #{commentYn},
       #{authorId},
       now()
     )
@@ -151,6 +160,7 @@
       FILE_MAX_SIZE = #{fileMaxSize},
       REPLY_YN = #{replyYn},
       USE_YN = #{useYn},
+      COMMENT_YN = #{commentYn},
       AUTHOR_ID = #{authorId},
       MODIFIED_TIME = now()
     WHERE ID = #{id}
