@@ -15,13 +15,14 @@
         SELECT
           B.ID,
           B.NAME,
+          B.FLOW_ID,
           C.ID AS SERVICE_GROUP_ID,
           C.NAME AS SERVICE_GROUP_NAME
         FROM API_INFO B
         LEFT OUTER JOIN SERVICE_GROUP C
           ON B.SERVICE_GROUP_ID = C.ID
       ) D
-    ON A.API_INFO_ID = D.ID
+    ON A.FLOW_ID = D.FLOW_ID
     GROUP BY SERVICE_GROUP, API, TIMESTAMP::DATE
   </select>
 

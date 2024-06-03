@@ -30,7 +30,7 @@ public class ApiStatsService {
 
         List<ApiStatsQuery> allStats = new ArrayList<>();
         for (ApiForStats api : apis) {
-            for (LocalDate date = startDate; date.isBefore(endDate); date = date.plusDays(1)) {
+            for (LocalDate date = startDate; date.isEqual(endDate); date = date.plusDays(1)) {
                 ApiStatsQuery query = new ApiStatsQuery();
                 query.setServiceGroup(api.getServiceGroup());
                 query.setApi(api.getApi());
