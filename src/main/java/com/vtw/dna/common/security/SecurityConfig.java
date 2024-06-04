@@ -91,8 +91,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .antMatchers(AUTH_WHITELIST).permitAll()
                         .antMatchers(HttpMethod.GET,AUTH_GET_WHITELIST).permitAll()
-                        .anyRequest().permitAll()
-//                        .anyRequest().authenticated()
+//                        .anyRequest().permitAll()
+                        .anyRequest().authenticated()
                 ).sessionManagement((sessionManagement) ->
                     sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
