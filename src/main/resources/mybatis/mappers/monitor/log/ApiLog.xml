@@ -2,7 +2,7 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.vtw.dna.monitor.log.repository.ApiLogRepository">
+<mapper namespace="com.vtw.dna.integration.monitor.log.api.repository.ApiLogRepository">
   <select id="count">
     SELECT COUNT(*)
     FROM API_LOG A

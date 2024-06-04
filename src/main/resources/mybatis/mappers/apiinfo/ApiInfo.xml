@@ -2,8 +2,8 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.vtw.dna.apiinfo.repository.ApiInfoRepository">
-  <resultMap id="query" type="com.vtw.dna.apiinfo.dto.ApiInfoQuery">
+<mapper namespace="com.vtw.dna.integration.manage.api.repository.ApiInfoRepository">
+  <resultMap id="query" type="com.vtw.dna.integration.manage.api.dto.ApiInfoQuery">
     <result column="REQUEST_PARAMETERS" property="requestParameters" typeHandler="RequestParametersJsonTypeHandler"/>
     <result column="RESPONSE_ELEMENTS" property="responseElements" typeHandler="ResponseElementsJsonTypeHandler"/>
   </resultMap>

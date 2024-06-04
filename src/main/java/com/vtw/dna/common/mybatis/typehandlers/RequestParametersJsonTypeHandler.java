@@ -3,7 +3,7 @@ package com.vtw.dna.common.mybatis.typehandlers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vtw.dna.apiinfo.dto.RequestParameter;
+import com.vtw.dna.integration.manage.api.dto.RequestParameter;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;

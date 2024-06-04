@@ -2,7 +2,7 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.vtw.dna.monitor.stats.repository.ApiStatsRepository">
+<mapper namespace="com.vtw.dna.integration.monitor.stats.api.repository.ApiStatsRepository">
   <select id="findAll">
     SELECT
       D.SERVICE_GROUP_NAME AS SERVICE_GROUP,

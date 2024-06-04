@@ -2,8 +2,8 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.vtw.dna.ctiinfo.repository.CtiInfoRepository">
-  <resultMap id="query" type="com.vtw.dna.ctiinfo.dto.CtiInfoQuery">
+<mapper namespace="com.vtw.dna.integration.manage.cti.repository.CtiInfoRepository">
+  <resultMap id="query" type="com.vtw.dna.integration.manage.cti.dto.CtiInfoQuery">
   </resultMap>
 
   <select id="count">
