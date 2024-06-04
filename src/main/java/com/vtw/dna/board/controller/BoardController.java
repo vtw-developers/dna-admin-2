@@ -46,7 +46,8 @@ public class BoardController {
 
     @PostMapping(value = "delete")
     public BoardCommand delete(@Valid @RequestBody BoardCommand entity) throws Exception {
-        service.delete(entity);
+        entity.setUseYn(false);
+        service.update(entity);
         return entity;
     }
 

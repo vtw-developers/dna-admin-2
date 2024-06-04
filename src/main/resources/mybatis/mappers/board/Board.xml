@@ -132,8 +132,4 @@
     WHERE ID = #{id}
   </update>
 
-  <delete id="delete">
-    DELETE FROM BOARD
-    WHERE ID = #{id}
-  </delete>
 </mapper>
