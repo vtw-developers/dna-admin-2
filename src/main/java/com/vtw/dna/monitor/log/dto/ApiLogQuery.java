@@ -8,9 +8,9 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class ApiLogQuery extends AuditQuery {
+public class ApiLogQuery {
     private String messageId;
-    private Long apiInfoId;
+    private String flowId;
     private LocalDateTime timestamp;
     private ServiceResult result;
     private String errorCode;
@@ -19,6 +19,8 @@ public class ApiLogQuery extends AuditQuery {
     private String details;
     private long elapsedTime;
 
+    private Long apiInfoId;
     private String apiInfoName;
+    private Long serviceGroupId;
     private String serviceGroupName;
 }

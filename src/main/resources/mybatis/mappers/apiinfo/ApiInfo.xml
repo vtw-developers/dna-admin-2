@@ -3,6 +3,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.vtw.dna.apiinfo.repository.ApiInfoRepository">
+  <resultMap id="query" type="com.vtw.dna.apiinfo.dto.ApiInfoQuery">
+    <result column="REQUEST_PARAMETERS" property="requestParameters" typeHandler="RequestParametersJsonTypeHandler"/>
+    <result column="RESPONSE_ELEMENTS" property="responseElements" typeHandler="ResponseElementsJsonTypeHandler"/>
+  </resultMap>
+
   <select id="count">
     SELECT COUNT(*)
     FROM API_INFO A
@@ -35,7 +40,7 @@
     </where>
   </select>
 
-  <select id="findAll" resultType="com.vtw.dna.apiinfo.dto.ApiInfoQuery">
+  <select id="findAll" resultMap="query">
     SELECT
       A.ID,
       A.NAME,
@@ -46,7 +51,8 @@
       A.MODIFIED_TIME,
       A.ENABLED,
       G.ID AS SERVICE_GROUP_ID,
-      G.NAME AS SERVICE_GROUP_NAME
+      G.NAME AS SERVICE_GROUP_NAME,
+      A.FLOW_ID
     FROM API_INFO A
     LEFT OUTER JOIN USERS U
       ON A.AUTHOR_ID = U.ID
@@ -105,7 +111,7 @@
     OFFSET #{pageable.offset} ROWS FETCH NEXT #{pageable.pageSize} ROWS ONLY
   </select>
 
-  <select id="findById" resultType="com.vtw.dna.apiinfo.dto.ApiInfoQuery">
+  <select id="findById" resultMap="query">
     SELECT
       A.ID,
       A.NAME,
@@ -116,7 +122,11 @@
       A.MODIFIED_TIME,
       A.ENABLED,
       G.ID AS SERVICE_GROUP_ID,
-      G.NAME AS SERVICE_GROUP_NAME
+      G.NAME AS SERVICE_GROUP_NAME,
+      A.FLOW_ID,
+      A.REQUEST_PARAMETERS,
+      A.RESPONSE_ELEMENTS,
+      A.FLOW_META_YAML
     FROM API_INFO A
     LEFT OUTER JOIN USERS U
       ON A.AUTHOR_ID = U.ID
@@ -133,7 +143,11 @@
       ENABLED,
       AUTHOR_ID,
       MODIFIED_TIME,
-      SERVICE_GROUP_ID
+      SERVICE_GROUP_ID,
+      REQUEST_PARAMETERS,
+      RESPONSE_ELEMENTS,
+      FLOW_ID,
+      FLOW_META_YAML
     ) VALUES (
       #{name},
       #{httpMethod},
@@ -141,19 +155,27 @@
       #{enabled},
       #{authorId},
       now(),
-      #{serviceGroupId}
+      #{serviceGroupId},
+      #{requestParameters, typeHandler=RequestParametersJsonTypeHandler},
+      #{responseElements, typeHandler=ResponseElementsJsonTypeHandler},
+      #{flowId},
+      #{flowMetaYaml}
     )
   </insert>
 
   <update id="update">
     UPDATE API_INFO SET
-      NAME             = #{name},
-      HTTP_METHOD      = #{httpMethod},
-      URL              = #{url},
-      ENABLED          = #{enabled},
-      AUTHOR_ID        = #{authorId},
-      MODIFIED_TIME    = now(),
-      SERVICE_GROUP_ID = #{serviceGroupId}
+      NAME               = #{name},
+      HTTP_METHOD        = #{httpMethod},
+      URL                = #{url},
+      ENABLED            = #{enabled},
+      AUTHOR_ID          = #{authorId},
+      MODIFIED_TIME      = now(),
+      SERVICE_GROUP_ID   = #{serviceGroupId},
+      REQUEST_PARAMETERS = #{requestParameters, typeHandler=RequestParametersJsonTypeHandler},
+      RESPONSE_ELEMENTS  = #{responseElements, typeHandler=ResponseElementsJsonTypeHandler},
+      FLOW_ID            = #{flowId},
+      FLOW_META_YAML     = #{flowMetaYaml}
     WHERE ID = #{id}
   </update>
 

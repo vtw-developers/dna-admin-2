@@ -26,11 +26,11 @@ public class ApiStatsService {
         LocalDate endDate = filter.getEndDate();
 
         List<ApiForStats> apis = repository.findAllApi();
-        List<ApiStatsQuery> stats = repository.findAll();
+        List<ApiStatsQuery> stats = repository.findAll(filter);
 
         List<ApiStatsQuery> allStats = new ArrayList<>();
         for (ApiForStats api : apis) {
-            for (LocalDate date = startDate; date.isBefore(endDate); date = date.plusDays(1)) {
+            for (LocalDate date = startDate; (date.isBefore(endDate) || date.isEqual(endDate)); date = date.plusDays(1)) {
                 ApiStatsQuery query = new ApiStatsQuery();
                 query.setServiceGroup(api.getServiceGroup());
                 query.setApi(api.getApi());
