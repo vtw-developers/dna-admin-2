@@ -19,6 +19,8 @@ public interface BoardRepository {
 
     Optional<BoardQuery> findById(Long id);
 
+    void addViewCount(Long id);
+
     int insert(BoardCommand apiInfo);
 
     int update(BoardCommand apiInfo);

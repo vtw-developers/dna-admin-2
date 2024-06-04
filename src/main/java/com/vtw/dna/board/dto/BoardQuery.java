@@ -7,6 +7,8 @@ import lombok.Data;
 public class BoardQuery extends AuditQuery {
     private Long id;
     private Long boardNo;
+    private Long parentId;
+    private Long viewCount;
     private String title;
     private String content;
     private boolean useYn;

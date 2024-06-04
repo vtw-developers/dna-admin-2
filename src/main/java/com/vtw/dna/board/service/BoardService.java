@@ -28,11 +28,13 @@ public class BoardService {
 
     public BoardQuery find(Long id) throws Exception {
         BoardQuery entity = repository.findById(id).orElseThrow(() -> new NoSuchEntityException("Board", id));
+        repository.addViewCount(id);
         return entity;
     }
 
     public void create(BoardCommand entity) throws Exception {
         entity.setBoardNo(calcBoardNo(entity));
+        entity.setViewCount(0L);
         repository.insert(entity);
     }
 

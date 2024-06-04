@@ -37,9 +37,12 @@
   <select id="findAll" resultType="com.vtw.dna.board.dto.BoardQuery">
     SELECT
       A.ID,
-      A.BOARD_NO,
       A.TITLE,
       A.CONTENT,
+      A.BOARD_NO,
+      A.PARENT_ID,
+      A.VIEW_COUNT,
+      A.USE_YN,
       U.ID AS AUTHOR_ID,
       U.NAME AS AUTHOR_NAME,
       A.MODIFIED_TIME
@@ -89,6 +92,8 @@
       A.BOARD_NO,
       A.TITLE,
       A.CONTENT,
+      A.PARENT_ID,
+      A.VIEW_COUNT,
       A.USE_YN,
       U.ID AS AUTHOR_ID,
       U.NAME AS AUTHOR_NAME,
@@ -107,6 +112,7 @@
       BOARD_NO,
       PARENT_ID,
       USE_YN,
+      VIEW_COUNT,
       AUTHOR_ID,
       MODIFIED_TIME
     ) VALUES (
@@ -116,6 +122,7 @@
       #{boardNo},
       #{parentId},
       #{useYn},
+      #{viewCount},
       #{authorId},
       now()
     )
@@ -129,6 +136,12 @@
       USE_YN = #{useYn},
       AUTHOR_ID = #{authorId},
       MODIFIED_TIME = now()
+    WHERE ID = #{id}
+  </update>
+
+  <update id="addViewCount">
+    UPDATE BOARD SET
+           VIEW_COUNT = VIEW_COUNT + 1
     WHERE ID = #{id}
   </update>
 
