@@ -43,7 +43,7 @@
       A.USE_YN,
       A.COMMENT_YN,
       U.ID AS AUTHOR_ID,
-      U.NAME AS AUTHOR_NAME,
+      U.NAME AS AUTHOR_NAME
     FROM BOARD_MASTER A
     LEFT OUTER JOIN USERS U
       ON A.AUTHOR_ID = U.ID
@@ -115,7 +115,8 @@
       U.NAME AS AUTHOR_NAME,
       A.FILE_ATTACH_YN,
       A.USE_YN,
-      A.REPLY_YN
+      A.REPLY_YN,
+      A.COMMENT_YN
     FROM BOARD_MASTER A
     LEFT OUTER JOIN USERS U
       ON A.AUTHOR_ID = U.ID
@@ -124,11 +125,12 @@
 
   <insert id="insert" useGeneratedKeys="true" keyProperty="id">
     INSERT INTO BOARD_MASTER (
+      ID,
       NAME,
       INSTRUCTION,
-      CODE,
       FILE_ATTACH_YN,
       FILE_COUNT,
+      FILE_MAX_SIZE,
       FILE_MAX_SIZE,
       REPLY_YN,
       USE_YN,
@@ -136,9 +138,9 @@
       AUTHOR_ID,
       MODIFIED_TIME
     ) VALUES (
+      #{id},
       #{name},
       #{instruction},
-      #{code},
       #{fileAttachYn},
       #{fileCount},
       #{fileMaxSize},
@@ -154,7 +156,6 @@
     UPDATE BOARD_MASTER SET
       NAME = #{name},
       INSTRUCTION = #{instruction},
-      CODE = #{code},
       FILE_ATTACH_YN = #{fileAttachYn},
       FILE_COUNT = #{fileCount},
       FILE_MAX_SIZE = #{fileMaxSize},

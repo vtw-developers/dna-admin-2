@@ -1,4 +1,4 @@
-package com.vtw.dna.boardmaster.dto;
+package com.vtw.dna.board.dto;
 
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -6,8 +6,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
 
 @Data
-public class BoardMasterFilter {
-    private String name;
+public class BoardFilter {
+    private Long id;
+    private Long boardMasterId;
+    private String title;
     private String author;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -15,9 +17,4 @@ public class BoardMasterFilter {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endModifiedTime;
-
-    private Boolean useYn;
-    private Boolean replyYn;
-    private Boolean fileAttachYn;
-    private Boolean commentYn;
 }

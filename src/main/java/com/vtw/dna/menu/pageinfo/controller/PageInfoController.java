@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -22,6 +23,12 @@ public class PageInfoController {
     @GetMapping(value = "list")
     public Page<PageInfo> pagingPageInfos(PageInfoFilter filter, Pageable pageable) {
         Page<PageInfo> page = service.list(filter, pageable);
+        return page;
+    }
+
+    @GetMapping(value = "findAll")
+    public List<PageInfo> pageInfos() {
+        List<PageInfo> page = service.findAll();
         return page;
     }
 

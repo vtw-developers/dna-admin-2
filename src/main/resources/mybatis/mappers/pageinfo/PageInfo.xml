@@ -16,7 +16,7 @@
         </where>
     </select>
 
-    <select id="findAll">
+    <select id="pagingList">
         SELECT ID, NAME, PATH
         FROM PAGE_INFO
         <where>
@@ -40,6 +40,11 @@
             </foreach>
         </if>
         OFFSET #{pageable.offset} ROWS FETCH NEXT #{pageable.pageSize} ROWS ONLY
+    </select>
+
+    <select id="findAll">
+        SELECT ID, NAME, PATH
+        FROM PAGE_INFO
     </select>
 
     <select id="findById">

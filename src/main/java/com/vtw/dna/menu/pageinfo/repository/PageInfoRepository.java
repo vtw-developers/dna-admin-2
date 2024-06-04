@@ -12,7 +12,9 @@ import java.util.Optional;
 public interface PageInfoRepository {
     int count(PageInfoFilter filter, Pageable pageable);
 
-    List<PageInfo> findAll(PageInfoFilter filter, Pageable pageable);
+    List<PageInfo> pagingList(PageInfoFilter filter, Pageable pageable);
+
+    List<PageInfo> findAll();
 
     Optional<PageInfo> findById(Long id);
 

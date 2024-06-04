@@ -20,9 +20,14 @@ public class PageInfoService {
 
     public Page<PageInfo> list(PageInfoFilter filter, Pageable pageable) {
         int count = repository.count(filter, pageable);
-        List<PageInfo> list = repository.findAll(filter, pageable);
+        List<PageInfo> list = repository.pagingList(filter, pageable);
         Page<PageInfo> page = Page.<PageInfo>builder().totalCount(count).data(list).build();
         return page;
+    }
+
+    public List<PageInfo> findAll() {
+        List<PageInfo> list = repository.findAll();
+        return list;
     }
 
     public PageInfo find(Long id) {
