@@ -2,10 +2,10 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.vtw.dna.integration.monitor.log.api.repository.ApiLogRepository">
+<mapper namespace="com.vtw.dna.integration.monitor.log.cti.repository.CtiLogRepository">
   <select id="count">
     SELECT COUNT(*)
-    FROM API_LOG A
+    FROM CTI_LOG A
     LEFT OUTER JOIN
     (
       SELECT
@@ -14,7 +14,7 @@
         B.FLOW_ID,
         C.ID AS SERVICE_GROUP_ID,
         C.NAME AS SERVICE_GROUP_NAME
-      FROM API_INFO B
+      FROM CTI_INFO B
       LEFT OUTER JOIN SERVICE_GROUP C
         ON B.SERVICE_GROUP_ID = C.ID
     ) D
@@ -32,8 +32,8 @@
       <if test="filter.serviceGroupId != null">
         AND D.SERVICE_GROUP_ID = #{filter.serviceGroupId}
       </if>
-      <if test="filter.apiInfoId != null">
-        AND D.ID = #{filter.apiInfoId}
+      <if test="filter.ctiInfoId != null">
+        AND D.ID = #{filter.ctiInfoId}
       </if>
     </where>
   </select>
@@ -43,11 +43,11 @@
       A.MESSAGE_ID,
       A.TIMESTAMP,
       A.RESULT,
-      D.ID AS API_INFO_ID,
-      D.NAME AS API_INFO_NAME,
+      D.ID AS CTI_INFO_ID,
+      D.NAME AS CTI_INFO_NAME,
       D.SERVICE_GROUP_ID AS SERVICE_GROUP_ID,
       D.SERVICE_GROUP_NAME AS SERVICE_GROUP_NAME
-    FROM API_LOG A
+    FROM CTI_LOG A
     LEFT OUTER JOIN
       (
         SELECT
@@ -56,7 +56,7 @@
           B.FLOW_ID,
           C.ID AS SERVICE_GROUP_ID,
           C.NAME AS SERVICE_GROUP_NAME
-        FROM API_INFO B
+        FROM CTI_INFO B
         LEFT OUTER JOIN SERVICE_GROUP C
           ON B.SERVICE_GROUP_ID = C.ID
       ) D
@@ -74,8 +74,8 @@
       <if test="filter.serviceGroupId != null">
         AND D.SERVICE_GROUP_ID = #{filter.serviceGroupId}
       </if>
-      <if test="filter.apiInfoId != null">
-        AND D.ID = #{filter.apiInfoId}
+      <if test="filter.ctiInfoId != null">
+        AND D.ID = #{filter.ctiInfoId}
       </if>
     </where>
     ORDER BY TIMESTAMP DESC
@@ -85,7 +85,7 @@
   <select id="findById">
     SELECT
       *
-    FROM API_LOG A
+    FROM CTI_LOG A
     WHERE A.MESSAGE_ID = #{messageId}
   </select>
 </mapper>

@@ -2,14 +2,14 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.vtw.dna.integration.monitor.stats.api.repository.ApiStatsRepository">
+<mapper namespace="com.vtw.dna.integration.monitor.stats.cti.repository.CtiStatsRepository">
   <select id="findAll">
     SELECT
       D.SERVICE_GROUP_NAME AS SERVICE_GROUP,
-      D.NAME AS API,
+      D.NAME AS CTI,
       TIMESTAMP::DATE AS DATE,
       SUM(1) AS COUNT
-    FROM API_LOG A
+    FROM CTI_LOG A
     LEFT OUTER JOIN
       (
         SELECT
@@ -18,7 +18,7 @@
           B.FLOW_ID,
           C.ID AS SERVICE_GROUP_ID,
           C.NAME AS SERVICE_GROUP_NAME
-        FROM API_INFO B
+        FROM CTI_INFO B
         LEFT OUTER JOIN SERVICE_GROUP C
           ON B.SERVICE_GROUP_ID = C.ID
       ) D
@@ -31,14 +31,14 @@
         AND A.TIMESTAMP &lt; #{endDate} + 1
       </if>
     </where>
-    GROUP BY SERVICE_GROUP, API, TIMESTAMP::DATE
+    GROUP BY SERVICE_GROUP, CTI, TIMESTAMP::DATE
   </select>
 
   <select id="findAllApi">
     SELECT
       B.NAME AS SERVICE_GROUP,
-      A.NAME AS API
-    FROM API_INFO A
+      A.NAME AS CTI
+    FROM CTI_INFO A
     LEFT OUTER JOIN SERVICE_GROUP B
     ON A.SERVICE_GROUP_ID = B.ID
   </select>
