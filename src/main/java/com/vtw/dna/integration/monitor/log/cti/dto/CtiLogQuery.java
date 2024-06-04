@@ -1,4 +1,4 @@
-package com.vtw.dna.integration.monitor.log.api.dto;
+package com.vtw.dna.integration.monitor.log.cti.dto;
 
 import com.vtw.dna.integration.monitor.log.ServiceResult;
 import lombok.Data;
@@ -6,7 +6,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class ApiLogQuery {
+public class CtiLogQuery {
     private String messageId;
     private String flowId;
     private LocalDateTime timestamp;
@@ -17,8 +17,8 @@ public class ApiLogQuery {
     private String details;
     private long elapsedTime;
 
-    private Long apiInfoId;
-    private String apiInfoName;
+    private Long ctiInfoId;
+    private String ctiInfoName;
     private Long serviceGroupId;
     private String serviceGroupName;
 }

@@ -1,4 +1,4 @@
-package com.vtw.dna.integration.monitor.log.api;
+package com.vtw.dna.integration.monitor.log;
 
 import java.util.Arrays;
 
