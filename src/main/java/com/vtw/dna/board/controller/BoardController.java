@@ -48,15 +48,16 @@ public class BoardController {
     }
 
     @PostMapping(value = "create")
-    public BoardCommand create(@Valid @RequestPart BoardCommand entity, @RequestPart(required = false) List<MultipartFile> files) throws Exception {
+    public BoardCommand create(@Valid @RequestPart BoardCommand entity, @RequestPart(required = false) List<MultipartFile> files, @RequestPart(required = false) List<String> removeFiles) throws Exception {
         service.create(entity);
-        service.upload(entity.getId(), files);
+        if (files != null) service.upload(entity.getId(), files);
         return entity;
     }
 
     @PostMapping(value = "update")
-    public BoardCommand update(@Valid @RequestPart BoardCommand entity) throws Exception {
+    public BoardCommand update(@Valid @RequestPart BoardCommand entity, @RequestPart(required = false) List<MultipartFile> files) throws Exception {
         service.update(entity);
+        if (files != null) service.upload(entity.getId(), files);
         return entity;
     }
 

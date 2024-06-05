@@ -89,7 +89,6 @@ public class BoardService {
     public void create(BoardCommand entity) throws Exception {
         entity.setBoardNo(calcBoardNo(entity));
         entity.setViewCount(0L);
-        if (entity.getParentId() != 0) entity.setTitle("RE: " + entity.getTitle());
         repository.insert(entity);
     }
 
