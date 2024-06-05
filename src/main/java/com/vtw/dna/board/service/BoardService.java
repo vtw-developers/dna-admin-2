@@ -94,6 +94,15 @@ public class BoardService {
     }
 
     public void upload(Long boardId, List<MultipartFile> files) throws Exception {
+        File cFile = new File(uploadDir);
+
+        if (!cFile.isDirectory()) {
+            boolean _flag = cFile.mkdirs();
+            if (!_flag) {
+                throw new IOException("Directory creation Failed ");
+            }
+        }
+
         for (MultipartFile file : files) {
             String storeFileName = file.getOriginalFilename() + getTimeStamp();
             Path copyOfLocation = Paths.get(uploadDir + File.separator + StringUtils.cleanPath(storeFileName));
