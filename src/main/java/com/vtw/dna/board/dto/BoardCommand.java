@@ -1,13 +1,13 @@
 package com.vtw.dna.board.dto;
 
-import com.vtw.dna.author.LoginUserAuthor;
+import com.vtw.dna.author.SignInAuthor;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Data
-public class BoardCommand implements LoginUserAuthor {
+public class BoardCommand implements SignInAuthor {
     private Long id;
 
     private Long boardMasterId;

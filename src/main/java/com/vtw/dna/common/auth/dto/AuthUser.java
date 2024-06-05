@@ -1,9 +1,9 @@
-package com.vtw.dna.login.dto;
+package com.vtw.dna.common.auth.dto;
 
 import lombok.Data;
 
 @Data
-public class LoginUser {
+public class AuthUser {
 	private String id;
 	private String password;
 	private String name;

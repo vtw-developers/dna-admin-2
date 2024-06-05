@@ -1,20 +1,15 @@
-package com.vtw.dna.login.controller;
+package com.vtw.dna.common.auth.controller;
 
 import com.vtw.dna.common.jwt.EgovJwtTokenUtil;
-import com.vtw.dna.common.jwt.JwtAuthenticationFilter;
 import com.vtw.dna.common.rest.EmptySuccessResponse;
-import com.vtw.dna.common.util.EgovStringUtil;
-import com.vtw.dna.login.dto.LoginResponse;
-import com.vtw.dna.login.dto.LoginUser;
-import com.vtw.dna.login.service.LoginService;
+import com.vtw.dna.common.auth.dto.SignInResponse;
+import com.vtw.dna.common.auth.dto.AuthUser;
+import com.vtw.dna.common.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,16 +18,17 @@ import java.util.HashMap;
 @RequiredArgsConstructor
 @Slf4j
 @RestController
-public class LoginController {
+@RequestMapping("auth")
+public class AuthController {
 
-    private final LoginService loginService;
+    private final AuthService loginService;
     private final EgovJwtTokenUtil jwtTokenUtil;
 
-    @PostMapping(value = "/auth/login-jwt")
-    public LoginResponse login(@RequestBody LoginUser loginVO, HttpServletRequest request, ModelMap model) throws Exception {
+    @PostMapping(value = "/signIn")
+    public SignInResponse login(@RequestBody AuthUser loginVO, HttpServletRequest request, ModelMap model) throws Exception {
         HashMap<String, Object> resultMap = new HashMap<String, Object>();
 
-        LoginUser loginResultVO = loginService.actionLogin(loginVO);
+        AuthUser loginResultVO = loginService.findUser(loginVO);
 
         if (loginResultVO != null && loginResultVO.getId() != null && !loginResultVO.getId().equals("")) {
 
@@ -41,7 +37,7 @@ public class LoginController {
 
             String jwtToken = jwtTokenUtil.generateToken(loginResultVO);
 
-            LoginResponse response = new LoginResponse(jwtToken, loginResultVO.getId(), loginResultVO.getName());
+            SignInResponse response = new SignInResponse(jwtToken, loginResultVO.getId(), loginResultVO.getName());
             request.getSession().setAttribute("LoginVO", loginResultVO);
 
             return response;
@@ -50,27 +46,27 @@ public class LoginController {
         }
     }
 
-    @GetMapping(value = "/auth/logout")
+    @GetMapping(value = "/signOut")
     public EmptySuccessResponse logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
         new SecurityContextLogoutHandler().logout(request, response, null);
         return new EmptySuccessResponse();
     }
 
-    @GetMapping(value = "/auth/refreshToken")
-    public LoginResponse refreshToken(HttpServletRequest request) throws Exception {
+    @GetMapping(value = "/refreshToken")
+    public SignInResponse refreshToken(HttpServletRequest request) throws Exception {
         String HEADER_STRING = "Authorization";
         String token = request.getHeader(HEADER_STRING);
-        LoginUser loginUser = new LoginUser();
+        AuthUser loginUser = new AuthUser();
         loginUser.setId(jwtTokenUtil.getInfoFromToken("id", token));
         loginUser.setName(jwtTokenUtil.getInfoFromToken("name", token));
 
         String newToken = jwtTokenUtil.generateToken(loginUser);
-        LoginResponse response = new LoginResponse(newToken, loginUser.getId(), loginUser.getName());
+        SignInResponse response = new SignInResponse(newToken, loginUser.getId(), loginUser.getName());
         return response;
     }
 
-    @PostMapping(value = "/auth/createAccount")
-    public EmptySuccessResponse createAccount(@RequestBody LoginUser user) throws Exception {
+    @PostMapping(value = "/createAccount")
+    public EmptySuccessResponse createAccount(@RequestBody AuthUser user) throws Exception {
         loginService.createAccount(user);
         return new EmptySuccessResponse();
     }

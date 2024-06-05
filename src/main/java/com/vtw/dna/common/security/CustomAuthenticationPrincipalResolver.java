@@ -1,6 +1,6 @@
 package com.vtw.dna.common.security;
 
-import com.vtw.dna.login.dto.LoginUser;
+import com.vtw.dna.common.auth.dto.AuthUser;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,7 +15,7 @@ public class CustomAuthenticationPrincipalResolver implements HandlerMethodArgum
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         return parameter.hasParameterAnnotation(AuthenticationPrincipal.class) &&
-                parameter.getParameterType().equals(LoginUser.class);
+                parameter.getParameterType().equals(AuthUser.class);
     }
 
     @Override
@@ -27,7 +27,7 @@ public class CustomAuthenticationPrincipalResolver implements HandlerMethodArgum
                 authentication.getPrincipal() == null ||
                 "anonymousUser".equals(authentication.getPrincipal())
         ) {
-            return new LoginUser();
+            return new AuthUser();
         }
 
         return authentication.getPrincipal();
