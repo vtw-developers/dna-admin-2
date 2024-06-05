@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vtw.dna.common.auth.repository.AuthRepository">
+  <select id="selectByIdAndPassword" resultType="com.vtw.dna.common.auth.dto.AuthUser">
+    SELECT * FROM users WHERE id = #{id} and password = #{password}
+  </select>
+
+  <select id="insert" resultType="com.vtw.dna.common.auth.dto.AuthUser">
+    INSERT INTO USERS (
+      ID,
+      NAME,
+      PASSWORD
+    )
+    VALUES (
+      #{id},
+      #{name},
+      #{password}
+    )
+  </select>
+</mapper>

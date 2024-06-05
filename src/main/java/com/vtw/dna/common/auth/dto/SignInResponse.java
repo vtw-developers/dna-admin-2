@@ -1,4 +1,4 @@
-package com.vtw.dna.login.dto;
+package com.vtw.dna.common.auth.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -6,7 +6,7 @@ import lombok.Data;
 
 @AllArgsConstructor
 @Data
-public class LoginResponse {
+public class SignInResponse {
     @JsonProperty("token")
     private String token;
 

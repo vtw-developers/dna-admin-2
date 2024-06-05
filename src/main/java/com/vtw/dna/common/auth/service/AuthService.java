@@ -1,7 +1,7 @@
-package com.vtw.dna.login.service;
+package com.vtw.dna.common.auth.service;
 
-import com.vtw.dna.login.dto.LoginUser;
-import com.vtw.dna.login.repository.LoginRepository;
+import com.vtw.dna.common.auth.dto.AuthUser;
+import com.vtw.dna.common.auth.repository.AuthRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -9,44 +9,38 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class LoginService {
+public class AuthService {
 
 //	@Resource(name = "loginDAO")
 //	private LoginDAO loginDAO;
 
-    private final LoginRepository loginRepository;
+    private final AuthRepository loginRepository;
 
     /**
      * 일반 로그인을 처리한다
      *
-     * @param vo LoginVO
+     * @param user LoginVO
      * @return LoginVO
      * @throws Exception
      */
-    public LoginUser actionLogin(LoginUser vo) throws Exception {
-//		LoginVO loginVO = new LoginVO();
-//		loginVO.setId("test");
-//		loginVO.setPassword("test");
-//		loginVO.setUserSe("USR");
-//		loginVO.setName("우태진");
-//		return loginVO;
+    public AuthUser findUser(AuthUser user) throws Exception {
         // 1. 입력한 비밀번호를 암호화한다.
 //		String enpassword = EgovFileScrty.encryptPassword(vo.getPassword(), vo.getId());
 //		vo.setPassword(enpassword);
-
-        // 2. 아이디와 암호화된 비밀번호가 DB와 일치하는지 확인한다.
-//		LoginVO loginVO = loginDAO.actionLogin(vo);
-
-        LoginUser loginVO = loginRepository.selectByIdAndPassword(vo.getId(), vo.getPassword());
+        AuthUser loginVO = loginRepository.selectByIdAndPassword(user.getId(), user.getPassword());
 
         // 3. 결과를 리턴한다.
         if (loginVO != null && !loginVO.getId().equals("") && !loginVO.getPassword().equals("")) {
             return loginVO;
         } else {
-            loginVO = new LoginUser();
+            loginVO = new AuthUser();
         }
 
         return loginVO;
+    }
+
+    public void createAccount(AuthUser user) throws Exception {
+        loginRepository.insert(user);
     }
 
     /**
@@ -56,7 +50,7 @@ public class LoginService {
      * @return LoginVO
      * @throws Exception
      */
-    public LoginUser searchId(LoginUser vo) throws Exception {
+    public AuthUser searchId(AuthUser vo) throws Exception {
         return null;
 /*		// 1. 이름, 이메일주소가 DB와 일치하는 사용자 ID를 조회한다.
 		LoginVO loginVO = loginDAO.searchId(vo);
@@ -78,7 +72,7 @@ public class LoginService {
      * @return boolean
      * @throws Exception
      */
-    public boolean searchPassword(LoginUser vo) throws Exception {
+    public boolean searchPassword(AuthUser vo) throws Exception {
         return false;
 /*		boolean result = true;
 

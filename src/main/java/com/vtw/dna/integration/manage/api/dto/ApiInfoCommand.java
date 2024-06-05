@@ -1,7 +1,7 @@
 package com.vtw.dna.integration.manage.api.dto;
 
 import com.vtw.dna.integration.manage.api.HttpMethod;
-import com.vtw.dna.author.LoginUserAuthor;
+import com.vtw.dna.author.SignInAuthor;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 @Data
-public class ApiInfoCommand implements LoginUserAuthor {
+public class ApiInfoCommand implements SignInAuthor {
     private Long id;
 
     @Size(max = 100)

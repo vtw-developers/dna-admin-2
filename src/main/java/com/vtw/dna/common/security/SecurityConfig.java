@@ -47,8 +47,8 @@ public class SecurityConfig {
     private String[] AUTH_WHITELIST = {
     		"/",
             "/login/**",
-            "/auth/login-jwt",//JWT 로그인
-            "/auth/login",//일반 로그인
+            "/auth/signIn",
+            "/auth/signOut",
             "/file", //파일 다운로드
 
             /* swagger*/
@@ -58,6 +58,7 @@ public class SecurityConfig {
             "/swagger-ui.html",
             "/swagger-ui/**",
 
+            "/auth/createAccount"
     };
     private static final String[] ORIGINS_WHITELIST = {
             "http://localhost:3000",
