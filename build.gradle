@@ -45,6 +45,8 @@ dependencies {
     implementation 'org.springdoc:springdoc-openapi-ui:1.8.0'
     implementation 'io.jsonwebtoken:jjwt:0.12.5'
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.2'
+    implementation 'commons-io:commons-io:2.11.0'
+    implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
 
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'

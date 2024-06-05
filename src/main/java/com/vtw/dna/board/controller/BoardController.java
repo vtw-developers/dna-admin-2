@@ -9,8 +9,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -33,13 +35,19 @@ public class BoardController {
     }
 
     @PostMapping(value = "create")
-    public BoardCommand create(@Valid @RequestBody BoardCommand entity) throws Exception {
+    public BoardCommand create(@Valid @RequestPart BoardCommand entity, @RequestPart List<MultipartFile> files) throws Exception {
         service.create(entity);
         return entity;
     }
 
+    @PostMapping(value = "upload")
+    public Long upload(@Valid @RequestPart MultipartFile file, @RequestPart Long targetId) throws Exception {
+//        service.create(entity);
+        return targetId;
+    }
+
     @PostMapping(value = "update")
-    public BoardCommand update(@Valid @RequestBody BoardCommand entity) throws Exception {
+    public BoardCommand update(@Valid @RequestPart BoardCommand entity) throws Exception {
         service.update(entity);
         return entity;
     }
