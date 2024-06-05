@@ -128,6 +128,58 @@
     )
   </insert>
 
+  <insert id="upload" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO BOARD_FILE (
+      BOARD_ID,
+      ORIGINAL_FILE_NAME,
+      STORE_FILE_NAME,
+      FILE_PATH,
+      USE_YN,
+      AUTHOR_ID,
+      MODIFIED_TIME
+    ) VALUES (
+               #{boardId},
+               #{originalFileName},
+               #{storeFileName},
+               #{filePath},
+               #{useYn},
+               #{authorId},
+               now()
+             )
+  </insert>
+
+  <select id="selectFileList" resultType="com.vtw.dna.board.dto.BoardFile">
+    SELECT
+        ID,
+        BOARD_ID,
+        ORIGINAL_FILE_NAME,
+        STORE_FILE_NAME,
+        FILE_PATH,
+        USE_YN
+    FROM BOARD_FILE
+    WHERE BOARD_ID = #{boardId}
+      AND USE_YN = 'Y'
+  </select>
+
+  <select id="selectFile" resultType="com.vtw.dna.board.dto.BoardFile">
+    SELECT
+      ID,
+      BOARD_ID,
+      ORIGINAL_FILE_NAME,
+      STORE_FILE_NAME,
+      FILE_PATH,
+      USE_YN
+    FROM BOARD_FILE
+    WHERE ID = #{id}
+      AND USE_YN = 'Y'
+  </select>
+
+  <update id="removeFile">
+    UPDATE BOARD_FILE SET
+      USE_YN = 'N'
+    WHERE ID = #{id}
+  </update>
+
   <update id="update">
     UPDATE BOARD SET
       TITLE = #{title},

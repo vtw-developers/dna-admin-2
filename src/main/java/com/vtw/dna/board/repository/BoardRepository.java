@@ -1,6 +1,7 @@
 package com.vtw.dna.board.repository;
 
 import com.vtw.dna.board.dto.BoardCommand;
+import com.vtw.dna.board.dto.BoardFile;
 import com.vtw.dna.board.dto.BoardFilter;
 import com.vtw.dna.board.dto.BoardQuery;
 import org.apache.ibatis.annotations.Mapper;
@@ -15,15 +16,23 @@ public interface BoardRepository {
 
     Long countByBoardType(Long boardMasterId);
 
+    List<BoardFile> selectFileList(Long boardId);
+
+    BoardFile selectFile(Long boardId);
+
+    void removeFile(Long id);
+
     List<BoardQuery> findAll(BoardFilter filter, Pageable pageable);
 
     Optional<BoardQuery> findById(Long id);
 
     void addViewCount(Long id);
 
-    int insert(BoardCommand apiInfo);
+    int insert(BoardCommand board);
 
-    int update(BoardCommand apiInfo);
+    int upload(BoardFile file);
 
-    int delete(BoardCommand apiInfo);
+    int update(BoardCommand board);
+
+    int delete(BoardCommand board);
 }

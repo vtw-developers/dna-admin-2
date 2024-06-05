@@ -8,9 +8,11 @@ import com.vtw.dna.common.rest.Page;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -34,16 +36,22 @@ public class BoardController {
         return entity;
     }
 
-    @PostMapping(value = "create")
-    public BoardCommand create(@Valid @RequestPart BoardCommand entity, @RequestPart List<MultipartFile> files) throws Exception {
-        service.create(entity);
-        return entity;
+    @GetMapping(value = "download")
+    public ResponseEntity download(@RequestParam Long id, HttpServletResponse response) throws Exception {
+        return service.download(id, response);
     }
 
-    @PostMapping(value = "upload")
-    public Long upload(@Valid @RequestPart MultipartFile file, @RequestPart Long targetId) throws Exception {
-//        service.create(entity);
-        return targetId;
+    @GetMapping(value = "remove-file")
+    public Long removeFile(@RequestParam Long id) throws Exception {
+        service.removeFile(id);
+        return id;
+    }
+
+    @PostMapping(value = "create")
+    public BoardCommand create(@Valid @RequestPart BoardCommand entity, @RequestPart(required = false) List<MultipartFile> files) throws Exception {
+        service.create(entity);
+        service.upload(entity.getId(), files);
+        return entity;
     }
 
     @PostMapping(value = "update")
