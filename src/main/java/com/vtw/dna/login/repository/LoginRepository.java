@@ -6,4 +6,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface LoginRepository {
     LoginUser selectByIdAndPassword(String id, String password);
+
+    void insert(LoginUser loginUser);
 }

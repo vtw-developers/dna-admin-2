@@ -6,4 +6,17 @@
   <select id="selectByIdAndPassword" resultType="com.vtw.dna.login.dto.LoginUser">
     SELECT * FROM users WHERE id = #{id} and password = #{password}
   </select>
+
+  <select id="insert" resultType="com.vtw.dna.login.dto.LoginUser">
+    INSERT INTO USERS (
+      ID,
+      NAME,
+      PASSWORD
+    )
+    VALUES (
+      #{id},
+      #{name},
+      #{password}
+    )
+  </select>
 </mapper>

@@ -58,6 +58,7 @@ public class SecurityConfig {
             "/swagger-ui.html",
             "/swagger-ui/**",
 
+            "/auth/createAccount"
     };
     private static final String[] ORIGINS_WHITELIST = {
             "http://localhost:3000",

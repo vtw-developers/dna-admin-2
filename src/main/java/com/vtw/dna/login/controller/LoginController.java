@@ -42,16 +42,12 @@ public class LoginController {
             String jwtToken = jwtTokenUtil.generateToken(loginResultVO);
 
             LoginResponse response = new LoginResponse(jwtToken, loginResultVO.getId(), loginResultVO.getName());
-
-//			String username = jwtTokenUtil.getUserSeFromToken(jwtToken);
-//			log.debug("Dec jwtToken username = "+username);
             request.getSession().setAttribute("LoginVO", loginResultVO);
 
             return response;
         } else {
             throw new RuntimeException("로그인 실패");
         }
-
     }
 
     @GetMapping(value = "/auth/logout")
@@ -71,5 +67,11 @@ public class LoginController {
         String newToken = jwtTokenUtil.generateToken(loginUser);
         LoginResponse response = new LoginResponse(newToken, loginUser.getId(), loginUser.getName());
         return response;
+    }
+
+    @PostMapping(value = "/auth/createAccount")
+    public EmptySuccessResponse createAccount(@RequestBody LoginUser user) throws Exception {
+        loginService.createAccount(user);
+        return new EmptySuccessResponse();
     }
 }
