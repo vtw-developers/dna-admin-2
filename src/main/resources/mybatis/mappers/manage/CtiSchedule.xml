@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vtw.dna.integration.manage.schedule.repository.CtiScheduleRepository">
+  <resultMap id="query" type="com.vtw.dna.integration.manage.schedule.dto.CtiScheduleQuery">
+  </resultMap>
+
+  <select id="count">
+    SELECT COUNT(*)
+    FROM CTI_INFO A
+    LEFT OUTER JOIN CTI_SCHEDULE B
+    ON A.ID = B.CTI_INFO_ID
+    LEFT OUTER JOIN SERVICE_GROUP C
+    ON A.SERVICE_GROUP_ID = C.ID
+  </select>
+
+  <select id="findAll" resultMap="query">
+    SELECT
+      A.ID AS CTI_INFO_ID,
+      A.NAME AS CTI_INFO_NAME,
+      B.CRON_EXPR AS CRON_EXPR,
+      C.NAME AS SERVICE_GROUP_NAME
+    FROM CTI_INFO A
+    LEFT OUTER JOIN CTI_SCHEDULE B
+      ON A.ID = B.CTI_INFO_ID
+    LEFT OUTER JOIN SERVICE_GROUP C
+      ON A.SERVICE_GROUP_ID = C.ID
+    OFFSET #{pageable.offset} ROWS FETCH NEXT #{pageable.pageSize} ROWS ONLY
+  </select>
+
+  <select id="findByCtiInfoId" resultMap="query">
+    SELECT
+      ID,
+      CTI_INFO_ID
+    FROM CTI_SCHEDULE
+    WHERE CTI_INFO_ID = #{ctiInfoId}
+  </select>
+
+  <insert id="insert">
+    INSERT INTO CTI_SCHEDULE (
+      CTI_INFO_ID,
+      CRON_EXPR
+    ) VALUES (
+       #{ctiInfoId},
+       #{cronExpr}
+     )
+  </insert>
+
+  <update id="update">
+    UPDATE CTI_SCHEDULE SET
+      CRON_EXPR = #{cronExpr}
+    WHERE ID = #{scheduleId}
+  </update>
+</mapper>

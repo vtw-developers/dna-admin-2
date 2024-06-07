@@ -53,7 +53,7 @@ public class PageInfoService {
     public void validate(PageInfo entity) {
         boolean existsByName = existsByName(entity.getName());
         if (existsByName) {
-            throw new EntityAlreadyExistsException("PageInfo", "name", entity.getName());
+           // throw new EntityAlreadyExistsException("PageInfo", "name", entity.getName());
         }
     }
 
