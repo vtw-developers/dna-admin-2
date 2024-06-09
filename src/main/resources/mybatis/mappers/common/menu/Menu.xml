@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vtw.dna.common.menu.repository.MenuRepository">
+    <select id="findAll">
+        SELECT MENU_ID, NAME, TYPE, ICON, PAGE_INFO_ID, UPPER_MENU_ID, INDEX
+        FROM MENU
+    </select>
+
+    <select id="findViewAll">
+        SELECT M.MENU_ID,
+               M.NAME,
+               M.TYPE,
+               M.ICON,
+               P.NAME AS PAGE_INFO_NAME,
+               P.PATH AS PAGE_INFO_PATH,
+               P.ID   AS PAGE_INFO_ID,
+               M.UPPER_MENU_ID,
+               M.INDEX
+        FROM MENU M
+                 LEFT OUTER JOIN PAGE_INFO P
+                                 ON M.PAGE_INFO_ID = P.ID
+        ORDER BY INDEX ASC
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO MENU (MENU_ID, NAME, TYPE, ICON, PAGE_INFO_ID, UPPER_MENU_ID, INDEX)
+        VALUES (#{menuId}, #{name}, #{type}, #{icon}, #{pageInfoId}, #{upperMenuId}, #{index})
+    </insert>
+
+    <delete id="deleteAll">
+        DELETE
+        FROM MENU
+    </delete>
+</mapper>

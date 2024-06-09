@@ -1,6 +1,6 @@
 package com.vtw.dna.common.auth.controller;
 
-import com.vtw.dna.common.jwt.EgovJwtTokenUtil;
+import com.vtw.dna.common.auth.jwt.EgovJwtTokenUtil;
 import com.vtw.dna.common.rest.EmptySuccessResponse;
 import com.vtw.dna.common.auth.dto.SignInResponse;
 import com.vtw.dna.common.auth.dto.AuthUser;

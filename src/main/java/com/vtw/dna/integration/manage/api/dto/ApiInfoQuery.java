@@ -1,7 +1,7 @@
 package com.vtw.dna.integration.manage.api.dto;
 
 import com.vtw.dna.integration.manage.api.HttpMethod;
-import com.vtw.dna.author.AuditQuery;
+import com.vtw.dna.common.author.AuditQuery;
 import lombok.Data;
 
 import java.util.ArrayList;

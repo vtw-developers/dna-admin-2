@@ -1,7 +1,7 @@
 package com.vtw.dna.integration.manage.cti.service;
 
-import com.vtw.dna.common.rest.EntityAlreadyExistsException;
-import com.vtw.dna.common.rest.NoSuchEntityException;
+import com.vtw.dna.common.exception.EntityAlreadyExistsException;
+import com.vtw.dna.common.exception.NoSuchEntityException;
 import com.vtw.dna.common.rest.Page;
 import com.vtw.dna.integration.manage.cti.dto.CtiInfoCommand;
 import com.vtw.dna.integration.manage.cti.dto.CtiInfoFilter;

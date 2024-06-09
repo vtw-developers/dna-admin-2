@@ -1,6 +1,6 @@
 package com.vtw.dna.integration.manage.schedule.service;
 
-import com.vtw.dna.common.rest.NoSuchEntityException;
+import com.vtw.dna.common.exception.NoSuchEntityException;
 import com.vtw.dna.common.rest.Page;
 import com.vtw.dna.integration.manage.cti.dto.CtiInfoQuery;
 import com.vtw.dna.integration.manage.cti.repository.CtiInfoRepository;

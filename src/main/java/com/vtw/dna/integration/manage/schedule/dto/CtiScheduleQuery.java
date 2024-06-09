@@ -1,6 +1,6 @@
 package com.vtw.dna.integration.manage.schedule.dto;
 
-import com.vtw.dna.author.AuditQuery;
+import com.vtw.dna.common.author.AuditQuery;
 import lombok.Data;
 
 @Data

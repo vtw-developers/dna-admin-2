@@ -1,6 +1,6 @@
 package com.vtw.dna.integration.monitor.stats.api.service;
 
-import com.vtw.dna.common.rest.NoSuchEntityException;
+import com.vtw.dna.common.exception.NoSuchEntityException;
 import com.vtw.dna.integration.monitor.stats.api.dto.ApiForStats;
 import com.vtw.dna.integration.monitor.stats.api.dto.ApiStatsFilter;
 import com.vtw.dna.integration.monitor.stats.api.dto.ApiStatsQuery;

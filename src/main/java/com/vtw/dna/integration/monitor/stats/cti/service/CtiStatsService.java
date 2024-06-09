@@ -1,6 +1,6 @@
 package com.vtw.dna.integration.monitor.stats.cti.service;
 
-import com.vtw.dna.common.rest.NoSuchEntityException;
+import com.vtw.dna.common.exception.NoSuchEntityException;
 import com.vtw.dna.integration.monitor.stats.cti.dto.CtiForStats;
 import com.vtw.dna.integration.monitor.stats.cti.dto.CtiStatsFilter;
 import com.vtw.dna.integration.monitor.stats.cti.dto.CtiStatsQuery;

@@ -1,6 +1,6 @@
 package com.vtw.dna.integration.manage.cti.dto;
 
-import com.vtw.dna.author.SignInAuthor;
+import com.vtw.dna.common.author.SignInAuthor;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;

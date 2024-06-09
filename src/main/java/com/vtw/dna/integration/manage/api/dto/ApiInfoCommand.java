@@ -1,7 +1,7 @@
 package com.vtw.dna.integration.manage.api.dto;
 
 import com.vtw.dna.integration.manage.api.HttpMethod;
-import com.vtw.dna.author.SignInAuthor;
+import com.vtw.dna.common.author.SignInAuthor;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
