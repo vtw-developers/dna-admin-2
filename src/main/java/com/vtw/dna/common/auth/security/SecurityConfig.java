@@ -35,6 +35,7 @@ public class SecurityConfig {
     private String[] AUTH_GET_WHITELIST = {
     		"/mainPage", //메인 화면 리스트 조회
     		"/board", // 게시판 목록조회
+    		"/board/list", // 게시판 목록조회
     		"/board/{bbsId}/{nttId}", // 게시물 상세조회
     		"/boardFileAtch/{bbsId}", //게시판 파일 첨부가능 여부 조회
             "/schedule/daily", //일별 일정 조회
