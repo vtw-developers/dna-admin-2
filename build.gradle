@@ -2,7 +2,6 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '2.7.12'
     id 'io.spring.dependency-management' version '1.1.4'
-    id 'org.javamodularity.moduleplugin' version '1.8.15'
 }
 
 group = 'com.vtw.dna'
@@ -48,9 +47,6 @@ dependencies {
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.2'
     implementation 'commons-io:commons-io:2.11.0'
     implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
-    implementation 'org.graalvm.polyglot:polyglot:24.0.1'
-    implementation 'org.graalvm.polyglot:python:24.0.1'
-    implementation 'org.graalvm.polyglot:js:24.0.1'
 
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'
