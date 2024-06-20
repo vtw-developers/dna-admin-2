@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 
 @Data
 public class BoardCommand implements SignInAuthor {
@@ -25,5 +26,17 @@ public class BoardCommand implements SignInAuthor {
     private Long viewCount;
 
     private Boolean useYn;
+
+    private Boolean pinYn;
+
+    private Boolean popupYn;
+
+    private LocalDateTime pinStartTime;
+
+    private LocalDateTime pinEndTime;
+
+    private LocalDateTime popupStartTime;
+
+    private LocalDateTime popupEndTime;
 
 }

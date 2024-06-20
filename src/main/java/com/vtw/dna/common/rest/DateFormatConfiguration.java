@@ -15,7 +15,7 @@ import java.util.TimeZone;
 public class DateFormatConfiguration {
 
     private static final String dateFormat = "yyyy-MM-dd";
-    private static final String datetimeFormat = "yyyy-MM-dd HH:mm:ss.SSSSS";
+    private static final String datetimeFormat = "yyyy-MM-dd HH:mm:ss";
 
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {

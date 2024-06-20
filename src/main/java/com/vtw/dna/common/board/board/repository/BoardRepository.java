@@ -24,6 +24,8 @@ public interface BoardRepository {
 
     List<BoardQuery> findAll(BoardFilter filter, Pageable pageable);
 
+    List<BoardQuery> findPinAll(Long boardMasterId);
+
     Optional<BoardQuery> findById(Long id);
 
     void addViewCount(Long id);

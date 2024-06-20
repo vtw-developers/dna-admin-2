@@ -30,6 +30,8 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @Service
@@ -41,7 +43,12 @@ public class BoardService {
     public Page<BoardQuery> list(BoardFilter filter, Pageable pageable) throws Exception {
         int count = repository.count(filter, pageable);
         List<BoardQuery> list = repository.findAll(filter, pageable);
-        Page<BoardQuery> page = Page.<BoardQuery>builder().totalCount(count).data(list).build();
+        List<BoardQuery> pinList = repository.findPinAll(filter.getBoardMasterId());
+        list.removeAll(pinList);
+        list.forEach(e -> e.setPinYn(false));
+        List<BoardQuery> joined = Stream.concat(pinList.stream(), list.stream())
+          .collect(Collectors.toList());
+        Page<BoardQuery> page = Page.<BoardQuery>builder().totalCount(count).data(joined).build();
         return page;
     }
 

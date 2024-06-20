@@ -3,198 +3,254 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.vtw.dna.common.board.board.repository.BoardRepository">
-  <select id="count">
-    SELECT COUNT(*)
-    FROM BOARD A
-    LEFT OUTER JOIN USERS U
-      ON A.AUTHOR_ID = U.ID
-    <where>
-      <if test="filter.title != null and filter.title != ''">
-        AND A.TITLE LIKE '%' || #{filter.title} || '%'
-      </if>
-      <if test="filter.startModifiedTime != null">
-        AND A.MODIFIED_TIME &gt;= #{filter.startModifiedTime}
-      </if>
-      <if test="filter.endModifiedTime != null">
-        AND A.MODIFIED_TIME &lt;= #{filter.endModifiedTime}
-      </if>
-      <if test="filter.author != null and filter.author != ''">
-        AND U.AUTHOR LIKE '%' || #{filter.author} || '%'
-      </if>
-      AND A.USE_YN = 'Y'
-      AND A.BOARD_MASTER_ID  =  #{filter.boardMasterId}
-    </where>
-  </select>
+    <select id="count">
+        SELECT COUNT(*)
+        FROM BOARD A
+        LEFT OUTER JOIN USERS U
+        ON A.AUTHOR_ID = U.ID
+        <where>
+            <if test="filter.title != null and filter.title != ''">
+                AND A.TITLE LIKE '%' || #{filter.title} || '%'
+            </if>
+            <if test="filter.startModifiedTime != null">
+                AND A.MODIFIED_TIME &gt;= #{filter.startModifiedTime}
+            </if>
+            <if test="filter.endModifiedTime != null">
+                AND A.MODIFIED_TIME &lt;= #{filter.endModifiedTime}
+            </if>
+            <if test="filter.author != null and filter.author != ''">
+                AND U.AUTHOR LIKE '%' || #{filter.author} || '%'
+            </if>
+            AND A.USE_YN = 'Y'
+            AND A.BOARD_MASTER_ID = #{filter.boardMasterId}
+        </where>
+    </select>
 
-  <select id="countByBoardType">
-    SELECT COUNT(*)
-    FROM BOARD
-    <where>
-      BOARD_MASTER_ID  =  #{boardMasterId}
-    </where>
-  </select>
+    <select id="countByBoardType">
+        SELECT COUNT(*)
+        FROM BOARD
+        <where>
+            BOARD_MASTER_ID = #{boardMasterId}
+        </where>
+    </select>
 
-  <select id="findAll" resultType="com.vtw.dna.common.board.board.dto.BoardQuery">
-    SELECT
-      A.ID,
-      A.TITLE,
-      A.CONTENT,
-      A.BOARD_NO,
-      A.PARENT_ID,
-      A.VIEW_COUNT,
-      A.USE_YN,
-      U.ID AS AUTHOR_ID,
-      U.NAME AS AUTHOR_NAME,
-      A.MODIFIED_TIME
-    FROM BOARD A
-    LEFT OUTER JOIN USERS U
-      ON A.AUTHOR_ID = U.ID
-    <where>
-      <if test="filter.title != null and filter.title != ''">
-        AND A.TITLE LIKE '%' || #{filter.title} || '%'
-      </if>
-      <if test="filter.startModifiedTime != null">
-        AND A.MODIFIED_TIME &gt;= #{filter.startModifiedTime}
-      </if>
-      <if test="filter.endModifiedTime != null">
-        AND A.MODIFIED_TIME &lt;= #{filter.endModifiedTime}
-      </if>
-      <if test="filter.author != null and filter.author != ''">
-        AND U.AUTHOR LIKE '%' || #{filter.author} || '%'
-      </if>
-      AND A.USE_YN = 'Y'
-      AND A.BOARD_MASTER_ID  =  #{filter.boardMasterId}
-    </where>
-    <if test="pageable.sort != null and !pageable.sort.isEmpty()">
-      ORDER BY
-      <foreach collection="pageable.sort" item="order" separator=",">
-        <if test="order.property == 'title'">
-          A.TITLE
+    <select id="findAll" resultType="com.vtw.dna.common.board.board.dto.BoardQuery">
+        SELECT
+        A.ID,
+        A.TITLE,
+        A.CONTENT,
+        A.BOARD_NO,
+        A.PARENT_ID,
+        A.VIEW_COUNT,
+        A.USE_YN,
+        A.PIN_START_TIME,
+        A.PIN_END_TIME,
+        A.PIN_YN,
+        A.POPUP_START_TIME,
+        A.POPUP_END_TIME,
+        A.POPUP_YN,
+        U.ID AS AUTHOR_ID,
+        U.NAME AS AUTHOR_NAME,
+        A.MODIFIED_TIME
+        FROM BOARD A
+        LEFT OUTER JOIN USERS U
+        ON A.AUTHOR_ID = U.ID
+        <where>
+            <if test="filter.title != null and filter.title != ''">
+                AND A.TITLE LIKE '%' || #{filter.title} || '%'
+            </if>
+            <if test="filter.startModifiedTime != null">
+                AND A.MODIFIED_TIME &gt;= #{filter.startModifiedTime}
+            </if>
+            <if test="filter.endModifiedTime != null">
+                AND A.MODIFIED_TIME &lt;= #{filter.endModifiedTime}
+            </if>
+            <if test="filter.author != null and filter.author != ''">
+                AND U.AUTHOR LIKE '%' || #{filter.author} || '%'
+            </if>
+            AND A.USE_YN = 'Y'
+            AND A.BOARD_MASTER_ID = #{filter.boardMasterId}
+        </where>
+        <if test="pageable.sort != null and !pageable.sort.isEmpty()">
+            ORDER BY
+            <foreach collection="pageable.sort" item="order" separator=",">
+                <if test="order.property == 'boardNo'">
+                    A.BOARD_NO
+                </if>
+                <if test="order.property == 'title'">
+                    A.TITLE
+                </if>
+                <if test="order.property == 'authorName'">
+                    U.NAME
+                </if>
+                <if test="order.property == 'modifiedTime'">
+                    A.MODIFIED_TIME
+                </if>
+                ${order.direction}
+            </foreach>
         </if>
-        <if test="order.property == 'boardNo'">
-          A.BOARD_NO
-        </if>
-        <if test="order.property == 'authorName'">
-          U.NAME
-        </if>
-        <if test="order.property == 'modifiedTime'">
-          A.MODIFIED_TIME
-        </if>
-        ${order.direction}
-      </foreach>
-    </if>
-    OFFSET #{pageable.offset} ROWS FETCH NEXT #{pageable.pageSize} ROWS ONLY
-  </select>
+        OFFSET #{pageable.offset} ROWS FETCH NEXT #{pageable.pageSize} ROWS ONLY
+    </select>
 
-  <select id="findById" resultType="com.vtw.dna.common.board.board.dto.BoardQuery">
-    SELECT
-      A.ID,
-      A.BOARD_NO,
-      A.TITLE,
-      A.CONTENT,
-      A.PARENT_ID,
-      A.VIEW_COUNT,
-      A.USE_YN,
-      U.ID AS AUTHOR_ID,
-      U.NAME AS AUTHOR_NAME,
-      A.MODIFIED_TIME
-    FROM BOARD A
-    LEFT OUTER JOIN USERS U
-      ON A.AUTHOR_ID = U.ID
-    WHERE A.ID = #{id}
-  </select>
+    <select id="findPinAll" resultType="com.vtw.dna.common.board.board.dto.BoardQuery">
+        SELECT
+        A.ID,
+        A.TITLE,
+        A.CONTENT,
+        A.BOARD_NO,
+        A.PARENT_ID,
+        A.VIEW_COUNT,
+        A.USE_YN,
+        A.PIN_START_TIME,
+        A.PIN_END_TIME,
+        A.PIN_YN,
+        A.POPUP_START_TIME,
+        A.POPUP_END_TIME,
+        A.POPUP_YN,
+        U.ID AS AUTHOR_ID,
+        U.NAME AS AUTHOR_NAME,
+        A.MODIFIED_TIME
+        FROM BOARD A
+        LEFT OUTER JOIN USERS U
+        ON A.AUTHOR_ID = U.ID
+        <where>
+            AND A.PIN_YN = 'Y'
+            <![CDATA[
+               AND (A.PIN_START_TIME <= now() OR A.PIN_START_TIME is null)
+               AND (A.PIN_END_TIME >= now() OR A.PIN_END_TIME is null)
+            ]]>
+            AND A.BOARD_MASTER_ID = #{boardMasterId}
+        </where>
+    </select>
 
-  <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-    INSERT INTO BOARD (
-      BOARD_MASTER_ID,
-      TITLE,
-      CONTENT,
-      BOARD_NO,
-      PARENT_ID,
-      USE_YN,
-      VIEW_COUNT,
-      AUTHOR_ID,
-      MODIFIED_TIME
-    ) VALUES (
-      #{boardMasterId},
-      #{title},
-      #{content},
-      #{boardNo},
-      #{parentId},
-      #{useYn},
-      #{viewCount},
-      #{authorId},
-      now()
-    )
-  </insert>
+    <select id="findById" resultType="com.vtw.dna.common.board.board.dto.BoardQuery">
+        SELECT A.ID,
+               A.BOARD_NO,
+               A.TITLE,
+               A.CONTENT,
+               A.PARENT_ID,
+               A.VIEW_COUNT,
+               A.USE_YN,
+               A.PIN_YN,
+               A.POPUP_YN,
+               A.PIN_START_TIME,
+               A.PIN_END_TIME,
+               A.POPUP_START_TIME,
+               A.POPUP_END_TIME,
+               U.ID   AS AUTHOR_ID,
+               U.NAME AS AUTHOR_NAME,
+               A.MODIFIED_TIME
+        FROM BOARD A
+                 LEFT OUTER JOIN USERS U
+                                 ON A.AUTHOR_ID = U.ID
+        WHERE A.ID = #{id}
+    </select>
 
-  <insert id="upload" useGeneratedKeys="true" keyProperty="id">
-    INSERT INTO BOARD_FILE (
-      BOARD_ID,
-      ORIGINAL_FILE_NAME,
-      STORE_FILE_NAME,
-      FILE_PATH,
-      USE_YN,
-      AUTHOR_ID,
-      MODIFIED_TIME
-    ) VALUES (
-               #{boardId},
-               #{originalFileName},
-               #{storeFileName},
-               #{filePath},
-               #{useYn},
-               #{authorId},
-               now()
-             )
-  </insert>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO BOARD (BOARD_MASTER_ID,
+                           TITLE,
+                           CONTENT,
+                           BOARD_NO,
+                           PARENT_ID,
+                           USE_YN,
+                           PIN_YN,
+                           POPUP_YN,
+                           PIN_START_TIME,
+                           PIN_END_TIME,
+                           POPUP_START_TIME,
+                           POPUP_END_TIME,
+                           VIEW_COUNT,
+                           AUTHOR_ID,
+                           MODIFIED_TIME)
+        VALUES (#{boardMasterId},
+                #{title},
+                #{content},
+                #{boardNo},
+                #{parentId},
+                #{useYn},
+                #{pinYn},
+                #{popupYn},
+                #{pinStartTime},
+                #{pinEndTime},
+                #{popupStartTime},
+                #{popupEndTime},
+                #{viewCount},
+                #{authorId},
+                now())
+    </insert>
 
-  <select id="selectFileList" resultType="com.vtw.dna.common.board.board.dto.BoardFile">
-    SELECT
-        ID,
-        BOARD_ID,
-        ORIGINAL_FILE_NAME,
-        STORE_FILE_NAME,
-        FILE_PATH,
-        USE_YN
-    FROM BOARD_FILE
-    WHERE BOARD_ID = #{boardId}
-      AND USE_YN = 'Y'
-  </select>
+    <insert id="upload" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO BOARD_FILE (BOARD_ID,
+                                ORIGINAL_FILE_NAME,
+                                STORE_FILE_NAME,
+                                FILE_PATH,
+                                USE_YN,
+                                AUTHOR_ID,
+                                MODIFIED_TIME)
+        VALUES (#{boardId},
+                #{originalFileName},
+                #{storeFileName},
+                #{filePath},
+                #{useYn},
+                #{pinStartTime},
+                #{pinEndTime},
+                #{popupStartTime},
+                #{popupEndTime},
+                #{authorId},
+                now())
+    </insert>
 
-  <select id="selectFile" resultType="com.vtw.dna.common.board.board.dto.BoardFile">
-    SELECT
-      ID,
-      BOARD_ID,
-      ORIGINAL_FILE_NAME,
-      STORE_FILE_NAME,
-      FILE_PATH,
-      USE_YN
-    FROM BOARD_FILE
-    WHERE ID = #{id}
-      AND USE_YN = 'Y'
-  </select>
+    <select id="selectFileList" resultType="com.vtw.dna.common.board.board.dto.BoardFile">
+        SELECT ID,
+               BOARD_ID,
+               ORIGINAL_FILE_NAME,
+               STORE_FILE_NAME,
+               FILE_PATH,
+               USE_YN
+        FROM BOARD_FILE
+        WHERE BOARD_ID = #{boardId}
+          AND USE_YN = 'Y'
+    </select>
 
-  <update id="removeFile">
-    UPDATE BOARD_FILE SET
-      USE_YN = 'N'
-    WHERE ID = #{id}
-  </update>
+    <select id="selectFile" resultType="com.vtw.dna.common.board.board.dto.BoardFile">
+        SELECT ID,
+               BOARD_ID,
+               ORIGINAL_FILE_NAME,
+               STORE_FILE_NAME,
+               FILE_PATH,
+               USE_YN
+        FROM BOARD_FILE
+        WHERE ID = #{id}
+          AND USE_YN = 'Y'
+    </select>
 
-  <update id="update">
-    UPDATE BOARD SET
-      TITLE = #{title},
-      CONTENT = #{content},
-      PARENT_ID = #{parentId},
-      USE_YN = #{useYn},
-      AUTHOR_ID = #{authorId},
-      MODIFIED_TIME = now()
-    WHERE ID = #{id}
-  </update>
+    <update id="removeFile">
+        UPDATE BOARD_FILE
+        SET USE_YN = 'N'
+        WHERE ID = #{id}
+    </update>
 
-  <update id="addViewCount">
-    UPDATE BOARD SET
-           VIEW_COUNT = VIEW_COUNT + 1
-    WHERE ID = #{id}
-  </update>
+    <update id="update">
+        UPDATE BOARD
+        SET TITLE            = #{title},
+            CONTENT          = #{content},
+            PARENT_ID        = #{parentId},
+            USE_YN           = #{useYn},
+            PIN_YN           = #{pinYn},
+            POPUP_YN         = #{popupYn},
+            PIN_START_TIME   = #{pinStartTime},
+            PIN_END_TIME     = #{pinEndTime},
+            POPUP_START_TIME = #{popupStartTime},
+            POPUP_END_TIME   = #{popupStartTime},
+            AUTHOR_ID        = #{authorId},
+            MODIFIED_TIME    = now()
+        WHERE ID = #{id}
+    </update>
+
+    <update id="addViewCount">
+        UPDATE BOARD
+        SET VIEW_COUNT = VIEW_COUNT + 1
+        WHERE ID = #{id}
+    </update>
 
 </mapper>
