@@ -28,4 +28,8 @@ public class BoardMasterCommand implements SignInAuthor {
 
     private Boolean commentYn;
 
+    private Boolean pinYn;
+
+    private Boolean popupYn;
+
 }

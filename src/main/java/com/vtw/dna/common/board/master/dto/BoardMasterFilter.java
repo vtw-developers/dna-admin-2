@@ -20,4 +20,6 @@ public class BoardMasterFilter {
     private Boolean replyYn;
     private Boolean fileAttachYn;
     private Boolean commentYn;
+    private Boolean pinYn;
+    private Boolean popupYn;
 }

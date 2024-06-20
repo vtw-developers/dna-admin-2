@@ -42,6 +42,8 @@
       A.REPLY_YN,
       A.USE_YN,
       A.COMMENT_YN,
+      A.PIN_YN,
+      A.POPUP_YN,
       U.ID AS AUTHOR_ID,
       U.NAME AS AUTHOR_NAME
     FROM BOARD_MASTER A
@@ -68,6 +70,12 @@
       </if>
       <if test="filter.commentYn != null">
         AND A.COMMENT_YN = #{filter.commentYn, typeHandler=BooleanToYnTypeHandler}
+      </if>
+      <if test="filter.pinYn != null">
+        AND A.PIN_YN = #{filter.pinYn, typeHandler=BooleanToYnTypeHandler}
+      </if>
+      <if test="filter.popupYn != null">
+        AND A.POPUP_YN = #{filter.popupYn, typeHandler=BooleanToYnTypeHandler}
       </if>
       <if test="filter.fileAttachYn != null">
         AND A.FILE_ATTACH_YN = #{filter.fileAttachYn, typeHandler=BooleanToYnTypeHandler}
@@ -97,6 +105,12 @@
         <if test="order.property == 'commentYn'">
             A.COMMENT_YN
         </if>
+        <if test="order.property == 'pinYn'">
+            A.PIN_YN
+        </if>
+        <if test="order.property == 'popupYn'">
+            A.POPUP_YN
+        </if>
         <if test="order.property == 'fileAttachYn'">
           A.FILE_ATTACH_YN
         </if>
@@ -116,7 +130,9 @@
       A.FILE_ATTACH_YN,
       A.USE_YN,
       A.REPLY_YN,
-      A.COMMENT_YN
+      A.COMMENT_YN,
+      A.PIN_YN,
+      A.POPUP_YN
     FROM BOARD_MASTER A
     LEFT OUTER JOIN USERS U
       ON A.AUTHOR_ID = U.ID
@@ -135,6 +151,8 @@
       REPLY_YN,
       USE_YN,
       COMMENT_YN,
+      PIN_YN,
+      POPUP_YN,
       AUTHOR_ID,
       MODIFIED_TIME
     ) VALUES (
@@ -147,6 +165,8 @@
       #{replyYn},
       #{useYn},
       #{commentYn},
+      #{pinYn},
+      #{popupYn},
       #{authorId},
       now()
     )
@@ -162,6 +182,8 @@
       REPLY_YN = #{replyYn},
       USE_YN = #{useYn},
       COMMENT_YN = #{commentYn},
+      PIN_YN = #{pinYn},
+      POPUP_YN = #{popupYn},
       AUTHOR_ID = #{authorId},
       MODIFIED_TIME = now()
     WHERE ID = #{id}

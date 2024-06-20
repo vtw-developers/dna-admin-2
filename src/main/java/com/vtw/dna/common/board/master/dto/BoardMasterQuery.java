@@ -12,4 +12,6 @@ public class BoardMasterQuery extends AuditQuery {
     private Boolean replyYn;
     private Boolean useYn;
     private Boolean commentYn;
+    private Boolean pinYn;
+    private Boolean popupYn;
 }
