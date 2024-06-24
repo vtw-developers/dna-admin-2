@@ -36,6 +36,12 @@ public class BoardController {
         return entity;
     }
 
+    @GetMapping(value = "find-popup-list")
+    public List<BoardQuery> findPopupList() throws Exception {
+        List<BoardQuery> list = service.popupList();
+        return list;
+    }
+
     @GetMapping(value = "download")
     public ResponseEntity download(@RequestParam Long id, HttpServletResponse response) throws Exception {
         return service.download(id, response);

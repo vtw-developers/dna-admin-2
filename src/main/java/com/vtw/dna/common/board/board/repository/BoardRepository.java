@@ -26,6 +26,8 @@ public interface BoardRepository {
 
     List<BoardQuery> findPinAll(Long boardMasterId);
 
+    List<BoardQuery> findPopupAll();
+
     Optional<BoardQuery> findById(Long id);
 
     void addViewCount(Long id);

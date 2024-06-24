@@ -52,6 +52,11 @@ public class BoardService {
         return page;
     }
 
+    public List<BoardQuery> popupList() throws Exception {
+        List<BoardQuery> popups = repository.findPopupAll();
+        return popups;
+    }
+
     public void removeFile(Long id) throws Exception {
         repository.removeFile(id);
     }

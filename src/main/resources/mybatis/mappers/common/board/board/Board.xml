@@ -123,6 +123,36 @@
         </where>
     </select>
 
+    <select id="findPopupAll" resultType="com.vtw.dna.common.board.board.dto.BoardQuery">
+        SELECT
+        A.ID,
+        A.TITLE,
+        A.CONTENT,
+        A.BOARD_NO,
+        A.PARENT_ID,
+        A.VIEW_COUNT,
+        A.USE_YN,
+        A.PIN_START_TIME,
+        A.PIN_END_TIME,
+        A.PIN_YN,
+        A.POPUP_START_TIME,
+        A.POPUP_END_TIME,
+        A.POPUP_YN,
+        U.ID AS AUTHOR_ID,
+        U.NAME AS AUTHOR_NAME,
+        A.MODIFIED_TIME
+        FROM BOARD A
+        LEFT OUTER JOIN USERS U
+        ON A.AUTHOR_ID = U.ID
+        <where>
+            AND A.POPUP_YN = 'Y'
+            <![CDATA[
+               AND (A.POPUP_START_TIME <= now() OR A.POPUP_START_TIME is null)
+               AND (A.POPUP_END_TIME >= now() OR A.POPUP_END_TIME is null)
+            ]]>
+        </where>
+    </select>
+
     <select id="findById" resultType="com.vtw.dna.common.board.board.dto.BoardQuery">
         SELECT A.ID,
                A.BOARD_NO,
