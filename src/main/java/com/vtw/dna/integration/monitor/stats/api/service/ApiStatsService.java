@@ -34,7 +34,7 @@ public class ApiStatsService {
                 query.setDate(date);
 
                 LocalDate finalDate = date;
-                ApiStatsQuery apiStat = stats.stream().filter(stat -> stat.getDate().isEqual(finalDate) && stat.getApi().equals(api.getApi())).findFirst().orElse(null);
+                ApiStatsQuery apiStat = stats.stream().filter(stat -> stat.getDate().isEqual(finalDate) && stat.getApi() != null && stat.getApi().equals(api.getApi())).findFirst().orElse(null);
                 if (apiStat != null) {
                     query.setCount(apiStat.getCount());
                 }
