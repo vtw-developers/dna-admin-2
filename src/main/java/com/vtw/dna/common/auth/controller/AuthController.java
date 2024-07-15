@@ -7,6 +7,7 @@ import com.vtw.dna.common.auth.dto.AuthUser;
 import com.vtw.dna.common.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -44,6 +45,13 @@ public class AuthController {
         } else {
             throw new RuntimeException("로그인 실패");
         }
+    }
+
+    @GetMapping(value = "/me")
+    public AuthUser me() throws Exception {
+        AuthUser signInUser = (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        signInUser.setPassword(null);
+        return signInUser;
     }
 
     @GetMapping(value = "/signOut")
