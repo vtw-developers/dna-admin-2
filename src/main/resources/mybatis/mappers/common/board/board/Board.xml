@@ -115,6 +115,7 @@
         ON A.AUTHOR_ID = U.ID
         <where>
             AND A.PIN_YN = 'Y'
+            AND A.USE_YN = 'Y'
             <![CDATA[
                AND (A.PIN_START_TIME <= now() OR A.PIN_START_TIME is null)
                AND (A.PIN_END_TIME >= now() OR A.PIN_END_TIME is null)
@@ -146,6 +147,7 @@
         ON A.AUTHOR_ID = U.ID
         <where>
             AND A.POPUP_YN = 'Y'
+            AND A.USE_YN = 'Y'
             <![CDATA[
                AND (A.POPUP_START_TIME <= now() OR A.POPUP_START_TIME is null)
                AND (A.POPUP_END_TIME >= now() OR A.POPUP_END_TIME is null)
@@ -222,10 +224,6 @@
                 #{storeFileName},
                 #{filePath},
                 #{useYn},
-                #{pinStartTime},
-                #{pinEndTime},
-                #{popupStartTime},
-                #{popupEndTime},
                 #{authorId},
                 now())
     </insert>

@@ -147,7 +147,6 @@
       FILE_ATTACH_YN,
       FILE_COUNT,
       FILE_MAX_SIZE,
-      FILE_MAX_SIZE,
       REPLY_YN,
       USE_YN,
       COMMENT_YN,
