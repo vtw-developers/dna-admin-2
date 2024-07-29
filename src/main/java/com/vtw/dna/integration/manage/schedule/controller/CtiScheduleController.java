@@ -1,6 +1,7 @@
 package com.vtw.dna.integration.manage.schedule.controller;
 
 import com.vtw.dna.common.rest.Page;
+import com.vtw.dna.integration.manage.api.dto.ApiInfoQuery;
 import com.vtw.dna.integration.manage.schedule.dto.CtiScheduleCommand;
 import com.vtw.dna.integration.manage.schedule.dto.CtiScheduleFilter;
 import com.vtw.dna.integration.manage.schedule.dto.CtiScheduleQuery;
@@ -24,6 +25,12 @@ public class CtiScheduleController {
     public Page<CtiScheduleQuery> list(CtiScheduleFilter filter, Pageable pageable) throws Exception {
         Page<CtiScheduleQuery> page = service.list(filter, pageable);
         return page;
+    }
+
+    @GetMapping(value = "find")
+    public CtiScheduleQuery find(@RequestParam Long id) throws Exception {
+        CtiScheduleQuery entity = service.find(id);
+        return entity;
     }
 
     @PostMapping(value = "update")

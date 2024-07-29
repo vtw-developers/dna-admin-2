@@ -31,10 +31,17 @@
 
   <select id="findByCtiInfoId" resultMap="query">
     SELECT
-      ID,
-      CTI_INFO_ID
-    FROM CTI_SCHEDULE
-    WHERE CTI_INFO_ID = #{ctiInfoId}
+      B.ID AS ID,
+      A.ID AS CTI_INFO_ID,
+      A.NAME AS CTI_INFO_NAME,
+      B.CRON_EXPR AS CRON_EXPR,
+      C.NAME AS SERVICE_GROUP_NAME
+    FROM CTI_INFO A
+    LEFT OUTER JOIN CTI_SCHEDULE B
+      ON A.ID = B.CTI_INFO_ID
+    LEFT OUTER JOIN SERVICE_GROUP C
+      ON A.SERVICE_GROUP_ID = C.ID
+    WHERE A.ID = #{ctiInfoId}
   </select>
 
   <insert id="insert">

@@ -2,6 +2,7 @@ package com.vtw.dna.integration.manage.schedule.service;
 
 import com.vtw.dna.common.exception.NoSuchEntityException;
 import com.vtw.dna.common.rest.Page;
+import com.vtw.dna.integration.manage.api.dto.ApiInfoQuery;
 import com.vtw.dna.integration.manage.cti.dto.CtiInfoQuery;
 import com.vtw.dna.integration.manage.cti.repository.CtiInfoRepository;
 import com.vtw.dna.integration.manage.schedule.dto.CtiScheduleCommand;
@@ -26,6 +27,11 @@ public class CtiScheduleService {
         List<CtiScheduleQuery> list = scheduleRepository.findAll(filter, pageable);
         Page<CtiScheduleQuery> page = Page.<CtiScheduleQuery>builder().totalCount(count).data(list).build();
         return page;
+    }
+
+    public CtiScheduleQuery find(Long id) throws Exception {
+        CtiScheduleQuery entity = scheduleRepository.findByCtiInfoId(id).orElseThrow(() -> new NoSuchEntityException("CtiInfo", id));
+        return entity;
     }
 
     public void update(CtiScheduleCommand schedule) throws Exception {
