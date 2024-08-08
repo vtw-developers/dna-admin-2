@@ -1,10 +1,10 @@
 package com.vtw.dna.common.auth.controller;
 
-import com.vtw.dna.common.auth.jwt.EgovJwtTokenUtil;
-import com.vtw.dna.common.rest.EmptySuccessResponse;
-import com.vtw.dna.common.auth.dto.SignInResponse;
 import com.vtw.dna.common.auth.dto.AuthUser;
+import com.vtw.dna.common.auth.dto.SignInResponse;
+import com.vtw.dna.common.auth.jwt.EgovJwtTokenUtil;
 import com.vtw.dna.common.auth.service.AuthService;
+import com.vtw.dna.common.rest.EmptySuccessResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -58,6 +58,12 @@ public class AuthController {
     public EmptySuccessResponse logout(HttpServletRequest request, HttpServletResponse response) throws Exception {
         new SecurityContextLogoutHandler().logout(request, response, null);
         return new EmptySuccessResponse();
+    }
+
+
+    @GetMapping(value = "idCheck")
+    public boolean find(@RequestParam String id) throws Exception {
+        return loginService.idDuplication(id);
     }
 
     @GetMapping(value = "/refreshToken")

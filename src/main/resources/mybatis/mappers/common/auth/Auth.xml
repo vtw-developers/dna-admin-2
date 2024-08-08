@@ -7,16 +7,16 @@
     SELECT * FROM users WHERE id = #{id} and password = #{password}
   </select>
 
+  <select id="idDuplication">
+    SELECT COUNT(*) FROM users WHERE id = #{id}
+  </select>
+
   <select id="insert" resultType="com.vtw.dna.common.auth.dto.AuthUser">
-    INSERT INTO USERS (
-      ID,
-      NAME,
-      PASSWORD
-    )
-    VALUES (
-      #{id},
-      #{name},
-      #{password}
-    )
+      INSERT INTO USERS (ID,
+                         NAME,
+                         PASSWORD)
+      VALUES (#{id},
+              #{name},
+              #{password})
   </select>
 </mapper>

@@ -8,4 +8,6 @@ public interface AuthRepository {
     AuthUser selectByIdAndPassword(String id, String password);
 
     void insert(AuthUser loginUser);
+
+    Long idDuplication(String id);
 }

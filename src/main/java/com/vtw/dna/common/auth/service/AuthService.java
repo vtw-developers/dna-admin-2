@@ -43,6 +43,10 @@ public class AuthService {
         loginRepository.insert(user);
     }
 
+    public boolean idDuplication(String id) throws Exception {
+        return loginRepository.idDuplication(id) > 0;
+    }
+
     /**
      * 아이디를 찾는다.
      *
