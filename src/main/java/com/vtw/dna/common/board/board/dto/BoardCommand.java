@@ -6,6 +6,8 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class BoardCommand implements SignInAuthor {
@@ -38,5 +40,7 @@ public class BoardCommand implements SignInAuthor {
     private LocalDateTime popupStartTime;
 
     private LocalDateTime popupEndTime;
+
+    private List<BoardFile> removedFiles = new ArrayList<>();
 
 }

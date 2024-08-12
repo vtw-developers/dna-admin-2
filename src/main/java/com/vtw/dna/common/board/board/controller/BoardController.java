@@ -1,6 +1,7 @@
 package com.vtw.dna.common.board.board.controller;
 
 import com.vtw.dna.common.board.board.dto.BoardCommand;
+import com.vtw.dna.common.board.board.dto.BoardFile;
 import com.vtw.dna.common.board.board.dto.BoardFilter;
 import com.vtw.dna.common.board.board.dto.BoardQuery;
 import com.vtw.dna.common.board.board.service.BoardService;
@@ -64,6 +65,9 @@ public class BoardController {
     public BoardCommand update(@Valid @RequestPart BoardCommand entity, @RequestPart(required = false) List<MultipartFile> files) throws Exception {
         service.update(entity);
         if (files != null) service.upload(entity.getId(), files);
+        for (BoardFile removedFile : entity.getRemovedFiles()) {
+            service.removeFile(removedFile.getId());
+        }
         return entity;
     }
 
