@@ -19,4 +19,6 @@ public class BoardFile implements SignInAuthor {
     private String filePath;
 
     private boolean useYn;
+
+    private long size;
 }

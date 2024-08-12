@@ -125,6 +125,7 @@ public class BoardService {
                 boardFile.setOriginalFileName(file.getOriginalFilename());
                 boardFile.setStoreFileName(storeFileName);
                 boardFile.setUseYn(true);
+                boardFile.setSize(file.getSize());
 
                 repository.upload(boardFile);
             } catch (IOException e) {

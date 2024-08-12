@@ -218,6 +218,7 @@
                                 FILE_PATH,
                                 USE_YN,
                                 AUTHOR_ID,
+                                SIZE,
                                 MODIFIED_TIME)
         VALUES (#{boardId},
                 #{originalFileName},
@@ -225,6 +226,7 @@
                 #{filePath},
                 #{useYn},
                 #{authorId},
+                #{size},
                 now())
     </insert>
 
@@ -234,7 +236,8 @@
                ORIGINAL_FILE_NAME,
                STORE_FILE_NAME,
                FILE_PATH,
-               USE_YN
+               USE_YN,
+               SIZE
         FROM BOARD_FILE
         WHERE BOARD_ID = #{boardId}
           AND USE_YN = 'Y'
@@ -246,7 +249,8 @@
                ORIGINAL_FILE_NAME,
                STORE_FILE_NAME,
                FILE_PATH,
-               USE_YN
+               USE_YN,
+               SIZE
         FROM BOARD_FILE
         WHERE ID = #{id}
           AND USE_YN = 'Y'
