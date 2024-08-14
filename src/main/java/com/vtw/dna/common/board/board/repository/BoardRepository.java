@@ -39,4 +39,6 @@ public interface BoardRepository {
     int update(BoardCommand board);
 
     int delete(BoardCommand board);
+
+    List<BoardQuery> findAllByParentId(Long parentId);
 }

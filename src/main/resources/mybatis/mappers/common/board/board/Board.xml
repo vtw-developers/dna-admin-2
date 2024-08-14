@@ -56,6 +56,9 @@
         LEFT OUTER JOIN USERS U
         ON A.AUTHOR_ID = U.ID
         <where>
+            AND A.PARENT_ID IS NULL
+            AND A.USE_YN = 'Y'
+            AND A.BOARD_MASTER_ID = #{filter.boardMasterId}
             <if test="filter.title != null and filter.title != ''">
                 AND A.TITLE LIKE '%' || #{filter.title} || '%'
             </if>
@@ -68,27 +71,8 @@
             <if test="filter.author != null and filter.author != ''">
                 AND U.AUTHOR LIKE '%' || #{filter.author} || '%'
             </if>
-            AND A.USE_YN = 'Y'
-            AND A.BOARD_MASTER_ID = #{filter.boardMasterId}
         </where>
-        <if test="pageable.sort != null and !pageable.sort.isEmpty()">
-            ORDER BY
-            <foreach collection="pageable.sort" item="order" separator=",">
-                <if test="order.property == 'boardNo'">
-                    A.BOARD_NO
-                </if>
-                <if test="order.property == 'title'">
-                    A.TITLE
-                </if>
-                <if test="order.property == 'authorName'">
-                    U.NAME
-                </if>
-                <if test="order.property == 'modifiedTime'">
-                    A.MODIFIED_TIME
-                </if>
-                ${order.direction}
-            </foreach>
-        </if>
+        ORDER BY A.BOARD_NO DESC
         OFFSET #{pageable.offset} ROWS FETCH NEXT #{pageable.pageSize} ROWS ONLY
     </select>
 
@@ -122,6 +106,7 @@
             ]]>
             AND A.BOARD_MASTER_ID = #{boardMasterId}
         </where>
+      ORDER BY A.BOARD_NO DESC
     </select>
 
     <select id="findPopupAll" resultType="com.vtw.dna.common.board.board.dto.BoardQuery">
@@ -173,9 +158,33 @@
                U.NAME AS AUTHOR_NAME,
                A.MODIFIED_TIME
         FROM BOARD A
-                 LEFT OUTER JOIN USERS U
-                                 ON A.AUTHOR_ID = U.ID
+        LEFT OUTER JOIN USERS U
+          ON A.AUTHOR_ID = U.ID
         WHERE A.ID = #{id}
+    </select>
+
+    <select id="findAllByParentId" resultType="com.vtw.dna.common.board.board.dto.BoardQuery">
+      SELECT A.ID,
+             A.BOARD_NO,
+             A.TITLE,
+             A.CONTENT,
+             A.PARENT_ID,
+             A.VIEW_COUNT,
+             A.USE_YN,
+             A.PIN_YN,
+             A.POPUP_YN,
+             A.PIN_START_TIME,
+             A.PIN_END_TIME,
+             A.POPUP_START_TIME,
+             A.POPUP_END_TIME,
+             U.ID   AS AUTHOR_ID,
+             U.NAME AS AUTHOR_NAME,
+             A.MODIFIED_TIME
+      FROM BOARD A
+      LEFT OUTER JOIN USERS U
+        ON A.AUTHOR_ID = U.ID
+      WHERE A.PARENT_ID = #{parentId}
+      ORDER BY A.BOARD_NO ASC
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">

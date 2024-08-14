@@ -28,6 +28,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -42,14 +43,34 @@ public class BoardService {
 
     public Page<BoardQuery> list(BoardFilter filter, Pageable pageable) throws Exception {
         int count = repository.count(filter, pageable);
-        List<BoardQuery> list = repository.findAll(filter, pageable);
+        List<BoardQuery> boards = repository.findAll(filter, pageable);
+
+        List<BoardQuery> boardsWithReply = new ArrayList<>();
+
+        // 답글
+        addReplies(boards, boardsWithReply);
+
+        // PIN
         List<BoardQuery> pinList = repository.findPinAll(filter.getBoardMasterId());
-        list.removeAll(pinList);
-        list.forEach(e -> e.setPinYn(false));
-        List<BoardQuery> joined = Stream.concat(pinList.stream(), list.stream())
+        boardsWithReply.removeAll(pinList);
+        boardsWithReply.forEach(e -> e.setPinYn(false));
+        List<BoardQuery> joined = Stream.concat(pinList.stream(), boardsWithReply.stream())
           .collect(Collectors.toList());
+
         Page<BoardQuery> page = Page.<BoardQuery>builder().totalCount(count).data(joined).build();
         return page;
+    }
+
+    private void addReplies(List<BoardQuery> boards, List<BoardQuery> basket) {
+        for (BoardQuery board : boards) {
+            basket.add(board);
+
+            Long parentId = board.getId();
+            List<BoardQuery> replies = repository.findAllByParentId(parentId);
+            if (replies.size() > 0) {
+                addReplies(replies, basket);
+            }
+        }
     }
 
     public List<BoardQuery> popupList() throws Exception {
