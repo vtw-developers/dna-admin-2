@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vtw.dna.common.user.repository.UserRepository">
+    <select id="count">
+        SELECT COUNT(*)
+        FROM USERS
+        <where>
+            <if test="filter.id != null and filter.id != ''">
+                AND ID LIKE '%' || #{filter.id} || '%'
+            </if>
+            <if test="filter.name != null and filter.name != ''">
+                AND NAME LIKE '%' || #{filter.name} || '%'
+            </if>
+            <if test="filter.roleId != null">
+                AND ROLE_ID = #{filter.roleId}
+            </if>
+        </where>
+    </select>
+
+    <select id="findAll">
+        SELECT U.ID, U.NAME, U.ROLE_ID, R.NAME AS ROLE_NAME
+        FROM USERS U
+        LEFT OUTER JOIN ROLE R
+        ON U.ROLE_ID = R.ID
+        <where>
+            <if test="filter.id != null and filter.id != ''">
+                AND U.ID LIKE '%' || #{filter.id} || '%'
+            </if>
+            <if test="filter.name != null and filter.name != ''">
+                AND U.NAME LIKE '%' || #{filter.name} || '%'
+            </if>
+            <if test="filter.roleId != null">
+                AND U.ROLE_ID = #{filter.roleId}
+            </if>
+        </where>
+        <if test="pageable.sort != null and !pageable.sort.isEmpty()">
+            ORDER BY
+            <foreach collection="pageable.sort" item="order" separator=",">
+                <if test="order.property == 'ID'">
+                    U.ID
+                </if>
+                <if test="order.property == 'NAME'">
+                    U.NAME
+                </if>
+                <if test="order.property == 'ROLE_NAME'">
+                    R.NAME
+                </if>
+                ${order.direction}
+            </foreach>
+        </if>
+        OFFSET #{pageable.offset} ROWS FETCH NEXT #{pageable.pageSize} ROWS ONLY
+    </select>
+
+    <select id="findById">
+        SELECT U.ID, U.NAME, U.ROLE_ID, R.NAME AS ROLE_NAME
+        FROM USERS U
+            LEFT OUTER JOIN ROLE R
+            ON U.ROLE_ID = R.ID
+        WHERE U.ID = #{id}
+    </select>
+
+
+    <update id="update">
+        UPDATE USERS
+        SET NAME = #{name},
+            ROLE_ID = #{roleId}
+        WHERE ID = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE
+        FROM USERS
+        WHERE ID = #{id}
+    </delete>
+</mapper>
