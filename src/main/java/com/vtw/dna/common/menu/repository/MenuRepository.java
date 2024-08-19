@@ -12,6 +12,8 @@ public interface MenuRepository {
 
     List<MenuQuery> findViewAll();
 
+    List<MenuQuery> findViewByRoleLevel(Long level);
+
     void insert(Menu menu);
 
     void deleteAll();

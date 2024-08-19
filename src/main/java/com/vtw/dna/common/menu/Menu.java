@@ -12,4 +12,5 @@ public class Menu {
     private String upperMenuId;
     private Long pageInfoId;
     private Long index;
+    private Long roleId;
 }

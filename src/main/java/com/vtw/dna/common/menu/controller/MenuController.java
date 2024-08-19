@@ -19,8 +19,8 @@ public class MenuController {
     private final MenuService service;
 
     @GetMapping(value = "list")
-    public List<Menu> menuList() {
-        List<Menu> list = service.list();
+    public List<MenuQuery> menuList() {
+        List<MenuQuery> list = service.list();
         return list;
     }
 

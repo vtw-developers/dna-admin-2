@@ -20,7 +20,7 @@
     </select>
 
     <select id="findAll">
-        SELECT U.ID, U.NAME, U.ROLE_ID, R.NAME AS ROLE_NAME
+        SELECT U.ID, U.NAME, U.ROLE_ID, R.NAME AS ROLE_NAME, R.LEVEL AS ROLE_LEVEL
         FROM USERS U
         LEFT OUTER JOIN ROLE R
         ON U.ROLE_ID = R.ID
@@ -54,7 +54,7 @@
     </select>
 
     <select id="findById">
-        SELECT U.ID, U.NAME, U.ROLE_ID, R.NAME AS ROLE_NAME
+        SELECT U.ID, U.NAME, U.ROLE_ID, R.NAME AS ROLE_NAME, R.LEVEL AS ROLE_LEVEL
         FROM USERS U
             LEFT OUTER JOIN ROLE R
             ON U.ROLE_ID = R.ID
