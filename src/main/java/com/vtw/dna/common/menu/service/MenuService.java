@@ -26,9 +26,13 @@ public class MenuService {
     }
 
     public List<MenuQuery> view() {
-        AuthUser signInUser = (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserQuery userInfo = userRepository.findById(signInUser.getId());
-        Long roleLevel = userInfo.getRoleLevel();
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long roleLevel = null;
+        if (principal instanceof AuthUser) {
+            AuthUser signInUser = (AuthUser) principal;
+            UserQuery userInfo = userRepository.findById(signInUser.getId());
+            roleLevel = userInfo.getRoleLevel();
+        }
         if (roleLevel == null) {
             roleLevel = 3L;
         }

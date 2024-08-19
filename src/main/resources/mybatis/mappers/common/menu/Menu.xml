@@ -13,10 +13,9 @@
                M.NAME,
                M.TYPE,
                M.ICON,
-               P.NAME AS PAGE_INFO_NAME,
-               P.PATH AS PAGE_INFO_PATH,
-               P.ID   AS PAGE_INFO_ID,
-               M.ROLE_ID    AS ROLE_ID,
+               P.NAME       AS PAGE_INFO_NAME,
+               P.PATH       AS PAGE_INFO_PATH,
+               P.ID         AS PAGE_INFO_ID,
                M.UPPER_MENU_ID,
                M.INDEX
         FROM MENU M
@@ -33,21 +32,20 @@
                P.NAME       AS PAGE_INFO_NAME,
                P.PATH       AS PAGE_INFO_PATH,
                P.ID         AS PAGE_INFO_ID,
-               M.ROLE_ID    AS ROLE_ID,
                M.UPPER_MENU_ID,
                M.INDEX
         FROM MENU M
                  LEFT OUTER JOIN PAGE_INFO P
                                  ON M.PAGE_INFO_ID = P.ID
                  LEFT OUTER JOIN ROLE R
-                                 ON M.ROLE_ID = R.ID
-        WHERE <![CDATA[ R.LEVEL >= #{level}]]>
+                                 ON P.ROLE_ID = R.ID
+        WHERE <![CDATA[ R.LEVEL >= #{level}]]> OR M.TYPE = 'group'
         ORDER BY INDEX ASC
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO MENU (MENU_ID, NAME, TYPE, ICON, PAGE_INFO_ID, UPPER_MENU_ID, INDEX, ROLE_ID)
-        VALUES (#{menuId}, #{name}, #{type}, #{icon}, #{pageInfoId}, #{upperMenuId}, #{index}, #{roleId})
+        INSERT INTO MENU (MENU_ID, NAME, TYPE, ICON, PAGE_INFO_ID, UPPER_MENU_ID, INDEX)
+        VALUES (#{menuId}, #{name}, #{type}, #{icon}, #{pageInfoId}, #{upperMenuId}, #{index})
     </insert>
 
     <delete id="deleteAll">

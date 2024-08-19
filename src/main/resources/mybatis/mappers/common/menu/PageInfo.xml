@@ -17,24 +17,32 @@
     </select>
 
     <select id="pagingList">
-        SELECT ID, NAME, PATH
-        FROM PAGE_INFO
+        SELECT P.ID, P.NAME, P.PATH, P.ROLE_ID, R.NAME AS ROLE_NAME
+        FROM PAGE_INFO P
+                    LEFT OUTER JOIN ROLE R
+                                    ON P.ROLE_ID = R.ID
         <where>
             <if test="filter.name != null and filter.name != ''">
-                AND NAME LIKE '%' || #{filter.name} || '%'
+                AND P.NAME LIKE '%' || #{filter.name} || '%'
             </if>
             <if test="filter.path != null and filter.path != ''">
-                AND PATH LIKE '%' || #{filter.path} || '%'
+                AND P.PATH LIKE '%' || #{filter.path} || '%'
+            </if>
+            <if test="filter.roleId != null">
+                AND P.ROLE_ID = #{filter.roleId}
             </if>
         </where>
         <if test="pageable.sort != null and !pageable.sort.isEmpty()">
             ORDER BY
             <foreach collection="pageable.sort" item="order" separator=",">
                 <if test="order.property == 'name'">
-                    NAME
+                    P.NAME
                 </if>
                 <if test="order.property == 'path'">
-                    PATH
+                    P.PATH
+                </if>
+                <if test="order.property == 'ROLE_NAME'">
+                    R.NAME
                 </if>
                 ${order.direction}
             </foreach>
@@ -43,25 +51,28 @@
     </select>
 
     <select id="findAll">
-        SELECT ID, NAME, PATH
-        FROM PAGE_INFO
+        SELECT P.ID, P.NAME, P.PATH, P.ROLE_ID, R.NAME AS ROLE_NAME
+        FROM PAGE_INFO P
+            LEFT OUTER JOIN ROLE R
+                            ON P.ROLE_ID = R.ID
     </select>
 
     <select id="findById">
-        SELECT ID, NAME, PATH
+        SELECT ID, NAME, PATH, ROLE_ID
         FROM PAGE_INFO
         WHERE ID = #{id}
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO PAGE_INFO (NAME, PATH)
-        VALUES (#{name}, #{path})
+        INSERT INTO PAGE_INFO (NAME, PATH, ROLE_ID)
+        VALUES (#{name}, #{path}, #{roleId})
     </insert>
 
     <update id="update">
         UPDATE PAGE_INFO
         SET NAME = #{name},
-            PATH = #{path}
+            PATH = #{path},
+            ROLE_ID = #{roleId}
         WHERE ID = #{id}
     </update>
 

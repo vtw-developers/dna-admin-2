@@ -12,6 +12,5 @@ public class MenuQuery {
     private String pageInfoName;
     private String pageInfoPath;
     private Long pageInfoId;
-    private Long roleId;
     private Long index;
 }

@@ -6,4 +6,5 @@ import lombok.Data;
 public class PageInfoFilter {
     private String name;
     private String path;
+    private Long roleId;
 }
