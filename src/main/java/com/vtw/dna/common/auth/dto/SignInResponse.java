@@ -15,4 +15,7 @@ public class SignInResponse {
 
     @JsonProperty("name")
     private String name;
+
+    @JsonProperty("message")
+    private String messages;
 }

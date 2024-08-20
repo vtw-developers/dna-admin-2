@@ -8,6 +8,7 @@ import com.vtw.dna.common.rest.EmptySuccessResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -30,20 +31,24 @@ public class AuthController {
         HashMap<String, Object> resultMap = new HashMap<String, Object>();
 
         AuthUser loginResultVO = loginService.findUser(loginVO);
+        if (loginResultVO.isApproval()) {
+            if (loginResultVO.getId() != null && !loginResultVO.getId().isEmpty()) {
 
-        if (loginResultVO != null && loginResultVO.getId() != null && !loginResultVO.getId().equals("")) {
+                log.debug("===>>> loginVO.getId() = " + loginVO.getId());
+                log.debug("===>>> loginVO.getPassword() = " + loginVO.getPassword());
 
-            log.debug("===>>> loginVO.getId() = " + loginVO.getId());
-            log.debug("===>>> loginVO.getPassword() = " + loginVO.getPassword());
+                String jwtToken = jwtTokenUtil.generateToken(loginResultVO);
 
-            String jwtToken = jwtTokenUtil.generateToken(loginResultVO);
+                SignInResponse response = new SignInResponse(jwtToken, loginResultVO.getId(), loginResultVO.getName(), "");
+                request.getSession().setAttribute("LoginVO", loginResultVO);
 
-            SignInResponse response = new SignInResponse(jwtToken, loginResultVO.getId(), loginResultVO.getName());
-            request.getSession().setAttribute("LoginVO", loginResultVO);
-
-            return response;
-        } else {
-            throw new RuntimeException("로그인 실패");
+                return response;
+            } else {
+                throw new RuntimeException("로그인 실패");
+            }
+        }
+        else {
+            return new SignInResponse("","","", "미승인 사용자입니다. ");
         }
     }
 
@@ -75,7 +80,7 @@ public class AuthController {
         loginUser.setName(jwtTokenUtil.getInfoFromToken("name", token));
 
         String newToken = jwtTokenUtil.generateToken(loginUser);
-        SignInResponse response = new SignInResponse(newToken, loginUser.getId(), loginUser.getName());
+        SignInResponse response = new SignInResponse(newToken, loginUser.getId(), loginUser.getName(),"");
         return response;
     }
 

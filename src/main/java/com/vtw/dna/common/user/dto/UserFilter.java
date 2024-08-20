@@ -10,4 +10,5 @@ public class UserFilter {
     private String id;
     private String name;
     private Long roleId;
+    private Boolean approval;
 }

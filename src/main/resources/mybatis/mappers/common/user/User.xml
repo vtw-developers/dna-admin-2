@@ -16,11 +16,14 @@
             <if test="filter.roleId != null">
                 AND ROLE_ID = #{filter.roleId}
             </if>
+            <if test="filter.approval != null">
+                AND APPROVAL = #{filter.approval}
+            </if>
         </where>
     </select>
 
     <select id="findAll">
-        SELECT U.ID, U.NAME, U.ROLE_ID, R.NAME AS ROLE_NAME, R.LEVEL AS ROLE_LEVEL
+        SELECT U.ID, U.NAME, U.ROLE_ID, R.NAME AS ROLE_NAME, R.LEVEL AS ROLE_LEVEL, U.APPROVAL, U.APPROVAL_TIME
         FROM USERS U
         LEFT OUTER JOIN ROLE R
         ON U.ROLE_ID = R.ID
@@ -34,18 +37,27 @@
             <if test="filter.roleId != null">
                 AND U.ROLE_ID = #{filter.roleId}
             </if>
+            <if test="filter.approval != null">
+                AND U.APPROVAL = #{filter.approval}
+            </if>
         </where>
         <if test="pageable.sort != null and !pageable.sort.isEmpty()">
             ORDER BY
             <foreach collection="pageable.sort" item="order" separator=",">
-                <if test="order.property == 'ID'">
+                <if test="order.property == 'id'">
                     U.ID
                 </if>
-                <if test="order.property == 'NAME'">
+                <if test="order.property == 'name'">
                     U.NAME
                 </if>
-                <if test="order.property == 'ROLE_NAME'">
+                <if test="order.property == 'roleName'">
                     R.NAME
+                </if>
+                <if test="order.property == 'approval'">
+                    U.APPROVAL
+                </if>
+                <if test="order.property == 'approvalTime'">
+                    U.APPROVAL_TIME
                 </if>
                 ${order.direction}
             </foreach>
@@ -54,7 +66,7 @@
     </select>
 
     <select id="findById">
-        SELECT U.ID, U.NAME, U.ROLE_ID, R.NAME AS ROLE_NAME, R.LEVEL AS ROLE_LEVEL
+        SELECT U.ID, U.NAME, U.ROLE_ID, R.NAME AS ROLE_NAME, R.LEVEL AS ROLE_LEVEL, U.APPROVAL, U.APPROVAL_TIME
         FROM USERS U
             LEFT OUTER JOIN ROLE R
             ON U.ROLE_ID = R.ID
@@ -62,10 +74,32 @@
     </select>
 
 
+    <update id="create">
+        INSERT INTO USERS (ID,
+                           NAME,
+                           PASSWORD,
+                           ROLE_ID,
+                           APPROVAL,
+                           APPROVAL_TIME)
+        VALUES (#{id},
+                #{name},
+                #{id},
+                #{roleId},
+                'Y',
+                now())
+    </update>
+
     <update id="update">
         UPDATE USERS
         SET NAME = #{name},
             ROLE_ID = #{roleId}
+        WHERE ID = #{id}
+    </update>
+
+    <update id="approval">
+        UPDATE USERS
+        SET APPROVAL = 'Y',
+            APPROVAL_TIME = now()
         WHERE ID = #{id}
     </update>
 

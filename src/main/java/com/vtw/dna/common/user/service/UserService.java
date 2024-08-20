@@ -27,6 +27,11 @@ public class UserService {
         return repository.findById(id);
     }
 
+    public UserCommand create(UserCommand user) throws Exception {
+        repository.create(user);
+        return user;
+    }
+
     public UserCommand update(UserCommand user) throws Exception {
         repository.update(user);
         return user;
@@ -35,5 +40,9 @@ public class UserService {
     public String delete(String id) throws Exception {
         repository.delete(id);
         return id;
+    }
+
+    public void approval(String id) throws Exception {
+        repository.approval(id);
     }
 }

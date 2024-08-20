@@ -14,9 +14,11 @@
   <select id="insert" resultType="com.vtw.dna.common.auth.dto.AuthUser">
       INSERT INTO USERS (ID,
                          NAME,
-                         PASSWORD)
+                         PASSWORD,
+                         APPROVAL)
       VALUES (#{id},
               #{name},
-              #{password})
+              #{password},
+              'N')
   </select>
 </mapper>

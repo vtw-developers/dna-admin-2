@@ -16,7 +16,11 @@ public interface UserRepository {
 
     UserQuery findById(String id);
 
+    void create(UserCommand user);
+
     void update(UserCommand user);
 
     void delete(String id);
+
+    void approval(String id);
 }

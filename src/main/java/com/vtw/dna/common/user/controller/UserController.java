@@ -33,6 +33,12 @@ public class UserController {
     }
 
 
+    @PostMapping(value = "create")
+    public UserCommand create(@Valid @RequestBody UserCommand entity) throws Exception {
+        service.create(entity);
+        return entity;
+    }
+
     @PostMapping(value = "update")
     public UserCommand update(@Valid @RequestBody UserCommand entity) throws Exception {
         service.update(entity);
@@ -41,7 +47,12 @@ public class UserController {
 
     @GetMapping(value = "delete")
     public String delete(@RequestParam String id) throws Exception {
-        service.delete(id);
+        return service.delete(id);
+    }
+
+    @GetMapping(value = "approval")
+    public String approval(@RequestParam String id) throws Exception {
+        service.approval(id);
         return id;
     }
 
