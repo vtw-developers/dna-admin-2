@@ -36,7 +36,7 @@ public class PageInfoService {
 
     public void create(PageInfo pageInfo) {
         validate(pageInfo);
-        if(pageInfo.getRoleId() == null) pageInfo.setRoleId(3L);
+        if(pageInfo.getReadRoleId() == null) pageInfo.setReadRoleId(3L);
         repository.insert(pageInfo);
     }
 

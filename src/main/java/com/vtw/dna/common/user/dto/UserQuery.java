@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
 public class UserQuery {
     private String id;
     private String name;
-    private Long roleId;
-    private String roleName;
+    private Long readRoleId;
+    private String readRoleName;
     private Long roleLevel;
     private boolean approval;
     private LocalDateTime approvalTime;

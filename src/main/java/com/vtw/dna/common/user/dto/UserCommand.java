@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public class UserCommand {
     private String id;
     private String name;
-    private Long roleId;
+    private Long readRoleId;
     private boolean approval;
     private LocalDateTime approvalTime;
 }

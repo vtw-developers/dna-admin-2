@@ -13,8 +13,8 @@
             <if test="filter.name != null and filter.name != ''">
                 AND NAME LIKE '%' || #{filter.name} || '%'
             </if>
-            <if test="filter.roleId != null">
-                AND ROLE_ID = #{filter.roleId}
+            <if test="filter.readRoleId != null">
+                AND ROLE_ID = #{filter.readRoleId}
             </if>
             <if test="filter.approval != null">
                 AND APPROVAL = #{filter.approval}
@@ -34,8 +34,8 @@
             <if test="filter.name != null and filter.name != ''">
                 AND U.NAME LIKE '%' || #{filter.name} || '%'
             </if>
-            <if test="filter.roleId != null">
-                AND U.ROLE_ID = #{filter.roleId}
+            <if test="filter.readRoleId != null">
+                AND U.ROLE_ID = #{filter.readRoleId}
             </if>
             <if test="filter.approval != null">
                 AND U.APPROVAL = #{filter.approval}
@@ -50,7 +50,7 @@
                 <if test="order.property == 'name'">
                     U.NAME
                 </if>
-                <if test="order.property == 'roleName'">
+                <if test="order.property == 'readRoleName'">
                     R.NAME
                 </if>
                 <if test="order.property == 'approval'">
@@ -84,7 +84,7 @@
         VALUES (#{id},
                 #{name},
                 #{id},
-                #{roleId},
+                #{readRoleId},
                 'Y',
                 now())
     </update>
@@ -92,7 +92,7 @@
     <update id="update">
         UPDATE USERS
         SET NAME = #{name},
-            ROLE_ID = #{roleId}
+            ROLE_ID = #{readRoleId}
         WHERE ID = #{id}
     </update>
 

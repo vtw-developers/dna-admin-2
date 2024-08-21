@@ -17,10 +17,10 @@
     </select>
 
     <select id="pagingList">
-        SELECT P.ID, P.NAME, P.PATH, P.ROLE_ID, R.NAME AS ROLE_NAME
+        SELECT P.ID, P.NAME, P.PATH, P.READ_ROLE_ID, P.WRITE_ROLE_ID, R.NAME AS READ_ROLE_NAME
         FROM PAGE_INFO P
-                    LEFT OUTER JOIN ROLE R
-                                    ON P.ROLE_ID = R.ID
+        LEFT OUTER JOIN ROLE R
+        ON P.READ_ROLE_ID = R.ID
         <where>
             <if test="filter.name != null and filter.name != ''">
                 AND P.NAME LIKE '%' || #{filter.name} || '%'
@@ -28,8 +28,8 @@
             <if test="filter.path != null and filter.path != ''">
                 AND P.PATH LIKE '%' || #{filter.path} || '%'
             </if>
-            <if test="filter.roleId != null">
-                AND P.ROLE_ID = #{filter.roleId}
+            <if test="filter.readRoleId != null">
+                AND P.READ_ROLE_ID = #{filter.readRoleId}
             </if>
         </where>
         <if test="pageable.sort != null and !pageable.sort.isEmpty()">
@@ -51,28 +51,28 @@
     </select>
 
     <select id="findAll">
-        SELECT P.ID, P.NAME, P.PATH, P.ROLE_ID, R.NAME AS ROLE_NAME
+        SELECT P.ID, P.NAME, P.PATH, P.READ_ROLE_ID, R.NAME AS READ_ROLE_NAME
         FROM PAGE_INFO P
-            LEFT OUTER JOIN ROLE R
-                            ON P.ROLE_ID = R.ID
+                 LEFT OUTER JOIN ROLE R
+                                 ON P.READ_ROLE_ID = R.ID
     </select>
 
     <select id="findById">
-        SELECT ID, NAME, PATH, ROLE_ID
+        SELECT ID, NAME, PATH, READ_ROLE_ID
         FROM PAGE_INFO
         WHERE ID = #{id}
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO PAGE_INFO (NAME, PATH, ROLE_ID)
-        VALUES (#{name}, #{path}, #{roleId})
+        INSERT INTO PAGE_INFO (NAME, PATH, READ_ROLE_ID)
+        VALUES (#{name}, #{path}, #{readRoleId})
     </insert>
 
     <update id="update">
         UPDATE PAGE_INFO
-        SET NAME = #{name},
-            PATH = #{path},
-            ROLE_ID = #{roleId}
+        SET NAME         = #{name},
+            PATH         = #{path},
+            READ_ROLE_ID = #{readRoleId}
         WHERE ID = #{id}
     </update>
 

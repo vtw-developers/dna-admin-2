@@ -38,7 +38,7 @@
                  LEFT OUTER JOIN PAGE_INFO P
                                  ON M.PAGE_INFO_ID = P.ID
                  LEFT OUTER JOIN ROLE R
-                                 ON P.ROLE_ID = R.ID
+                                 ON P.READ_ROLE_ID = R.ID
         WHERE <![CDATA[ R.LEVEL >= #{level}]]> OR M.TYPE = 'group'
         ORDER BY INDEX ASC
     </select>

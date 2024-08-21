@@ -7,6 +7,8 @@ public class PageInfo {
     private Long id;
     private String name;
     private String path;
-    private Long roleId;
-    private String roleName;
+    private Long readRoleId;
+    private String readRoleName;
+    private Long writeRoleId;
+    private String writeRoleName;
 }
