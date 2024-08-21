@@ -16,6 +16,7 @@ public class RoleService {
     private final RoleRepository repository;
 
     public List<RoleQuery> list() throws Exception {
-        return repository.findAll().stream().filter(e -> e.getId()!= 3L).toList();
+//        return repository.findAll().stream().filter(e -> e.getId()!= 3L).toList();
+        return repository.findAll();
     }
 }
