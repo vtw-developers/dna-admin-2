@@ -1,9 +1,10 @@
 package com.vtw.dna.common.menu.pageinfo.controller;
 
-import com.vtw.dna.common.rest.Page;
 import com.vtw.dna.common.menu.pageinfo.PageInfo;
 import com.vtw.dna.common.menu.pageinfo.PageInfoFilter;
+import com.vtw.dna.common.menu.pageinfo.PageLevel;
 import com.vtw.dna.common.menu.pageinfo.service.PageInfoService;
+import com.vtw.dna.common.rest.Page;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -37,6 +38,11 @@ public class PageInfoController {
         return service.find(id);
     }
 
+    @GetMapping(value = "pageLevel")
+    public PageLevel pageLevel(@RequestParam String path) {
+        return service.findByPath(path);
+    }
+
     @PostMapping(value = "create")
     public PageInfo create(@Valid @RequestBody PageInfo pageInfo) {
         service.create(pageInfo);
@@ -54,5 +60,4 @@ public class PageInfoController {
         service.delete(pageInfo);
         return pageInfo;
     }
-
 }

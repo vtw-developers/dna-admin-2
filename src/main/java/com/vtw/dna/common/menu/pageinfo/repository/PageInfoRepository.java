@@ -2,6 +2,7 @@ package com.vtw.dna.common.menu.pageinfo.repository;
 
 import com.vtw.dna.common.menu.pageinfo.PageInfo;
 import com.vtw.dna.common.menu.pageinfo.PageInfoFilter;
+import com.vtw.dna.common.menu.pageinfo.PageLevel;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.data.domain.Pageable;
 
@@ -17,6 +18,8 @@ public interface PageInfoRepository {
     List<PageInfo> findAll();
 
     Optional<PageInfo> findById(Long id);
+
+    PageLevel findByPath(String path);
 
     void insert(PageInfo pageInfo);
 

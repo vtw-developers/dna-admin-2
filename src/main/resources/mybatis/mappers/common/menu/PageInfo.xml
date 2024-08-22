@@ -70,13 +70,23 @@
                  LEFT OUTER JOIN ROLE R
                                  ON P.READ_ROLE_ID = R.ID
                  LEFT OUTER JOIN ROLE WR
-                                 ON P.WRITE_ROLE_ID = R.ID
+                                 ON P.WRITE_ROLE_ID = WR.ID
     </select>
 
     <select id="findById">
         SELECT ID, NAME, PATH, READ_ROLE_ID, WRITE_ROLE_ID
         FROM PAGE_INFO
         WHERE ID = #{id}
+    </select>
+
+    <select id="findByPath">
+        SELECT R.LEVEL AS READ_LEVEL, WR.LEVEL AS WRITE_LEVEL
+        FROM PAGE_INFO P
+                 LEFT OUTER JOIN ROLE R
+                                 ON P.READ_ROLE_ID = R.ID
+                 LEFT OUTER JOIN ROLE WR
+                                 ON P.WRITE_ROLE_ID = WR.ID
+        WHERE PATH = #{path}
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">

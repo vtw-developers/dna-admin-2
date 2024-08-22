@@ -1,10 +1,11 @@
 package com.vtw.dna.common.menu.pageinfo.service;
 
 import com.vtw.dna.common.exception.NoSuchEntityException;
-import com.vtw.dna.common.rest.Page;
 import com.vtw.dna.common.menu.pageinfo.PageInfo;
 import com.vtw.dna.common.menu.pageinfo.PageInfoFilter;
+import com.vtw.dna.common.menu.pageinfo.PageLevel;
 import com.vtw.dna.common.menu.pageinfo.repository.PageInfoRepository;
+import com.vtw.dna.common.rest.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -34,9 +35,14 @@ public class PageInfoService {
         return pageInfo;
     }
 
+    public PageLevel findByPath(String path) {
+        PageLevel pageLevel = repository.findByPath(path);
+        return pageLevel;
+    }
+
     public void create(PageInfo pageInfo) {
         validate(pageInfo);
-        if(pageInfo.getReadRoleId() == null) pageInfo.setReadRoleId(3L);
+        if (pageInfo.getReadRoleId() == null) pageInfo.setReadRoleId(3L);
         repository.insert(pageInfo);
     }
 
@@ -53,7 +59,7 @@ public class PageInfoService {
     public void validate(PageInfo entity) {
         boolean existsByName = existsByName(entity.getName());
         if (existsByName) {
-           // throw new EntityAlreadyExistsException("PageInfo", "name", entity.getName());
+            // throw new EntityAlreadyExistsException("PageInfo", "name", entity.getName());
         }
     }
 
