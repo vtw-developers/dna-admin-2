@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -15,21 +14,15 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/monitor/stats/api")
+@RequestMapping("/api/stats")
 public class ApiStatsController {
 
     private final ApiStatsService service;
 
-    @GetMapping(value = "list")
-    public List<ApiStatsQuery> list(ApiStatsFilter filter) throws Exception {
-        List<ApiStatsQuery> page = service.list(filter);
+    @GetMapping
+    public List<ApiStatsQuery> stats(ApiStatsFilter filter) throws Exception {
+        List<ApiStatsQuery> page = service.stats(filter);
         return page;
-    }
-
-    @GetMapping(value = "find")
-    public ApiStatsQuery find(@RequestParam Long id) throws Exception {
-        ApiStatsQuery entity = service.find(id);
-        return entity;
     }
 
 }

@@ -6,9 +6,12 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-public class ApiStatsQuery extends AuditQuery {
+public class ApiStatsQuery {
     private String serviceGroup;
     private String api;
-    private LocalDate date;
+    //private LocalDate date;
+    int year;
+    int month;
+
     private long count;
 }
