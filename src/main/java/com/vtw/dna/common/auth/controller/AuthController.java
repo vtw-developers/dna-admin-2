@@ -46,9 +46,10 @@ public class AuthController {
             } else {
                 throw new RuntimeException("로그인 실패");
             }
-        }
-        else {
-            return new SignInResponse("","","", "미승인 사용자입니다. ");
+        } else if (loginResultVO.getId() == null) {
+            return new SignInResponse("", "", "", "아이디와 비밀번호를 정확히 입력해 주세요.");
+        } else {
+            return new SignInResponse("", "", "", "미승인 사용자입니다. ");
         }
     }
 
