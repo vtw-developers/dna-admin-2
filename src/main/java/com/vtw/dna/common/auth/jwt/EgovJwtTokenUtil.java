@@ -20,7 +20,7 @@ public class EgovJwtTokenUtil {
 
     private static final long serialVersionUID = -5180902194184255251L;
     //public static final long JWT_TOKEN_VALIDITY = 24 * 60 * 60; //하루
-    public static final long JWT_TOKEN_VALIDITY = (long) ((1 * 60 * 60) / 60) * 60; //토큰의 유효시간 설정, 기본 60분
+    public static final long JWT_TOKEN_VALIDITY = (long) ((1 * 60 * 60) / 60) * 6000; //토큰의 유효시간 설정, 기본 60분
 
     public static final String SECRET_KEY = "egovframeaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaegovframeaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaegovframeaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaegovframeaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"/*EgovProperties.getProperty("Globals.jwt.secret")*/;
 
