@@ -42,5 +42,6 @@
     FROM API_INFO A
     LEFT OUTER JOIN SERVICE_GROUP B
     ON A.SERVICE_GROUP_ID = B.ID
+    ORDER BY API
   </select>
 </mapper>
