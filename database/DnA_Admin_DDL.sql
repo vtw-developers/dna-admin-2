@@ -253,3 +253,32 @@ create table menu
     index         integer
 );
 
+
+-- flow_template
+
+create table flow_template
+(
+    id   serial
+        constraint flow_template_pk
+            primary key,
+    name varchar(100)
+);
+
+
+-- templated_flow
+
+create table templated_flow
+(
+    id          serial
+        constraint templated_flow_pk
+            primary key,
+    template_id integer
+        constraint templated_flow_flow_template_id_fk
+            references public.flow_template,
+    name        varchar(100)
+);
+
+
+
+
+
