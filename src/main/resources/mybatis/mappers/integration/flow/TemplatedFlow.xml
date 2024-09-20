@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vtw.dna.integration.flow.repository.TemplatedFlowRepository">
+
+    <resultMap id="query" type="com.vtw.dna.integration.flow.dto.TemplatedFlowQuery">
+    </resultMap>
+
+    <select id="count">
+        SELECT COUNT(*)
+        FROM TEMPLATED_FLOW F
+        <where>
+            <if test="filter.name != null and filter.name != ''">
+                AND F.NAME LIKE '%' || #{filter.name} || '%'
+            </if>
+        </where>
+    </select>
+
+    <select id="list" resultMap="query">
+        SELECT
+        F.ID,
+        F.NAME,
+        T.ID AS TEMPLATE_ID,
+        T.NAME AS TEMPLATE_NAME
+        FROM TEMPLATED_FLOW F
+        LEFT OUTER JOIN FLOW_TEMPLATE T
+        ON F.TEMPLATE_ID = T.ID
+        <where>
+            <if test="filter.name != null and filter.name != ''">
+                AND F.NAME LIKE '%' || #{filter.name} || '%'
+            </if>
+        </where>
+        <if test="pageable.sort != null and !pageable.sort.isEmpty()">
+            ORDER BY
+            <foreach collection="pageable.sort" item="order" separator=",">
+                <if test="order.property == 'name'">
+                    F.NAME
+                </if>
+                ${order.direction}
+            </foreach>
+        </if>
+        OFFSET #{pageable.offset} ROWS FETCH NEXT #{pageable.pageSize} ROWS ONLY
+    </select>
+
+    <select id="findById" resultMap="query">
+        SELECT F.ID,
+               F.NAME,
+               T.ID   AS TEMPLATE_ID,
+               T.NAME AS TEMPLATE_NAME
+        FROM TEMPLATED_FLOW F
+                 LEFT OUTER JOIN FLOW_TEMPLATE T
+                                 ON F.TEMPLATE_ID = T.ID
+        WHERE F.ID = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO TEMPLATED_FLOW (NAME, TEMPLATE_ID)
+        VALUES (#{name}, #{templateId})
+    </insert>
+
+    <update id="update">
+        UPDATE TEMPLATED_FLOW
+        SET NAME = #{name},
+            TEMPLATE_ID = #{templateId}
+        WHERE ID = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE
+        FROM TEMPLATED_FLOW
+        WHERE ID = #{id}
+    </delete>
+
+    <select id="existsByName">
+        SELECT EXISTS(
+        SELECT 1
+        FROM TEMPLATED_FLOW
+        <where>
+            <if test="id != null">
+                AND ID != #{id}
+            </if>
+            AND NAME = #{name}
+        </where>
+        )
+    </select>
+</mapper>
