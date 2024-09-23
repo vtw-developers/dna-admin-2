@@ -29,8 +29,8 @@ public class FlowTemplateController {
     }
 
     @GetMapping(value = "find")
-    public FlowTemplateQuery find(@RequestParam Long id) throws Exception {
-        FlowTemplateQuery entity = service.find(id);
+    public FlowTemplateQuery find(@RequestParam Long sid) throws Exception {
+        FlowTemplateQuery entity = service.find(sid);
         return entity;
     }
 

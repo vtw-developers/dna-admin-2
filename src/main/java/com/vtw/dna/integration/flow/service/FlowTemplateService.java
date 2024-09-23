@@ -27,8 +27,8 @@ public class FlowTemplateService {
         return page;
     }
 
-    public FlowTemplateQuery find(Long id) throws Exception {
-        FlowTemplateQuery entity = repository.findById(id).orElseThrow(() -> new NoSuchEntityException("FlowTemplate", id));
+    public FlowTemplateQuery find(Long sid) throws Exception {
+        FlowTemplateQuery entity = repository.findById(sid).orElseThrow(() -> new NoSuchEntityException("FlowTemplate", sid));
         return entity;
     }
 
@@ -43,7 +43,7 @@ public class FlowTemplateService {
     }
 
     public void update(FlowTemplateCommand entity) throws Exception {
-        find(entity.getId()); // 해당 ID의 Entity가 존재하지 않으면 Exception 발생
+        find(entity.getSid()); // 해당 ID의 Entity가 존재하지 않으면 Exception 발생
         validate(entity);
         repository.update(entity);
     }
@@ -53,14 +53,14 @@ public class FlowTemplateService {
     }
 
     public void validate(FlowTemplateCommand entity) {
-        boolean existsByName = existsByName(entity.getId(), entity.getName());
+        boolean existsByName = existsByName(entity.getSid(), entity.getName());
         if (existsByName) {
             throw new EntityAlreadyExistsException("ApiInfo", "name", entity.getName());
         }
     }
 
-    public boolean existsByName(Long id, String name) {
-        boolean exists = repository.existsByName(id, name);
+    public boolean existsByName(Long sid, String name) {
+        boolean exists = repository.existsByName(sid, name);
         return exists;
     }
 }

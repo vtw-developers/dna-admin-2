@@ -21,11 +21,11 @@
         SELECT
         F.ID,
         F.NAME,
-        T.ID AS TEMPLATE_ID,
+        T.SID AS TEMPLATE_SID,
         T.NAME AS TEMPLATE_NAME
         FROM TEMPLATED_FLOW F
         LEFT OUTER JOIN FLOW_TEMPLATE T
-        ON F.TEMPLATE_ID = T.ID
+        ON F.TEMPLATE_SID = T.SID
         <where>
             <if test="filter.name != null and filter.name != ''">
                 AND F.NAME LIKE '%' || #{filter.name} || '%'
@@ -46,23 +46,23 @@
     <select id="findById" resultMap="query">
         SELECT F.ID,
                F.NAME,
-               T.ID   AS TEMPLATE_ID,
+               T.SID   AS TEMPLATE_SID,
                T.NAME AS TEMPLATE_NAME
         FROM TEMPLATED_FLOW F
                  LEFT OUTER JOIN FLOW_TEMPLATE T
-                                 ON F.TEMPLATE_ID = T.ID
+                                 ON F.TEMPLATE_SID = T.SID
         WHERE F.ID = #{id}
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO TEMPLATED_FLOW (NAME, TEMPLATE_ID)
-        VALUES (#{name}, #{templateId})
+        INSERT INTO TEMPLATED_FLOW (NAME, TEMPLATE_SID)
+        VALUES (#{name}, #{templateSid})
     </insert>
 
     <update id="update">
         UPDATE TEMPLATED_FLOW
         SET NAME = #{name},
-            TEMPLATE_ID = #{templateId}
+            TEMPLATE_SID = #{templateSid}
         WHERE ID = #{id}
     </update>
 

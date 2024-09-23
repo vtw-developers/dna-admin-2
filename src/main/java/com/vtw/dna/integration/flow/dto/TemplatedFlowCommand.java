@@ -13,5 +13,5 @@ public class TemplatedFlowCommand implements SignInAuthor {
     @Size(max = 100)
     @NotBlank
     private String name;
-    private Long templateId;
+    private Long templateSid;
 }

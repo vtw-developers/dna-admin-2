@@ -2,13 +2,15 @@ package com.vtw.dna.integration.flow.dto;
 
 import com.vtw.dna.common.author.SignInAuthor;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Data
 public class FlowTemplateCommand implements SignInAuthor {
-    private Long id;
+    @Id
+    private Long sid;
 
     @Size(max = 100)
     @NotBlank

@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 public class FlowTemplateQuery extends AuditQuery {
-    private Long id;
+    private Long sid;
     private String name;
 }

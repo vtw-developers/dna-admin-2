@@ -17,7 +17,7 @@
 
     <select id="list" resultMap="query">
         SELECT
-        F.ID,
+        F.SID,
         F.NAME
         FROM FLOW_TEMPLATE F
         <where>
@@ -39,19 +39,19 @@
 
     <select id="findAll" resultMap="query">
         SELECT
-        F.ID,
+        F.SID,
         F.NAME
         FROM FLOW_TEMPLATE F
     </select>
 
     <select id="findById" resultMap="query">
-        SELECT F.ID,
+        SELECT F.SID,
                F.NAME
         FROM FLOW_TEMPLATE F
-        WHERE F.ID = #{id}
+        WHERE F.SID = #{sid}
     </select>
 
-    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="sid">
         INSERT INTO FLOW_TEMPLATE (NAME)
         VALUES (#{name})
     </insert>
@@ -59,13 +59,13 @@
     <update id="update">
         UPDATE FLOW_TEMPLATE
         SET NAME = #{name}
-        WHERE ID = #{id}
+        WHERE SID = #{sid}
     </update>
 
     <delete id="delete">
         DELETE
         FROM FLOW_TEMPLATE
-        WHERE ID = #{id}
+        WHERE SID = #{sid}
     </delete>
 
     <select id="existsByName">
@@ -73,8 +73,8 @@
         SELECT 1
         FROM FLOW_TEMPLATE
         <where>
-            <if test="id != null">
-                AND ID != #{id}
+            <if test="sid != null">
+                AND SID != #{sid}
             </if>
             AND NAME = #{name}
         </where>

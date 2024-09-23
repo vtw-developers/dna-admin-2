@@ -7,6 +7,6 @@ import lombok.Data;
 public class TemplatedFlowQuery extends AuditQuery {
     private Long id;
     private String name;
-    private Long templateId;
+    private Long templateSid;
     private String templateName;
 }

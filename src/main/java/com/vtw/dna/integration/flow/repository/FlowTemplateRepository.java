@@ -15,10 +15,10 @@ public interface FlowTemplateRepository {
     int count(FlowTemplateFilter filter, Pageable pageable);
     List<FlowTemplateQuery> list(FlowTemplateFilter filter, Pageable pageable);
     List<FlowTemplateQuery> findAll();
-    Optional<FlowTemplateQuery> findById(Long id);
+    Optional<FlowTemplateQuery> findById(Long sid);
     int insert(FlowTemplateCommand apiInfo);
     int update(FlowTemplateCommand apiInfo);
     int delete(FlowTemplateCommand apiInfo);
 
-    boolean existsByName(Long id, String name);
+    boolean existsByName(Long sid, String name);
 }
