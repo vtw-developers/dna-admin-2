@@ -4,6 +4,7 @@
 
 <mapper namespace="com.vtw.dna.integration.flow.repository.FlowTemplateRepository">
     <resultMap id="query" type="com.vtw.dna.integration.flow.dto.FlowTemplateQuery">
+        <result column="PARAMETERS" property="parameters" typeHandler="ParametersJsonTypeHandler"/>
     </resultMap>
     <select id="count">
         SELECT COUNT(*)
@@ -46,19 +47,22 @@
 
     <select id="findById" resultMap="query">
         SELECT F.SID,
-               F.NAME
+               F.NAME,
+               F.PARAMETERS
         FROM FLOW_TEMPLATE F
         WHERE F.SID = #{sid}
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="sid">
-        INSERT INTO FLOW_TEMPLATE (NAME)
-        VALUES (#{name})
+        INSERT INTO FLOW_TEMPLATE (NAME, PARAMETERS)
+        VALUES (#{name}, #{parameters, typeHandler=ParametersJsonTypeHandler})
     </insert>
 
     <update id="update">
         UPDATE FLOW_TEMPLATE
-        SET NAME = #{name}
+        SET
+            NAME = #{name},
+            PARAMETERS = #{parameters, typeHandler=ParametersJsonTypeHandler}
         WHERE SID = #{sid}
     </update>
 

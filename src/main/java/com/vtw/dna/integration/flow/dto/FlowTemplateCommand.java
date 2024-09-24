@@ -6,6 +6,7 @@ import org.springframework.data.annotation.Id;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Data
 public class FlowTemplateCommand implements SignInAuthor {
@@ -15,4 +16,5 @@ public class FlowTemplateCommand implements SignInAuthor {
     @Size(max = 100)
     @NotBlank
     private String name;
+    private List<Parameter> parameters;
 }
