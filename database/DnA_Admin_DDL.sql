@@ -258,10 +258,12 @@ create table menu
 
 create table flow_template
 (
-    id   serial
+    sid         serial
         constraint flow_template_pk
             primary key,
-    name varchar(100)
+    name        varchar(100),
+    template_id varchar(100),
+    parameters  text
 );
 
 
@@ -269,15 +271,15 @@ create table flow_template
 
 create table templated_flow
 (
-    id          serial
+    id           serial
         constraint templated_flow_pk
             primary key,
-    template_id integer
+    template_sid integer
         constraint templated_flow_flow_template_id_fk
             references public.flow_template,
-    name        varchar(100)
+    name         varchar(100),
+    parameters   text
 );
-
 
 
 
