@@ -9,5 +9,5 @@ import java.util.List;
 public class FlowTemplateQuery extends AuditQuery {
     private Long sid;
     private String name;
-    private List<Parameter> parameters;
+    private List<TemplateParameter> parameters;
 }

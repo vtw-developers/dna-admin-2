@@ -5,6 +5,7 @@
 <mapper namespace="com.vtw.dna.integration.flow.repository.TemplatedFlowRepository">
 
     <resultMap id="query" type="com.vtw.dna.integration.flow.dto.TemplatedFlowQuery">
+        <result column="PARAMETERS" property="parameters" typeHandler="ParameterValuesJsonTypeHandler"/>
     </resultMap>
 
     <select id="count">
@@ -46,8 +47,9 @@
     <select id="findById" resultMap="query">
         SELECT F.ID,
                F.NAME,
-               T.SID   AS TEMPLATE_SID,
-               T.NAME AS TEMPLATE_NAME
+               F.PARAMETERS,
+               T.SID        AS TEMPLATE_SID,
+               T.NAME       AS TEMPLATE_NAME
         FROM TEMPLATED_FLOW F
                  LEFT OUTER JOIN FLOW_TEMPLATE T
                                  ON F.TEMPLATE_SID = T.SID
@@ -55,14 +57,15 @@
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO TEMPLATED_FLOW (NAME, TEMPLATE_SID)
-        VALUES (#{name}, #{templateSid})
+        INSERT INTO TEMPLATED_FLOW (NAME, TEMPLATE_SID, PARAMETERS)
+        VALUES (#{name}, #{templateSid}, #{parameters, typeHandler=ParameterValuesJsonTypeHandler})
     </insert>
 
     <update id="update">
         UPDATE TEMPLATED_FLOW
-        SET NAME = #{name},
-            TEMPLATE_SID = #{templateSid}
+        SET NAME         = #{name},
+            TEMPLATE_SID = #{templateSid},
+            PARAMETERS   = #{parameters, typeHandler=ParameterValuesJsonTypeHandler}
         WHERE ID = #{id}
     </update>
 

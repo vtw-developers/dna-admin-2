@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Data
 public class TemplatedFlowCommand implements SignInAuthor {
@@ -14,4 +15,5 @@ public class TemplatedFlowCommand implements SignInAuthor {
     @NotBlank
     private String name;
     private Long templateSid;
+    private List<ParameterValue> parameters;
 }

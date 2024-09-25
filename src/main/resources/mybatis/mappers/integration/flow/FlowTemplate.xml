@@ -41,7 +41,8 @@
     <select id="findAll" resultMap="query">
         SELECT
         F.SID,
-        F.NAME
+        F.NAME,
+        F.PARAMETERS
         FROM FLOW_TEMPLATE F
     </select>
 
