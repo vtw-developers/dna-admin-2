@@ -1,12 +1,12 @@
 package com.vtw.dna.integration.flow.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.vtw.dna.common.exception.EntityAlreadyExistsException;
 import com.vtw.dna.common.exception.NoSuchEntityException;
 import com.vtw.dna.common.rest.Page;
-import com.vtw.dna.integration.flow.dto.FlowTemplateCommand;
-import com.vtw.dna.integration.flow.dto.FlowTemplateFilter;
-import com.vtw.dna.integration.flow.dto.FlowTemplateQuery;
-import com.vtw.dna.integration.flow.dto.TemplatedFlowQuery;
+import com.vtw.dna.integration.flow.dto.*;
 import com.vtw.dna.integration.flow.repository.FlowTemplateRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -62,5 +62,12 @@ public class FlowTemplateService {
     public boolean existsByName(Long sid, String name) {
         boolean exists = repository.existsByName(sid, name);
         return exists;
+    }
+
+    public FlowTemplateQuery importFlowTemplate(String yaml) throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
+        FlowTemplateMeta meta = objectMapper.readValue(yaml, FlowTemplateMeta.class);
+        FlowTemplateQuery query = meta.convert();
+        return query;
     }
 }

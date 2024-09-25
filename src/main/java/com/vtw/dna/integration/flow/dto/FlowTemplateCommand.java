@@ -16,5 +16,6 @@ public class FlowTemplateCommand implements SignInAuthor {
     @Size(max = 100)
     @NotBlank
     private String name;
+    private String templateId;
     private List<TemplateParameter> parameters;
 }

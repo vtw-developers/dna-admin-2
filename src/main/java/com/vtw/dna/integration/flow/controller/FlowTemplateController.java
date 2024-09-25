@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -56,6 +57,13 @@ public class FlowTemplateController {
     public FlowTemplateCommand delete(@Valid @RequestBody FlowTemplateCommand entity) throws Exception {
         service.delete(entity);
         return entity;
+    }
+
+    @PostMapping(value = "import")
+    public FlowTemplateQuery importFlowTemplate(@RequestBody Map<String, Object> map) throws Exception {
+        String yaml = (String) map.get("yaml");
+        FlowTemplateQuery flowTemplateQuery = service.importFlowTemplate(yaml);
+        return flowTemplateQuery;
     }
 
 }

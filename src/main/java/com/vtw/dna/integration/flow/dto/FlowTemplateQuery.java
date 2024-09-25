@@ -3,11 +3,13 @@ package com.vtw.dna.integration.flow.dto;
 import com.vtw.dna.common.author.AuditQuery;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 public class FlowTemplateQuery extends AuditQuery {
     private Long sid;
     private String name;
-    private List<TemplateParameter> parameters;
+    private String templateId;
+    private List<TemplateParameter> parameters = new ArrayList<>();
 }

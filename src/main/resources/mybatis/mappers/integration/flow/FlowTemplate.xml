@@ -19,7 +19,8 @@
     <select id="list" resultMap="query">
         SELECT
         F.SID,
-        F.NAME
+        F.NAME,
+        F.TEMPLATE_ID
         FROM FLOW_TEMPLATE F
         <where>
             <if test="filter.name != null and filter.name != ''">
@@ -42,6 +43,7 @@
         SELECT
         F.SID,
         F.NAME,
+        F.TEMPLATE_ID,
         F.PARAMETERS
         FROM FLOW_TEMPLATE F
     </select>
@@ -49,20 +51,22 @@
     <select id="findById" resultMap="query">
         SELECT F.SID,
                F.NAME,
+               F.TEMPLATE_ID,
                F.PARAMETERS
         FROM FLOW_TEMPLATE F
         WHERE F.SID = #{sid}
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="sid">
-        INSERT INTO FLOW_TEMPLATE (NAME, PARAMETERS)
-        VALUES (#{name}, #{parameters, typeHandler=ParametersJsonTypeHandler})
+        INSERT INTO FLOW_TEMPLATE (NAME, TEMPLATE_ID,PARAMETERS)
+        VALUES (#{name}, #{templateId}, #{parameters, typeHandler=ParametersJsonTypeHandler})
     </insert>
 
     <update id="update">
         UPDATE FLOW_TEMPLATE
         SET
             NAME = #{name},
+            TEMPLATE_ID = #{templateId},
             PARAMETERS = #{parameters, typeHandler=ParametersJsonTypeHandler}
         WHERE SID = #{sid}
     </update>

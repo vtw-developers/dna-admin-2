@@ -1,6 +1,7 @@
 package com.vtw.dna.integration.flow.controller;
 
 import com.vtw.dna.common.rest.Page;
+import com.vtw.dna.integration.flow.dto.DataSchemaView;
 import com.vtw.dna.integration.flow.dto.TemplatedFlowCommand;
 import com.vtw.dna.integration.flow.dto.TemplatedFlowFilter;
 import com.vtw.dna.integration.flow.dto.TemplatedFlowQuery;
@@ -9,10 +10,13 @@ import com.vtw.dna.integration.flow.service.TemplatedFlowService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -52,4 +56,18 @@ public class TemplatedFlowController {
         return entity;
     }
 
+    @PostMapping(value = "import")
+    public DataSchemaView importFlow(@RequestBody Map<String, Object> map) throws Exception {
+        String yaml = (String) map.get("yaml");
+        DataSchemaView flow = service.importFlow(yaml);
+        return flow;
+    }
+
+    @PostMapping(value = "export")
+    public Map<String, Object> exportFlow(@Valid @RequestBody DataSchemaView dataSchemaView) throws Exception {
+        String yaml = service.exportFlow(dataSchemaView);
+        return Map.of("yaml", yaml);
+    }
+
 }
+

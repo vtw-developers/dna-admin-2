@@ -198,26 +198,6 @@
             <failOnMissingWebXml>false</failOnMissingWebXml>
           </configuration>
         </plugin>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>hibernate3-maven-plugin</artifactId>
-          <version>3.0</version>
-          <configuration>
-            <components>
-              <component>
-                <name>hbm2ddl</name>
-                <implementation>annotationconfiguration</implementation>
-              </component>
-            </components>
-          </configuration>
-          <dependencies>
-            <dependency>
-              <groupId>org.hsqldb</groupId>
-              <artifactId>hsqldb</artifactId>
-              <version>2.7.2</version>
-            </dependency>
-          </dependencies>
-        </plugin>
         <!-- EMMA -->
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
