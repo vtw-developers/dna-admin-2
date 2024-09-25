@@ -3,6 +3,7 @@ package com.vtw.dna.integration.flow.dto;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.vtw.dna.common.author.AuditQuery;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -24,7 +25,7 @@ public class FlowTemplateMeta {
             TemplateParameterMeta parameterMeta = parameters.get(key);
             TemplateParameter parameter = new TemplateParameter();
             parameter.setName(key);
-            parameter.setType(parameterMeta.getType());
+            parameter.setType(StringUtils.capitalize(parameterMeta.getType()));
             parameter.setDescription(parameterMeta.getDescription());
             parameter.setDefaultValue(parameterMeta.getDefaultValue());
             query.getParameters().add(parameter);
