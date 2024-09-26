@@ -5,6 +5,8 @@
 <mapper namespace="com.vtw.dna.integration.flow.repository.TemplatedFlowRepository">
 
     <resultMap id="query" type="com.vtw.dna.integration.flow.dto.TemplatedFlowQuery">
+        <result column="REQUEST_PARAMETERS" property="requestParameters" typeHandler="RequestParametersJsonTypeHandler"/>
+        <result column="RESPONSE_BODY" property="responseBody" typeHandler="DataSchemaViewJsonTypeHandler"/>
         <result column="PARAMETERS" property="parameters" typeHandler="ParameterValuesJsonTypeHandler"/>
     </resultMap>
 
@@ -53,6 +55,8 @@
                F.NAME,
                F.HTTP_METHOD,
                F.URL,
+               F.REQUEST_PARAMETERS,
+               F.RESPONSE_BODY,
                F.PARAMETERS,
                T.SID        AS TEMPLATE_SID,
                T.NAME       AS TEMPLATE_NAME
@@ -63,8 +67,26 @@
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="sid">
-        INSERT INTO TEMPLATED_FLOW (FLOW_ID, NAME, HTTP_METHOD, URL, TEMPLATE_SID, PARAMETERS)
-        VALUES (#{flowId}, #{name}, #{httpMethod}, #{url}, #{templateSid}, #{parameters, typeHandler=ParameterValuesJsonTypeHandler})
+        INSERT INTO TEMPLATED_FLOW (
+            FLOW_ID,
+            NAME,
+            HTTP_METHOD,
+            URL,
+            REQUEST_PARAMETERS,
+            RESPONSE_BODY,
+            TEMPLATE_SID,
+            PARAMETERS
+        )
+        VALUES (
+            #{flowId},
+            #{name},
+            #{httpMethod},
+            #{url},
+            #{requestParameters, typeHandler=RequestParametersJsonTypeHandler},
+            #{responseBody, typeHandler=DataSchemaViewJsonTypeHandler},
+            #{templateSid},
+            #{parameters, typeHandler=ParameterValuesJsonTypeHandler}
+        )
     </insert>
 
     <update id="update">
@@ -73,6 +95,8 @@
             NAME         = #{name},
             HTTP_METHOD  = #{httpMethod},
             URL          = #{url},
+            REQUEST_PARAMETERS = #{requestParameters, typeHandler=RequestParametersJsonTypeHandler},
+            RESPONSE_BODY = #{responseBody, typeHandler=DataSchemaViewJsonTypeHandler},
             TEMPLATE_SID = #{templateSid},
             PARAMETERS   = #{parameters, typeHandler=ParameterValuesJsonTypeHandler}
         WHERE SID = #{sid}

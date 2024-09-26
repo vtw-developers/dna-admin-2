@@ -23,6 +23,8 @@ public class TemplatedFlowCommand implements SignInAuthor {
 
     private HttpMethod httpMethod;
     private String url;
+    private List<RequestParameter> requestParameters;
+    private DataSchemaView responseBody;
 
     private Long templateSid;
     private List<ParameterValue> parameters;

@@ -278,6 +278,8 @@ create table templated_flow
     name               varchar(100) not null,
     http_method        varchar(10) not null,
     url                varchar(100) not null,
+    request_parameters text,
+    response_body text,
     template_sid integer
         constraint templated_flow_flow_template_id_fk
             references public.flow_template,
