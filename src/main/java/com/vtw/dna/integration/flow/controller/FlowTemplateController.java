@@ -66,4 +66,10 @@ public class FlowTemplateController {
         return flowTemplateQuery;
     }
 
+    @PostMapping(value = "export")
+    public Map<String, Object> exportFlowTemplate(@RequestBody FlowTemplateCommand entity) throws Exception {
+        String yaml = service.exportFlowTemplate(entity.getSid());
+        return Map.of("yaml", yaml);
+    }
+
 }

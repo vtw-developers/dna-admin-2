@@ -33,8 +33,8 @@ public class TemplatedFlowController {
     }
 
     @GetMapping(value = "find")
-    public TemplatedFlowQuery find(@RequestParam Long id) throws Exception {
-        TemplatedFlowQuery entity = service.find(id);
+    public TemplatedFlowQuery find(@RequestParam Long sid) throws Exception {
+        TemplatedFlowQuery entity = service.find(sid);
         return entity;
     }
 

@@ -1,5 +1,6 @@
 package com.vtw.dna.integration.manage.api.dto;
 
+import com.vtw.dna.integration.flow.dto.DataSchemaView;
 import com.vtw.dna.integration.manage.api.HttpMethod;
 import com.vtw.dna.common.author.SignInAuthor;
 import lombok.Data;
@@ -30,4 +31,5 @@ public class ApiInfoCommand implements SignInAuthor {
     private String flowId;
     private String flowMetaYaml;
 
+    private DataSchemaView responseBody;
 }

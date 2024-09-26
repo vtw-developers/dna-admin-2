@@ -20,8 +20,11 @@
 
     <select id="list" resultMap="query">
         SELECT
-        F.ID,
+        F.SID,
+        F.FLOW_ID,
         F.NAME,
+        F.HTTP_METHOD,
+        F.URL,
         T.SID AS TEMPLATE_SID,
         T.NAME AS TEMPLATE_NAME
         FROM TEMPLATED_FLOW F
@@ -45,34 +48,40 @@
     </select>
 
     <select id="findById" resultMap="query">
-        SELECT F.ID,
+        SELECT F.SID,
+               F.FLOW_ID,
                F.NAME,
+               F.HTTP_METHOD,
+               F.URL,
                F.PARAMETERS,
                T.SID        AS TEMPLATE_SID,
                T.NAME       AS TEMPLATE_NAME
         FROM TEMPLATED_FLOW F
                  LEFT OUTER JOIN FLOW_TEMPLATE T
                                  ON F.TEMPLATE_SID = T.SID
-        WHERE F.ID = #{id}
+        WHERE F.SID = #{sid}
     </select>
 
-    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO TEMPLATED_FLOW (NAME, TEMPLATE_SID, PARAMETERS)
-        VALUES (#{name}, #{templateSid}, #{parameters, typeHandler=ParameterValuesJsonTypeHandler})
+    <insert id="insert" useGeneratedKeys="true" keyProperty="sid">
+        INSERT INTO TEMPLATED_FLOW (FLOW_ID, NAME, HTTP_METHOD, URL, TEMPLATE_SID, PARAMETERS)
+        VALUES (#{flowId}, #{name}, #{httpMethod}, #{url}, #{templateSid}, #{parameters, typeHandler=ParameterValuesJsonTypeHandler})
     </insert>
 
     <update id="update">
         UPDATE TEMPLATED_FLOW
-        SET NAME         = #{name},
+        SET FLOW_ID      = #{flowId},
+            NAME         = #{name},
+            HTTP_METHOD  = #{httpMethod},
+            URL          = #{url},
             TEMPLATE_SID = #{templateSid},
             PARAMETERS   = #{parameters, typeHandler=ParameterValuesJsonTypeHandler}
-        WHERE ID = #{id}
+        WHERE SID = #{sid}
     </update>
 
     <delete id="delete">
         DELETE
         FROM TEMPLATED_FLOW
-        WHERE ID = #{id}
+        WHERE SID = #{sid}
     </delete>
 
     <select id="existsByName">
@@ -81,7 +90,7 @@
         FROM TEMPLATED_FLOW
         <where>
             <if test="id != null">
-                AND ID != #{id}
+                AND SID != #{sid}
             </if>
             AND NAME = #{name}
         </where>

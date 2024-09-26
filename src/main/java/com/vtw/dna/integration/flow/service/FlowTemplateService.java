@@ -1,8 +1,11 @@
 package com.vtw.dna.integration.flow.service;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import com.vtw.dna.common.exception.EntityAlreadyExistsException;
 import com.vtw.dna.common.exception.NoSuchEntityException;
 import com.vtw.dna.common.rest.Page;
@@ -69,5 +72,16 @@ public class FlowTemplateService {
         FlowTemplateMeta meta = objectMapper.readValue(yaml, FlowTemplateMeta.class);
         FlowTemplateQuery query = meta.convert();
         return query;
+    }
+
+    public String exportFlowTemplate(Long id) throws Exception {
+        FlowTemplateQuery flowTemplateQuery = find(id);
+        FlowTemplateMeta meta = flowTemplateQuery.convert();
+        YAMLMapper mapper = new YAMLMapper();
+        mapper.enable(YAMLGenerator.Feature.MINIMIZE_QUOTES);
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        String yaml = mapper.writer().without(YAMLGenerator.Feature.WRITE_DOC_START_MARKER)
+                .writeValueAsString(meta);
+        return yaml;
     }
 }

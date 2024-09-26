@@ -41,7 +41,7 @@ public class TemplatedFlowService {
     }
 
     public void update(TemplatedFlowCommand entity) throws Exception {
-        find(entity.getId()); // 해당 ID의 Entity가 존재하지 않으면 Exception 발생
+        find(entity.getSid()); // 해당 ID의 Entity가 존재하지 않으면 Exception 발생
         validate(entity);
         repository.update(entity);
     }
@@ -51,7 +51,7 @@ public class TemplatedFlowService {
     }
 
     public void validate(TemplatedFlowCommand entity) {
-        boolean existsByName = existsByName(entity.getId(), entity.getName());
+        boolean existsByName = existsByName(entity.getSid(), entity.getName());
         if (existsByName) {
             throw new EntityAlreadyExistsException("ApiInfo", "name", entity.getName());
         }
