@@ -16,6 +16,7 @@ public interface FlowTemplateRepository {
     List<FlowTemplateQuery> list(FlowTemplateFilter filter, Pageable pageable);
     List<FlowTemplateQuery> findAll();
     Optional<FlowTemplateQuery> findById(Long sid);
+    Optional<FlowTemplateQuery> findByTemplateId(String templateId);
     int insert(FlowTemplateCommand apiInfo);
     int update(FlowTemplateCommand apiInfo);
     int delete(FlowTemplateCommand apiInfo);

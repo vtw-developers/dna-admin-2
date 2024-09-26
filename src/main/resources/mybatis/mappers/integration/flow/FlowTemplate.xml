@@ -57,6 +57,15 @@
         WHERE F.SID = #{sid}
     </select>
 
+    <select id="findByTemplateId" resultMap="query">
+        SELECT F.SID,
+               F.NAME,
+               F.TEMPLATE_ID,
+               F.PARAMETERS
+        FROM FLOW_TEMPLATE F
+        WHERE F.TEMPLATE_ID = #{templateId}
+    </select>
+
     <insert id="insert" useGeneratedKeys="true" keyProperty="sid">
         INSERT INTO FLOW_TEMPLATE (NAME, TEMPLATE_ID,PARAMETERS)
         VALUES (#{name}, #{templateId}, #{parameters, typeHandler=ParametersJsonTypeHandler})

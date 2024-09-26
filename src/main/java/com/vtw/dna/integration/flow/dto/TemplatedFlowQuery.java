@@ -17,6 +17,24 @@ public class TemplatedFlowQuery extends AuditQuery {
     private List<RequestParameter> requestParameters;
     private DataSchemaView responseBody;
     private Long templateSid;
+    private String templateId;
     private String templateName;
     private List<ParameterValue> parameters;
+
+    public TemplatedFlowMeta convert() {
+        TemplatedFlowMeta meta = new TemplatedFlowMeta();
+        meta.setId(flowId);
+        meta.setName(name);
+        meta.setHttpMethod(httpMethod.name());
+        meta.setPath(url);
+        meta.setRequestParameters(requestParameters);
+        meta.setResponseBody(responseBody.convert());
+
+        Templated templated = new Templated();
+        templated.setRef(templateId);
+        templated.setParameters(ParameterValue.convert(parameters));
+        meta.setTemplate(templated);
+
+        return meta;
+    }
 }

@@ -9,6 +9,7 @@ import com.vtw.dna.common.exception.EntityAlreadyExistsException;
 import com.vtw.dna.common.exception.NoSuchEntityException;
 import com.vtw.dna.common.rest.Page;
 import com.vtw.dna.integration.flow.dto.*;
+import com.vtw.dna.integration.flow.repository.FlowTemplateRepository;
 import com.vtw.dna.integration.flow.repository.TemplatedFlowRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +22,7 @@ import java.util.List;
 public class TemplatedFlowService {
 
     private final TemplatedFlowRepository repository;
+    private final FlowTemplateRepository flowTemplateRepository;
 
     public Page<TemplatedFlowQuery> list(TemplatedFlowFilter filter, Pageable pageable) throws Exception {
         int count = repository.count(filter, pageable);
@@ -62,11 +64,11 @@ public class TemplatedFlowService {
         return exists;
     }
 
-    public DataSchemaView importFlow(String yaml) throws Exception {
+    public TemplatedFlowQuery importFlow(String yaml) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
-        DataSchema dataSchema = objectMapper.readValue(yaml, DataSchema.class);
-        DataSchemaView dataSchemaView = dataSchema.convert();
-        return dataSchemaView;
+        TemplatedFlowMeta meta = objectMapper.readValue(yaml, TemplatedFlowMeta.class);
+        TemplatedFlowQuery convert = meta.convert(flowTemplateRepository);
+        return convert;
     }
 
     public String exportFlow(DataSchemaView dataSchemaView) throws Exception {

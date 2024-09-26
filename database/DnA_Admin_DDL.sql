@@ -282,7 +282,7 @@ create table templated_flow
     response_body text,
     template_sid integer
         constraint templated_flow_flow_template_id_fk
-            references public.flow_template,
+            references flow_template,
     parameters   text
 );
 

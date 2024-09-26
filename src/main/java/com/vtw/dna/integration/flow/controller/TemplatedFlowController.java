@@ -57,10 +57,10 @@ public class TemplatedFlowController {
     }
 
     @PostMapping(value = "import")
-    public DataSchemaView importFlow(@RequestBody Map<String, Object> map) throws Exception {
+    public TemplatedFlowQuery importFlow(@RequestBody Map<String, Object> map) throws Exception {
         String yaml = (String) map.get("yaml");
-        DataSchemaView flow = service.importFlow(yaml);
-        return flow;
+        TemplatedFlowQuery query = service.importFlow(yaml);
+        return query;
     }
 
     @PostMapping(value = "export")
