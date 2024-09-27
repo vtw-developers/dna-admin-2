@@ -113,7 +113,7 @@
         SELECT 1
         FROM TEMPLATED_FLOW
         <where>
-            <if test="id != null">
+            <if test="sid != null">
                 AND SID != #{sid}
             </if>
             AND NAME = #{name}

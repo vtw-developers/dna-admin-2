@@ -14,10 +14,10 @@ public interface TemplatedFlowRepository {
     int count(TemplatedFlowFilter filter, Pageable pageable);
     List<TemplatedFlowQuery> list(TemplatedFlowFilter filter, Pageable pageable);
     List<TemplatedFlowQuery> findAll();
-    Optional<TemplatedFlowQuery> findById(Long id);
-    int insert(TemplatedFlowCommand apiInfo);
-    int update(TemplatedFlowCommand apiInfo);
-    int delete(TemplatedFlowCommand apiInfo);
+    Optional<TemplatedFlowQuery> findById(Long sid);
+    int insert(TemplatedFlowCommand flow);
+    int update(TemplatedFlowCommand flow);
+    int delete(TemplatedFlowCommand flow);
 
-    boolean existsByName(Long id, String name);
+    boolean existsByName(Long sid, String name);
 }
