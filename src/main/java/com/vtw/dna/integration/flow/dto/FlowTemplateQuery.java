@@ -10,6 +10,7 @@ import java.util.List;
 @Data
 public class FlowTemplateQuery extends AuditQuery {
     private Long sid;
+    private FlowType flowType;
     private String name;
     private String templateId;
     private List<TemplateParameter> parameters = new ArrayList<>();
