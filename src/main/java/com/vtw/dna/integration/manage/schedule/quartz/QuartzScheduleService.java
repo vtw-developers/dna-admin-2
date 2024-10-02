@@ -1,6 +1,6 @@
 package com.vtw.dna.integration.manage.schedule.quartz;
 
-import com.vtw.dna.FlowScheduleJob;
+import com.vtw.dna.schedule.FlowScheduleJob;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static org.quartz.TriggerBuilder.newTrigger;
 

@@ -1,4 +1,4 @@
-package com.vtw.dna;
+package com.vtw.dna.schedule;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
