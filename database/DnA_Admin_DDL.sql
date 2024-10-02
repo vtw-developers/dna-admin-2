@@ -322,6 +322,15 @@ create table datasource
     password varchar(100)
 );
 
+-- schedule
+create table schedule
+(
+    id        serial
+        constraint schedule_pk
+            primary key,
+    flow_sid  integer,
+    cron_expr varchar
+);
 
 
 
