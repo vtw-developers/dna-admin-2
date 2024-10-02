@@ -308,6 +308,21 @@ create table flow
 );
 
 
+-- datasource
+
+create table datasource
+(
+    id       serial
+        constraint datasource_pk
+            primary key,
+    name     varchar(100),
+    database varchar(100),
+    url      varchar(100),
+    username varchar(100),
+    password varchar(100)
+);
+
+
 
 
 
