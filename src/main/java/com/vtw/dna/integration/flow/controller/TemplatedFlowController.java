@@ -69,5 +69,10 @@ public class TemplatedFlowController {
         return Map.of("yaml", yaml);
     }
 
+    @GetMapping(value = "getSchedulableFlows")
+    public List<TemplatedFlowQuery> getSchedulableFlows() throws Exception {
+        List<TemplatedFlowQuery> schedulableFlows = service.getSchedulableFlows();
+        return schedulableFlows;
+    }
 }
 

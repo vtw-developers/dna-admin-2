@@ -36,7 +36,6 @@ public class TemplatedFlowService {
         return entity;
     }
 
-
     public void create(TemplatedFlowCommand entity) throws Exception {
         validate(entity);
         repository.insert(entity);
@@ -77,5 +76,10 @@ public class TemplatedFlowService {
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         String yaml = objectMapper.writeValueAsString(dataSchema);
         return yaml;
+    }
+
+    public List<TemplatedFlowQuery> getSchedulableFlows() {
+        List<TemplatedFlowQuery> schedulableFlows = repository.getSchedulableFlows();
+        return schedulableFlows;
     }
 }

@@ -125,4 +125,14 @@
         </where>
         )
     </select>
+
+    <select id="getSchedulableFlows" resultMap="query">
+        SELECT
+        F.SID,
+        F.FLOW_TYPE,
+        F.FLOW_ID,
+        F.NAME
+        FROM FLOW F
+        WHERE FLOW_TYPE = 'BATCH'
+    </select>
 </mapper>

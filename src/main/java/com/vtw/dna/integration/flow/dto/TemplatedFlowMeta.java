@@ -38,19 +38,22 @@ public class TemplatedFlowMeta extends AuditQuery {
             query.setResponseBody(responseBody.convert());
         }
 
-        FlowTemplateQuery flowTemplate = repository.findByTemplateId(template.getRef()).orElseThrow();
-        query.setTemplateSid(flowTemplate.getSid());
-        query.setTemplateId(flowTemplate.getTemplateId());
+        if (template != null) {
+            FlowTemplateQuery flowTemplate = repository.findByTemplateId(template.getRef()).orElseThrow();
+            query.setTemplateSid(flowTemplate.getSid());
+            query.setTemplateId(flowTemplate.getTemplateId());
 
-        Map<String, Object> parameters = template.getParameters();
-        List<ParameterValue> parameterValues = new ArrayList<>();
-        parameters.forEach((k, v) -> {
-            ParameterValue parameterValue = new ParameterValue();
-            parameterValue.setName(k);
-            parameterValue.setValue(v.toString());
-            parameterValues.add(parameterValue);
-        });
-        query.setParameters(parameterValues);
+            Map<String, Object> parameters = template.getParameters();
+            List<ParameterValue> parameterValues = new ArrayList<>();
+            parameters.forEach((k, v) -> {
+                ParameterValue parameterValue = new ParameterValue();
+                parameterValue.setName(k);
+                parameterValue.setValue(v.toString());
+                parameterValues.add(parameterValue);
+            });
+            query.setParameters(parameterValues);
+        }
+
         return query;
     }
 }
