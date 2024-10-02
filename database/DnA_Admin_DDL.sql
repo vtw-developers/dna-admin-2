@@ -269,22 +269,44 @@ create table flow_template
 
 -- templated_flow
 
-create table public.templated_flow
+-- create table public.templated_flow
+-- (
+--     sid                serial
+--         constraint templated_flow_pk
+--             primary key,
+--     flow_id            varchar(100) not null,
+--     name               varchar(100) not null,
+--     http_method        varchar(10)  not null,
+--     url                varchar(100) not null,
+--     request_parameters text,
+--     response_body      text,
+--     template_sid       integer
+--         constraint templated_flow_flow_template_id_fk
+--             references flow_template,
+--     parameters         text
+-- );
+
+-- flow
+create table flow
 (
     sid                serial
-        constraint templated_flow_pk
+        constraint flow_pk
             primary key,
+    flow_type          varchar(10)  not null,
     flow_id            varchar(100) not null,
     name               varchar(100) not null,
-    http_method        varchar(10)  not null,
-    url                varchar(100) not null,
-    request_parameters text,
-    response_body      text,
+    templated          boolean,
     template_sid       integer
-        constraint templated_flow_flow_template_id_fk
+        constraint flow_flow_template_id_fk
             references flow_template,
-    parameters         text
+    template_id        varchar(100),
+    parameters         text,
+    http_method        varchar(10),
+    url                varchar(100),
+    request_parameters text,
+    response_body      text
 );
+
 
 
 

@@ -12,7 +12,7 @@
 
     <select id="count">
         SELECT COUNT(*)
-        FROM TEMPLATED_FLOW F
+        FROM FLOW F
         <where>
             <if test="filter.name != null and filter.name != ''">
                 AND F.NAME LIKE '%' || #{filter.name} || '%'
@@ -23,13 +23,14 @@
     <select id="list" resultMap="query">
         SELECT
         F.SID,
+        F.FLOW_TYPE,
         F.FLOW_ID,
         F.NAME,
         F.HTTP_METHOD,
         F.URL,
         T.SID AS TEMPLATE_SID,
         T.NAME AS TEMPLATE_NAME
-        FROM TEMPLATED_FLOW F
+        FROM FLOW F
         LEFT OUTER JOIN FLOW_TEMPLATE T
         ON F.TEMPLATE_SID = T.SID
         <where>
@@ -51,6 +52,7 @@
 
     <select id="findById" resultMap="query">
         SELECT F.SID,
+               F.FLOW_TYPE,
                F.FLOW_ID,
                F.NAME,
                F.HTTP_METHOD,
@@ -60,14 +62,15 @@
                F.PARAMETERS,
                T.SID        AS TEMPLATE_SID,
                T.NAME       AS TEMPLATE_NAME
-        FROM TEMPLATED_FLOW F
+        FROM FLOW F
                  LEFT OUTER JOIN FLOW_TEMPLATE T
                                  ON F.TEMPLATE_SID = T.SID
         WHERE F.SID = #{sid}
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="sid">
-        INSERT INTO TEMPLATED_FLOW (
+        INSERT INTO FLOW (
+            FLOW_TYPE,
             FLOW_ID,
             NAME,
             HTTP_METHOD,
@@ -78,6 +81,7 @@
             PARAMETERS
         )
         VALUES (
+            #{flowType},
             #{flowId},
             #{name},
             #{httpMethod},
@@ -90,8 +94,9 @@
     </insert>
 
     <update id="update">
-        UPDATE TEMPLATED_FLOW
-        SET FLOW_ID      = #{flowId},
+        UPDATE FLOW
+        SET FLOW_TYPE    = #{flowType},
+            FLOW_ID      = #{flowId},
             NAME         = #{name},
             HTTP_METHOD  = #{httpMethod},
             URL          = #{url},
@@ -104,14 +109,14 @@
 
     <delete id="delete">
         DELETE
-        FROM TEMPLATED_FLOW
+        FROM FLOW
         WHERE SID = #{sid}
     </delete>
 
     <select id="existsByName">
         SELECT EXISTS(
         SELECT 1
-        FROM TEMPLATED_FLOW
+        FROM FLOW
         <where>
             <if test="sid != null">
                 AND SID != #{sid}
