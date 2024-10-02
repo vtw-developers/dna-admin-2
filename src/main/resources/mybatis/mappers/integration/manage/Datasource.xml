@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vtw.dna.integration.manage.datasource.repository.DatasourceRepository">
+    <select id="count">
+        SELECT COUNT(*)
+        FROM DATASOURCE
+        <where>
+            <if test="filter.name != null and filter.name != ''">
+                AND NAME LIKE '%' || #{filter.name} || '%'
+            </if>
+            <if test="filter.database != null and filter.database != ''">
+                AND DATABASE LIKE '%' || #{filter.database} || '%'
+            </if>
+        </where>
+    </select>
+
+    <select id="findAll">
+        SELECT
+        ID,
+        NAME,
+        DATABASE,
+        URL
+        FROM DATASOURCE
+        <where>
+            <if test="filter.name != null and filter.name != ''">
+                AND NAME LIKE '%' || #{filter.name} || '%'
+            </if>
+            <if test="filter.database != null and filter.database != ''">
+                AND DATABASE LIKE '%' || #{filter.database} || '%'
+            </if>
+        </where>
+        <if test="pageable.sort != null and !pageable.sort.isEmpty()">
+            ORDER BY
+            <foreach collection="pageable.sort" item="order" separator=",">
+                <if test="order.property == 'name'">
+                    NAME
+                </if>
+                <if test="order.property == 'database'">
+                    DATABASE
+                </if>
+                <if test="order.property == 'url'">
+                    URL
+                </if>
+                ${order.direction}
+            </foreach>
+        </if>
+        OFFSET #{pageable.offset} ROWS FETCH NEXT #{pageable.pageSize} ROWS ONLY
+    </select>
+
+    <select id="findById">
+        SELECT
+            ID,
+            NAME,
+            DATABASE,
+            URL,
+            USERNAME,
+            PASSWORD
+        FROM DATASOURCE
+        WHERE ID = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO DATASOURCE (NAME,
+                                DATABASE,
+                                URL,
+                                USERNAME,
+                                PASSWORD)
+        VALUES (#{name},
+                #{database},
+                #{url},
+                #{username},
+                #{password})
+    </insert>
+
+    <update id="update">
+        UPDATE DATASOURCE
+        SET NAME     = #{name},
+            DATABASE = #{database},
+            URL      = #{url},
+            USERNAME = #{username},
+            PASSWORD = #{password}
+        WHERE ID = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE
+        FROM DATASOURCE
+        WHERE ID = #{id}
+    </delete>
+
+    <select id="existsByName">
+        SELECT EXISTS(
+        SELECT 1
+        FROM DATASOURCE
+        <where>
+            <if test="id != null">
+                AND ID != #{id}
+            </if>
+            AND NAME = #{name}
+        </where>
+        )
+    </select>
+</mapper>
