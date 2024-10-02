@@ -10,6 +10,7 @@ import java.util.List;
 @Data
 public class TemplatedFlowQuery extends AuditQuery {
     private Long sid;
+    private FlowType flowType;
     private String flowId;
     private String name;
     private HttpMethod httpMethod;

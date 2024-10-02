@@ -19,6 +19,7 @@
     <select id="list" resultMap="query">
         SELECT
         F.SID,
+        F.FLOW_TYPE,
         F.NAME,
         F.TEMPLATE_ID
         FROM FLOW_TEMPLATE F
@@ -42,6 +43,7 @@
     <select id="findAll" resultMap="query">
         SELECT
         F.SID,
+        F.FLOW_TYPE,
         F.NAME,
         F.TEMPLATE_ID,
         F.PARAMETERS
@@ -50,6 +52,7 @@
 
     <select id="findById" resultMap="query">
         SELECT F.SID,
+               F.FLOW_TYPE,
                F.NAME,
                F.TEMPLATE_ID,
                F.PARAMETERS
@@ -59,6 +62,7 @@
 
     <select id="findByTemplateId" resultMap="query">
         SELECT F.SID,
+               F.FLOW_TYPE,
                F.NAME,
                F.TEMPLATE_ID,
                F.PARAMETERS
@@ -67,14 +71,15 @@
     </select>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="sid">
-        INSERT INTO FLOW_TEMPLATE (NAME, TEMPLATE_ID,PARAMETERS)
-        VALUES (#{name}, #{templateId}, #{parameters, typeHandler=ParametersJsonTypeHandler})
+        INSERT INTO FLOW_TEMPLATE (FLOW_TYPE, NAME, TEMPLATE_ID,PARAMETERS)
+        VALUES (#{flowType}, #{name}, #{templateId}, #{parameters, typeHandler=ParametersJsonTypeHandler})
     </insert>
 
     <update id="update">
         UPDATE FLOW_TEMPLATE
         SET
             NAME = #{name},
+            FLOW_TYPE = #{flowType},
             TEMPLATE_ID = #{templateId},
             PARAMETERS = #{parameters, typeHandler=ParametersJsonTypeHandler}
         WHERE SID = #{sid}

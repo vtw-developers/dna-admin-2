@@ -13,6 +13,8 @@ import java.util.List;
 public class TemplatedFlowCommand implements SignInAuthor {
     private Long sid;
 
+    private FlowType flowType;
+
     @Size(max = 100)
     @NotBlank
     private String flowId;

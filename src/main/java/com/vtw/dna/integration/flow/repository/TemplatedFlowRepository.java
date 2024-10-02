@@ -20,4 +20,6 @@ public interface TemplatedFlowRepository {
     int delete(TemplatedFlowCommand flow);
 
     boolean existsByName(Long sid, String name);
+
+    List<TemplatedFlowQuery> getSchedulableFlows();
 }

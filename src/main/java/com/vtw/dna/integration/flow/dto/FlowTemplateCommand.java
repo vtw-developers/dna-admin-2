@@ -13,6 +13,8 @@ public class FlowTemplateCommand implements SignInAuthor {
     @Id
     private Long sid;
 
+    private FlowType flowType;
+
     @Size(max = 100)
     @NotBlank
     private String name;

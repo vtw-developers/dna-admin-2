@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vtw.dna.integration.manage.schedule.repository.ScheduleRepository">
+  <resultMap id="query" type="com.vtw.dna.integration.manage.schedule.dto.ScheduleQuery">
+  </resultMap>
+
+  <select id="count">
+    SELECT COUNT(*)
+    FROM SCHEDULE
+  </select>
+
+  <select id="findAll" resultMap="query">
+    SELECT
+      A.ID,
+      A.FLOW_SID,
+      B.FLOW_ID,
+      B.NAME AS FLOW_NAME,
+      A.CRON_EXPR
+    FROM SCHEDULE A
+    LEFT OUTER JOIN FLOW B
+    ON A.FLOW_SID = B.SID
+    OFFSET #{pageable.offset} ROWS FETCH NEXT #{pageable.pageSize} ROWS ONLY
+  </select>
+
+  <insert id="insert">
+    INSERT INTO SCHEDULE (
+      FLOW_SID,
+      CRON_EXPR
+    ) VALUES (
+       #{flowSid},
+       #{cronExpr}
+     )
+  </insert>
+
+  <update id="update">
+    UPDATE SCHEDULE SET
+      CRON_EXPR = #{cronExpr}
+    WHERE ID = #{scheduleId}
+  </update>
+</mapper>
