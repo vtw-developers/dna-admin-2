@@ -51,19 +51,19 @@ public class QuartzScheduleService {
         return schedules;
     }
 
-    public void create(String app, String flow, String cronExpr) throws Exception {
-        Scheduler scheduler = createScheduler(app);
+    public void create(String appId, String flowId, String cronExpr) throws Exception {
+        Scheduler scheduler = createScheduler(appId);
 
         JobDetail jobDetail = JobBuilder
                 .newJob(FlowScheduleJob.class)
-                .withIdentity(flow)
+                .withIdentity(flowId)
                 .storeDurably()
                 .build();
         scheduler.addJob(jobDetail, true);
 
-        String triggerName = flow;
+        String triggerName = flowId;
         Trigger trigger = newTrigger()
-                .forJob(flow)
+                .forJob(flowId)
                 .withIdentity(triggerName)
                 .withSchedule(CronScheduleBuilder.cronSchedule(cronExpr).withMisfireHandlingInstructionDoNothing())
                 .build();
