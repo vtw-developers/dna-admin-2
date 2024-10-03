@@ -23,31 +23,31 @@ public class ScheduleControlController {
     private final ScheduleControlService service;
 
     @PostMapping(value = "register")
-    public ScheduleView register(@RequestBody ScheduleCommand command) throws Exception {
+    public ScheduleQuery register(@RequestBody ScheduleCommand command) throws Exception {
         Long id = command.getId();
-        ScheduleView view = service.register(id);
-        return view;
+        ScheduleQuery query = service.register(id);
+        return query;
     }
 
     @PostMapping(value = "start")
-    public ScheduleCommand start(@RequestBody ScheduleCommand command) throws Exception {
+    public ScheduleQuery start(@RequestBody ScheduleCommand command) throws Exception {
         Long id = command.getId();
-        service.start(id);
-        return command;
+        ScheduleQuery query = service.start(id);
+        return query;
     }
 
     @PostMapping(value = "stop")
-    public ScheduleCommand stop(@RequestBody ScheduleCommand command) throws Exception {
+    public ScheduleQuery stop(@RequestBody ScheduleCommand command) throws Exception {
         Long id = command.getId();
-        service.stop(id);
-        return command;
+        ScheduleQuery query = service.stop(id);
+        return query;
     }
 
     @PostMapping(value = "run")
-    public ScheduleCommand run(@RequestBody ScheduleCommand command) throws Exception {
+    public ScheduleQuery run(@RequestBody ScheduleCommand command) throws Exception {
         Long id = command.getId();
-        service.run(id);
-        return command;
+        ScheduleQuery query = service.run(id);
+        return query;
     }
 
 }

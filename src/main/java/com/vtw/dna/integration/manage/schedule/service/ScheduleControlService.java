@@ -27,7 +27,7 @@ public class ScheduleControlService {
 
     public static final String APP_ID = "Central";
 
-    public ScheduleView register(Long id) throws Exception {
+    public ScheduleQuery register(Long id) throws Exception {
         ScheduleQuery schedule = repository.findById(id).orElseThrow();
         String flowId = schedule.getFlowId();
         String cronExpr = schedule.getCronExpr();
@@ -37,25 +37,53 @@ public class ScheduleControlService {
             log.error(e.getMessage());
         }
 
-        ScheduleView view = quartzScheduleService.findByFlowId(flowId);
-        return view;
+        updateStatus(schedule);
+        return schedule;
     }
 
-    public void start(Long id) throws Exception {
+    public ScheduleQuery start(Long id) throws Exception {
         ScheduleQuery schedule = repository.findById(id).orElseThrow();
         String flowId = schedule.getFlowId();
-        quartzScheduleService.start(APP_ID, flowId);
+        try {
+            quartzScheduleService.start(APP_ID, flowId);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        updateStatus(schedule);
+        return schedule;
     }
 
-    public void stop(Long id) throws Exception {
+    public ScheduleQuery stop(Long id) throws Exception {
         ScheduleQuery schedule = repository.findById(id).orElseThrow();
         String flowId = schedule.getFlowId();
-        quartzScheduleService.stop(APP_ID, flowId);
+        try {
+            quartzScheduleService.stop(APP_ID, flowId);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        updateStatus(schedule);
+        return schedule;
     }
 
-    public void run(Long id) throws Exception {
+    public ScheduleQuery run(Long id) throws Exception {
         ScheduleQuery schedule = repository.findById(id).orElseThrow();
         String flowId = schedule.getFlowId();
-        quartzScheduleService.runOnce(APP_ID, flowId);
+        try {
+            quartzScheduleService.runOnce(APP_ID, flowId);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        updateStatus(schedule);
+        return schedule;
+    }
+
+    private ScheduleQuery updateStatus(ScheduleQuery schedule) throws Exception {
+        ScheduleView view = quartzScheduleService.findByFlowId(schedule.getFlowId());
+        if (view != null) {
+            schedule.setStatus(view.getStatus());
+        } else {
+            schedule.setStatus("UNREGISTERED");
+        }
+        return schedule;
     }
 }
