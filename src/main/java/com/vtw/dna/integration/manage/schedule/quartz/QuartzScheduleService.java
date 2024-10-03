@@ -51,6 +51,12 @@ public class QuartzScheduleService {
         return schedules;
     }
 
+    public ScheduleView findByFlowId(String flowId) throws Exception {
+        List<ScheduleView> all = findAll();
+        ScheduleView scheduleView = all.stream().filter(schedule -> schedule.getFlowId().equals(flowId)).findFirst().orElse(null);
+        return scheduleView;
+    }
+
     public void create(String appId, String flowId, String cronExpr) throws Exception {
         Scheduler scheduler = createScheduler(appId);
 
@@ -118,21 +124,21 @@ public class QuartzScheduleService {
     }
 
     private Scheduler createScheduler(String schedulerName) throws Exception {
-        JobStoreTX jobStore = new JobStoreTX();
-        jobStore.setDriverDelegateClass(quartzProperties.getProperties().get("org.quartz.jobStore.driverDelegateClass"));
-        jobStore.setUseProperties(quartzProperties.getProperties().get("org.quartz.jobStore.useProperties"));
-        jobStore.setTablePrefix(quartzProperties.getProperties().get("org.quartz.jobStore.tablePrefix"));
-        jobStore.setMisfireThreshold(Long.parseLong(quartzProperties.getProperties().get("org.quartz.jobStore.misfireThreshold")));
-        jobStore.setClusterCheckinInterval(Long.parseLong(quartzProperties.getProperties().get("org.quartz.jobStore.clusterCheckinInterval")));
-        jobStore.setIsClustered(Boolean.parseBoolean(quartzProperties.getProperties().get("org.quartz.jobStore.isClustered")));
-        jobStore.setDataSource(quartzProperties.getProperties().get("org.quartz.jobStore.dataSource"));
-
-        SimpleThreadPool simpleThreadPool = new SimpleThreadPool();
-        simpleThreadPool.setThreadCount(Integer.parseInt(quartzProperties.getProperties().get("org.quartz.threadPool.threadCount")));
-        simpleThreadPool.setThreadPriority(Integer.parseInt(quartzProperties.getProperties().get("org.quartz.threadPool.threadPriority")));
-
         Scheduler scheduler = DirectSchedulerFactory.getInstance().getScheduler(schedulerName);
         if (scheduler == null) {
+            SimpleThreadPool simpleThreadPool = new SimpleThreadPool();
+            simpleThreadPool.setThreadCount(Integer.parseInt(quartzProperties.getProperties().get("org.quartz.threadPool.threadCount")));
+            simpleThreadPool.setThreadPriority(Integer.parseInt(quartzProperties.getProperties().get("org.quartz.threadPool.threadPriority")));
+
+            JobStoreTX jobStore = new JobStoreTX();
+            jobStore.setDriverDelegateClass(quartzProperties.getProperties().get("org.quartz.jobStore.driverDelegateClass"));
+            jobStore.setUseProperties(quartzProperties.getProperties().get("org.quartz.jobStore.useProperties"));
+            jobStore.setTablePrefix(quartzProperties.getProperties().get("org.quartz.jobStore.tablePrefix"));
+            jobStore.setMisfireThreshold(Long.parseLong(quartzProperties.getProperties().get("org.quartz.jobStore.misfireThreshold")));
+            jobStore.setClusterCheckinInterval(Long.parseLong(quartzProperties.getProperties().get("org.quartz.jobStore.clusterCheckinInterval")));
+            jobStore.setIsClustered(Boolean.parseBoolean(quartzProperties.getProperties().get("org.quartz.jobStore.isClustered")));
+            jobStore.setDataSource(quartzProperties.getProperties().get("org.quartz.jobStore.dataSource"));
+
             DirectSchedulerFactory.getInstance().createScheduler(schedulerName, "DnaAdminRemoteScheduler", simpleThreadPool, jobStore);
             scheduler = DirectSchedulerFactory.getInstance().getScheduler(schedulerName);
         }

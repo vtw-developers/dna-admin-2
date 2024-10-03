@@ -10,4 +10,5 @@ public class ScheduleQuery extends AuditQuery {
     private String flowId;
     private String flowName;
     private String cronExpr;
+    private String status;
 }

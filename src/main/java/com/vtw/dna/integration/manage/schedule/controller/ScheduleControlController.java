@@ -4,6 +4,7 @@ import com.vtw.dna.common.rest.Page;
 import com.vtw.dna.integration.manage.schedule.dto.CtiScheduleFilter;
 import com.vtw.dna.integration.manage.schedule.dto.ScheduleCommand;
 import com.vtw.dna.integration.manage.schedule.dto.ScheduleQuery;
+import com.vtw.dna.integration.manage.schedule.quartz.ScheduleView;
 import com.vtw.dna.integration.manage.schedule.service.ScheduleControlService;
 import com.vtw.dna.integration.manage.schedule.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
@@ -22,10 +23,10 @@ public class ScheduleControlController {
     private final ScheduleControlService service;
 
     @PostMapping(value = "register")
-    public ScheduleCommand register(@RequestBody ScheduleCommand command) throws Exception {
+    public ScheduleView register(@RequestBody ScheduleCommand command) throws Exception {
         Long id = command.getId();
-        service.register(id);
-        return command;
+        ScheduleView view = service.register(id);
+        return view;
     }
 
     @PostMapping(value = "start")
