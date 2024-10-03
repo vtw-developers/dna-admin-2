@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class ScheduleCommand implements SignInAuthor {
+    private Long id;
     private Long flowSid;
     private String cronExpr;
 }

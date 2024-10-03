@@ -24,6 +24,19 @@
     OFFSET #{pageable.offset} ROWS FETCH NEXT #{pageable.pageSize} ROWS ONLY
   </select>
 
+  <select id="findById" resultMap="query">
+    SELECT
+      A.ID,
+      A.FLOW_SID,
+      B.FLOW_ID,
+      B.NAME AS FLOW_NAME,
+      A.CRON_EXPR
+    FROM SCHEDULE A
+    LEFT OUTER JOIN FLOW B
+    ON A.FLOW_SID = B.SID
+    WHERE A.ID = #{id}
+  </select>
+
   <insert id="insert">
     INSERT INTO SCHEDULE (
       FLOW_SID,

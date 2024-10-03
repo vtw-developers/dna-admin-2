@@ -22,29 +22,29 @@ public class ScheduleControlController {
     private final ScheduleControlService service;
 
     @PostMapping(value = "register")
-    public ScheduleCommand register(ScheduleCommand command) throws Exception {
-        Long id = command.getFlowSid();
+    public ScheduleCommand register(@RequestBody ScheduleCommand command) throws Exception {
+        Long id = command.getId();
         service.register(id);
         return command;
     }
 
     @PostMapping(value = "start")
-    public ScheduleCommand start(ScheduleCommand command) throws Exception {
-        Long id = command.getFlowSid();
+    public ScheduleCommand start(@RequestBody ScheduleCommand command) throws Exception {
+        Long id = command.getId();
         service.start(id);
         return command;
     }
 
     @PostMapping(value = "stop")
-    public ScheduleCommand stop(ScheduleCommand command) throws Exception {
-        Long id = command.getFlowSid();
+    public ScheduleCommand stop(@RequestBody ScheduleCommand command) throws Exception {
+        Long id = command.getId();
         service.stop(id);
         return command;
     }
 
     @PostMapping(value = "run")
-    public ScheduleCommand run(ScheduleCommand command) throws Exception {
-        Long id = command.getFlowSid();
+    public ScheduleCommand run(@RequestBody ScheduleCommand command) throws Exception {
+        Long id = command.getId();
         service.run(id);
         return command;
     }
