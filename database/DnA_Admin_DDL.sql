@@ -263,8 +263,10 @@ create table flow_template
             primary key,
     template_id varchar(100) not null,
     name        varchar(100) not null,
-    parameters  text
+    parameters  text,
+    flow_type   varchar(10)
 );
+
 
 
 -- templated_flow
