@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -24,6 +25,12 @@ public class DatasourceController {
     public Page<DatasourceQuery> list(DatasourceFilter filter, Pageable pageable) throws Exception {
         Page<DatasourceQuery> page = service.list(filter, pageable);
         return page;
+    }
+
+    @GetMapping(value = "findAll")
+    public List<DatasourceQuery> findAll() throws Exception {
+        List<DatasourceQuery> list = service.findAll();
+        return list;
     }
 
     @GetMapping(value = "find")

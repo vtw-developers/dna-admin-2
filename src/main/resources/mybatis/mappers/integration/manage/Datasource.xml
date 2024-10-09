@@ -49,6 +49,15 @@
         OFFSET #{pageable.offset} ROWS FETCH NEXT #{pageable.pageSize} ROWS ONLY
     </select>
 
+    <select id="findAllWithoutPage">
+        SELECT
+        ID,
+        NAME,
+        DATABASE,
+        URL
+        FROM DATASOURCE
+    </select>
+
     <select id="findById">
         SELECT
             ID,

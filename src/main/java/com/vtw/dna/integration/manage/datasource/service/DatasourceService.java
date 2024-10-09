@@ -26,6 +26,11 @@ public class DatasourceService {
         return page;
     }
 
+    public List<DatasourceQuery> findAll() throws Exception {
+        List<DatasourceQuery> list = repository.findAllWithoutPage();
+        return list;
+    }
+
     public DatasourceQuery find(Long id) throws Exception {
         DatasourceQuery entity = repository.findById(id).orElseThrow(() -> new NoSuchEntityException("ApiInfo", id));
         return entity;

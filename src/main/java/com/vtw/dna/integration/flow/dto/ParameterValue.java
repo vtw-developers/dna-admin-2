@@ -10,7 +10,7 @@ import java.util.Map;
 @Data
 public class ParameterValue {
     private String name;
-    private String value;
+    private Object value;
 
     public static Map<String, Object> convert(List<ParameterValue> values) {
         final Map<String, Object> map = new LinkedHashMap<>();

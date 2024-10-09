@@ -13,6 +13,7 @@ import java.util.Optional;
 public interface DatasourceRepository {
     int count(DatasourceFilter filter, Pageable pageable);
     List<DatasourceQuery> findAll(DatasourceFilter filter, Pageable pageable);
+    List<DatasourceQuery> findAllWithoutPage();
     Optional<DatasourceQuery> findById(Long id);
     int insert(DatasourceCommand apiInfo);
     int update(DatasourceCommand apiInfo);
