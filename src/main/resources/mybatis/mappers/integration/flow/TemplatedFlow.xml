@@ -60,6 +60,7 @@
                F.REQUEST_PARAMETERS,
                F.RESPONSE_BODY,
                F.PARAMETERS,
+               F.TEMPLATED,
                T.SID        AS TEMPLATE_SID,
                T.NAME       AS TEMPLATE_NAME
         FROM FLOW F
@@ -77,6 +78,7 @@
             URL,
             REQUEST_PARAMETERS,
             RESPONSE_BODY,
+            TEMPLATED,
             TEMPLATE_SID,
             PARAMETERS
         )
@@ -88,6 +90,7 @@
             #{url},
             #{requestParameters, typeHandler=RequestParametersJsonTypeHandler},
             #{responseBody, typeHandler=DataSchemaViewJsonTypeHandler},
+            #{templated},
             #{templateSid},
             #{parameters, typeHandler=ParameterValuesJsonTypeHandler}
         )
@@ -102,6 +105,7 @@
             URL          = #{url},
             REQUEST_PARAMETERS = #{requestParameters, typeHandler=RequestParametersJsonTypeHandler},
             RESPONSE_BODY = #{responseBody, typeHandler=DataSchemaViewJsonTypeHandler},
+            TEMPLATED = #{templated},
             TEMPLATE_SID = #{templateSid},
             PARAMETERS   = #{parameters, typeHandler=ParameterValuesJsonTypeHandler}
         WHERE SID = #{sid}

@@ -17,6 +17,7 @@ public class TemplatedFlowQuery extends AuditQuery {
     private String url;
     private List<RequestParameter> requestParameters;
     private DataSchemaView responseBody;
+    private Boolean templated;
     private Long templateSid;
     private String templateId;
     private String templateName;
