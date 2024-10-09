@@ -4,7 +4,6 @@ import com.vtw.dna.common.rest.Page;
 import com.vtw.dna.integration.flow.dto.FlowTemplateCommand;
 import com.vtw.dna.integration.flow.dto.FlowTemplateFilter;
 import com.vtw.dna.integration.flow.dto.FlowTemplateQuery;
-import com.vtw.dna.integration.flow.dto.TemplatedFlowQuery;
 import com.vtw.dna.integration.flow.service.FlowTemplateService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

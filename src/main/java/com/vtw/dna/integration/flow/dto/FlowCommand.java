@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 @Data
-public class TemplatedFlowCommand implements SignInAuthor {
+public class FlowCommand implements SignInAuthor {
     private Long sid;
 
     private FlowType flowType;

@@ -2,18 +2,16 @@ package com.vtw.dna.integration.flow.dto;
 
 import com.vtw.dna.common.author.AuditQuery;
 import com.vtw.dna.integration.flow.repository.FlowTemplateRepository;
-import com.vtw.dna.integration.flow.repository.TemplatedFlowRepository;
 import com.vtw.dna.integration.manage.api.HttpMethod;
 import com.vtw.dna.integration.manage.api.dto.RequestParameter;
 import lombok.Data;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @Data
-public class TemplatedFlowMeta extends AuditQuery {
+public class FlowMeta extends AuditQuery {
     private String id;
     private String name;
     private String httpMethod;
@@ -24,8 +22,8 @@ public class TemplatedFlowMeta extends AuditQuery {
     private String outType;
     private Templated template;
 
-    public TemplatedFlowQuery convert(FlowTemplateRepository repository) {
-        TemplatedFlowQuery query = new TemplatedFlowQuery();
+    public FlowQuery convert(FlowTemplateRepository repository) {
+        FlowQuery query = new FlowQuery();
         query.setFlowId(id);
         query.setName(name);
         query.setHttpMethod(HttpMethod.valueOf(httpMethod.toUpperCase()));

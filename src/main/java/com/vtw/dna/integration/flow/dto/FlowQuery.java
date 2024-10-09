@@ -8,7 +8,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class TemplatedFlowQuery extends AuditQuery {
+public class FlowQuery extends AuditQuery {
     private Long sid;
     private FlowType flowType;
     private String flowId;
@@ -23,8 +23,8 @@ public class TemplatedFlowQuery extends AuditQuery {
     private String templateName;
     private List<ParameterValue> parameters;
 
-    public TemplatedFlowMeta convert() {
-        TemplatedFlowMeta meta = new TemplatedFlowMeta();
+    public FlowMeta convert() {
+        FlowMeta meta = new FlowMeta();
         meta.setId(flowId);
         meta.setName(name);
         meta.setHttpMethod(httpMethod.name());

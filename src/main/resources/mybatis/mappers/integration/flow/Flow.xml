@@ -2,9 +2,9 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.vtw.dna.integration.flow.repository.TemplatedFlowRepository">
+<mapper namespace="com.vtw.dna.integration.flow.repository.FlowRepository">
 
-    <resultMap id="query" type="com.vtw.dna.integration.flow.dto.TemplatedFlowQuery">
+    <resultMap id="query" type="com.vtw.dna.integration.flow.dto.FlowQuery">
         <result column="REQUEST_PARAMETERS" property="requestParameters" typeHandler="RequestParametersJsonTypeHandler"/>
         <result column="RESPONSE_BODY" property="responseBody" typeHandler="DataSchemaViewJsonTypeHandler"/>
         <result column="PARAMETERS" property="parameters" typeHandler="ParameterValuesJsonTypeHandler"/>

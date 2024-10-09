@@ -1,7 +1,6 @@
 package com.vtw.dna.integration.flow.service;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
@@ -10,7 +9,7 @@ import com.vtw.dna.common.exception.NoSuchEntityException;
 import com.vtw.dna.common.rest.Page;
 import com.vtw.dna.integration.flow.dto.*;
 import com.vtw.dna.integration.flow.repository.FlowTemplateRepository;
-import com.vtw.dna.integration.flow.repository.TemplatedFlowRepository;
+import com.vtw.dna.integration.flow.repository.FlowRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,39 +18,39 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class TemplatedFlowService {
+public class FlowService {
 
-    private final TemplatedFlowRepository repository;
+    private final FlowRepository repository;
     private final FlowTemplateRepository flowTemplateRepository;
 
-    public Page<TemplatedFlowQuery> list(TemplatedFlowFilter filter, Pageable pageable) throws Exception {
+    public Page<FlowQuery> list(FlowFilter filter, Pageable pageable) throws Exception {
         int count = repository.count(filter, pageable);
-        List<TemplatedFlowQuery> list = repository.list(filter, pageable);
-        Page<TemplatedFlowQuery> page = Page.<TemplatedFlowQuery>builder().totalCount(count).data(list).build();
+        List<FlowQuery> list = repository.list(filter, pageable);
+        Page<FlowQuery> page = Page.<FlowQuery>builder().totalCount(count).data(list).build();
         return page;
     }
 
-    public TemplatedFlowQuery find(Long id) throws Exception {
-        TemplatedFlowQuery entity = repository.findById(id).orElseThrow(() -> new NoSuchEntityException("TemplatedFlow", id));
+    public FlowQuery find(Long id) throws Exception {
+        FlowQuery entity = repository.findById(id).orElseThrow(() -> new NoSuchEntityException("TemplatedFlow", id));
         return entity;
     }
 
-    public void create(TemplatedFlowCommand entity) throws Exception {
+    public void create(FlowCommand entity) throws Exception {
         validate(entity);
         repository.insert(entity);
     }
 
-    public void update(TemplatedFlowCommand entity) throws Exception {
+    public void update(FlowCommand entity) throws Exception {
         find(entity.getSid()); // 해당 ID의 Entity가 존재하지 않으면 Exception 발생
         validate(entity);
         repository.update(entity);
     }
 
-    public void delete(TemplatedFlowCommand entity) throws Exception {
+    public void delete(FlowCommand entity) throws Exception {
         repository.delete(entity);
     }
 
-    public void validate(TemplatedFlowCommand entity) {
+    public void validate(FlowCommand entity) {
         boolean existsByName = existsByName(entity.getSid(), entity.getName());
         if (existsByName) {
             throw new EntityAlreadyExistsException("ApiInfo", "name", entity.getName());
@@ -63,10 +62,10 @@ public class TemplatedFlowService {
         return exists;
     }
 
-    public TemplatedFlowQuery importFlow(String yaml) throws Exception {
+    public FlowQuery importFlow(String yaml) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
-        TemplatedFlowMeta meta = objectMapper.readValue(yaml, TemplatedFlowMeta.class);
-        TemplatedFlowQuery convert = meta.convert(flowTemplateRepository);
+        FlowMeta meta = objectMapper.readValue(yaml, FlowMeta.class);
+        FlowQuery convert = meta.convert(flowTemplateRepository);
         return convert;
     }
 
@@ -78,8 +77,8 @@ public class TemplatedFlowService {
         return yaml;
     }
 
-    public List<TemplatedFlowQuery> getSchedulableFlows() {
-        List<TemplatedFlowQuery> schedulableFlows = repository.getSchedulableFlows();
+    public List<FlowQuery> getSchedulableFlows() {
+        List<FlowQuery> schedulableFlows = repository.getSchedulableFlows();
         return schedulableFlows;
     }
 }
