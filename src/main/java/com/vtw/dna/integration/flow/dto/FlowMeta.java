@@ -12,6 +12,7 @@ import java.util.Map;
 
 @Data
 public class FlowMeta extends AuditQuery {
+    private FlowType type;
     private String id;
     private String name;
     private String httpMethod;
@@ -24,19 +25,30 @@ public class FlowMeta extends AuditQuery {
 
     public FlowQuery convert(FlowTemplateRepository repository) {
         FlowQuery query = new FlowQuery();
+        query.setFlowType(type);
+        if (type == null && template != null) {
+            FlowTemplateQuery flowTemplate = repository.findByTemplateId(template.getRef()).orElseThrow();
+            FlowType flowType = flowTemplate.getFlowType();
+            query.setFlowType(flowType);
+        }
         query.setFlowId(id);
         query.setName(name);
-        query.setHttpMethod(HttpMethod.valueOf(httpMethod.toUpperCase()));
-        query.setUrl(path);
-        if (requestParameters != null) {
-            query.setRequestParameters(requestParameters);
-        }
 
-        if (responseBody != null) {
-            query.setResponseBody(responseBody.convert());
+        if (query.getFlowType() == FlowType.REST) {
+            query.setHttpMethod(HttpMethod.valueOf(httpMethod.toUpperCase()));
+            query.setUrl(path);
+            if (requestParameters != null) {
+                query.setRequestParameters(requestParameters);
+            }
+
+            if (responseBody != null) {
+                query.setResponseBody(responseBody.convert());
+            }
         }
 
         if (template != null) {
+            query.setTemplated(true);
+
             FlowTemplateQuery flowTemplate = repository.findByTemplateId(template.getRef()).orElseThrow();
             query.setTemplateSid(flowTemplate.getSid());
             query.setTemplateId(flowTemplate.getTemplateId());
@@ -50,6 +62,8 @@ public class FlowMeta extends AuditQuery {
                 parameterValues.add(parameterValue);
             });
             query.setParameters(parameterValues);
+        } else {
+            query.setTemplated(false);
         }
 
         return query;

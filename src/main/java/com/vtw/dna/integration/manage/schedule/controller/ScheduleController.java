@@ -36,4 +36,10 @@ public class ScheduleController {
         return entity;
     }
 
+    @PostMapping(value = "update")
+    public ScheduleCommand update(@Valid @RequestBody ScheduleCommand entity) throws Exception {
+        service.update(entity);
+        return entity;
+    }
+
 }

@@ -42,11 +42,15 @@ public class ScheduleService {
     }
 
     public ScheduleQuery find(Long id) throws Exception {
-        ScheduleQuery entity = scheduleRepository.findByCtiInfoId(id).orElseThrow(() -> new NoSuchEntityException("CtiInfo", id));
+        ScheduleQuery entity = scheduleRepository.findById(id).orElseThrow(() -> new NoSuchEntityException("id", id));
         return entity;
     }
 
     public void create(ScheduleCommand schedule) throws Exception {
         scheduleRepository.insert(schedule);
+    }
+
+    public void update(ScheduleCommand schedule) throws Exception {
+        scheduleRepository.update(schedule);
     }
 }

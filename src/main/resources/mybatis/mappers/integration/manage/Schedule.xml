@@ -50,6 +50,6 @@
   <update id="update">
     UPDATE SCHEDULE SET
       CRON_EXPR = #{cronExpr}
-    WHERE ID = #{scheduleId}
+    WHERE ID = #{id}
   </update>
 </mapper>

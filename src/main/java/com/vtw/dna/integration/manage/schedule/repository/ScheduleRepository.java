@@ -15,7 +15,6 @@ public interface ScheduleRepository {
     int count(CtiScheduleFilter filter, Pageable pageable);
     List<ScheduleQuery> findAll(CtiScheduleFilter filter, Pageable pageable);
     Optional<ScheduleQuery> findById(Long id);
-    Optional<ScheduleQuery> findByCtiInfoId(Long ctiInfoId);
     int insert(ScheduleCommand scheduleCommand);
     int update(ScheduleCommand scheduleCommand);
 }
